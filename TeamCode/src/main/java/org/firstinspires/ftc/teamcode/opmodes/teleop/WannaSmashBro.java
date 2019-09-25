@@ -23,7 +23,6 @@ public class WannaSmashBro extends LinearOpMode
 
         while (opModeIsActive())
         {
-
             left = Range.clip(-gamepad1.left_stick_y, -1, 1);
             right = Range.clip(-gamepad1.right_stick_y, -1, 1);
 
