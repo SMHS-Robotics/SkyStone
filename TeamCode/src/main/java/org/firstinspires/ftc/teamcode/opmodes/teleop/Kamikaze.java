@@ -18,29 +18,29 @@ public class Kamikaze extends LinearOpMode {
         double leftMotor;
         double rightMotor;
 
-        //Initialize our robot with the hardware map
+        // Initialize our robot with the hardware map
         bot.init(hardwareMap);
 
-        //Wait for robot to start...
+        // Wait for robot to start...
         waitForStart();
 
-        //Repeat while our robot's TeleOp mode is active
+        // Repeat while our robot's TeleOp mode is active
         while (opModeIsActive())
         {
-            //Find values of left and right joysticks and find relevant power
+            // Find values of left and right joysticks and find relevant power
             leftMotor = Range.clip(-gamepad1.left_stick_y, -1.0, 1.0);
             rightMotor =  Range.clip(-gamepad1.right_stick_y, -1.0, 1.0);
 
-            //Set power of left and right motors
+            // Set power of left and right motors
             bot.leftDrive.setPower(leftMotor);
             bot.rightDrive.setPower(rightMotor);
 
-            //Set telemetry data for future debugging
+            // Set telemetry data for future debugging
             telemetry.addData("Left power:", leftMotor);
             telemetry.addData("Right power:", rightMotor);
             telemetry.update();
 
-            //Sleep for 25 ms to keep robot from overheating...
+            // Sleep for 25 ms to keep robot from overheating...
             sleep(25);
         }
     }
