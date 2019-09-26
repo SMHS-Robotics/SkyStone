@@ -23,10 +23,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
  * <p>
  * This hardware class assumes the following device names have been configured on the robot:
- * Note:  All names are lower case and some have single spaces between words.
+ * Note:  All names are lower case.
  * <p>
- * Motor channel:  Left  drive motor:        "left_drive"
+ * Motor channel:  Left drive motor:         "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
+ * Motor channel:  Top drive motor:          "top_drive"
+ * Motor channel:  Bottom drive motor:       "bottom_drive"
  * Motor channel:  Manipulator drive motor:  "left_arm"
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
