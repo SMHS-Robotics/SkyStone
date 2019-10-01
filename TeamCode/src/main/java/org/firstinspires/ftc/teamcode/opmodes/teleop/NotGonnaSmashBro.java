@@ -23,6 +23,10 @@ public class NotGonnaSmashBro extends LinearOpMode
         while(opModeIsActive()){
             left = Range.clip( gamepad1.left_stick_y, -1, 1);
 
+            telemetry.addData("left", robot.leftDrive.getCurrentPosition());
+            telemetry.addData("right", robot.rightDrive.getCurrentPosition());
+            telemetry.update();
+
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(Range.clip( gamepad1.right_stick_y, -1, 1));
             sleep(25);
