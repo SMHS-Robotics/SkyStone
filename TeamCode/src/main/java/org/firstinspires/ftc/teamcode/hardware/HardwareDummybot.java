@@ -33,11 +33,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  */
 public class HardwareDummybot
 {
-
     /* Public OpMode members. */
     public DcMotor leftDrive = null;
     public DcMotor rightDrive = null;
     public DcMotor linear_drive = null;
+    public Servo rightClaw = null;
+    public Servo leftClaw = null;
     public BNO055IMU imu = null;
 
     //static final members
@@ -66,6 +67,8 @@ public class HardwareDummybot
         leftDrive = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         linear_drive = hwMap.get(DcMotor.class, "linear_drive");
+        rightClaw = hwMap.get(Servo.class, "right_claw");
+        leftClaw = hwMap.get(Servo.class, "left_claw");
         // Set to REVERSE if using AndyMark motors
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         // Set to FORWARD if using AndyMark motors
@@ -87,6 +90,9 @@ public class HardwareDummybot
         leftDrive.setPower(0);
         rightDrive.setPower(0);
         linear_drive.setPower(0);
+        // TODO: maybe make these into a variable to start at a certain position?
+        rightClaw.setPosition(0);
+        leftClaw.setPosition(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
