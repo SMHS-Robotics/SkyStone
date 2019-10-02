@@ -37,17 +37,31 @@ public class WannaSmashBro extends LinearOpMode
 
             if (gamepad2.right_bumper) {
                 robot.rightClaw.setPosition(1.0);
-                robot.leftClaw.setPosition(1.0);
+                robot.leftClaw.setPosition(0.0);
             }
             else if (gamepad2.left_bumper) {
                 robot.rightClaw.setPosition(0.0);
-                robot.leftClaw.setPosition(0.0);
+                robot.leftClaw.setPosition(1.0);
+            }
+            else if (gamepad2.right_trigger > 0) {
+                robot.rightClaw.setPosition(Range.clip(robot.rightClaw.getPosition()
+                        + (gamepad2.right_trigger * CLAW_SPEED), 0, 1));
+                robot.leftClaw.setPosition(Range.clip(robot.leftClaw.getPosition()
+                        - (gamepad2.right_trigger * CLAW_SPEED), 0, 1));
+            }
+            else if (gamepad2.left_trigger > 0) {
+                robot.rightClaw.setPosition(Range.clip(robot.rightClaw.getPosition()
+                        - (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
+                robot.leftClaw.setPosition(Range.clip(robot.leftClaw.getPosition()
+                        + (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
             }
 
             telemetry.addData("left", left);
             telemetry.addData("right", right);
             telemetry.addData("linear tower", linear);
-            telemetry.addData("Current Position", robot.linear_drive.getCurrentPosition());
+            telemetry.addData("Current DC Position", robot.linear_drive.getCurrentPosition());
+            telemetry.addData("Right Servo Position", robot.rightClaw.getPosition());
+            telemetry.addData("Left Servo Position", robot.leftClaw.getPosition());
             telemetry.update();
             sleep(25);
         }
