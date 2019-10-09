@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "DAMN SON", group = "Pushbot")
+@TeleOp(name = "Kyle and Eduardo Go Super Saiyan", group = "Pushbot")
 
 public class KyleAndEduardoGoSuperSaiyan extends LinearOpMode
 {
