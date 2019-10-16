@@ -6,6 +6,7 @@ public class AutonomousSkystone extends LinearOpMode
 {
     AutonomousState checkPos = AutonomousState.CHECK_POSITION;
 
+
     @Override
     public void runOpMode()
     {

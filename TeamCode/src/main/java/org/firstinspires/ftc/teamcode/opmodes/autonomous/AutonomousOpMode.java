@@ -26,6 +26,7 @@ public abstract class AutonomousOpMode extends LinearOpMode
     AutonomousState state;
     Orientation angles;
 
+
     protected void rotate(double degrees, double power)
     {
         pidRotate.reset();
