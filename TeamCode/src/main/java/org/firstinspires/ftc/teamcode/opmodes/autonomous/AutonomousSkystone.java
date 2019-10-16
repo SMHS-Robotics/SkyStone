@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.opmodes.teleop.VuforiaTest;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
 @Autonomous(name = "CummyBoyAuto", group = "DummyBot")
-public class AutonomousSkystone extends LinearOpMode
+public class AutonomousSkystone extends AutonomousOpMode
 {
     final double KP = 2.5; //TODO: Replace placeholder values
     final double KI = 0.1;
