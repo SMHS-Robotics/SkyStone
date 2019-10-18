@@ -13,8 +13,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 
-import org.firstinspires.ftc.teamcode.hardware.HardwareDummybot;
-import org.firstinspires.ftc.teamcode.utilities.PIDController;
+import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -42,7 +41,7 @@ public class BlitzkriegAuto extends AutonomousOpMode {
 
     BNO055IMU imu;
     AutonomousState state = AutonomousState.CHECK_POSITION;
-    HardwareDummybot robot = new HardwareDummybot();
+    HardwarePushbot robot = new HardwarePushbot();
 
     //0 == Adjacent to Red Skystones
     //1 == Adjacent to Red Foundation

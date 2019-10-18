@@ -8,11 +8,7 @@ import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
 
 @TeleOp(name = "Kamikaze.TeleOp.SMHS", group = "MateoBotics")
 
-<<<<<<< Updated upstream:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/teleop/Kamikaze.java
-public class Kamikaze extends LinearOpMode {
-=======
 public class KamikazeTele extends LinearOpMode {
->>>>>>> Stashed changes:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/teleop/KamikazeTele.java
     HardwarePushbot bot = new HardwarePushbot();
 
     // Telemetric Operation: Manual, remote-controlled operations including movement

@@ -27,7 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * <p>
  * Motor channel:  Left  drive motor:        "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
- * Motor channel:  Manipulator drive motor:  "left_arm"
+ * Motor channel:  Linear Slide motor:       "linear_slide"
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
