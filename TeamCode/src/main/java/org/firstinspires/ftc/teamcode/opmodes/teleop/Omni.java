@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.HardwareOmnibot;
 
-@TeleOp(name = "Omni.SMHS", group = "MateoBotics")
+@TeleOp(name = "Omni.TeleOp.SMHS", group = "MateoBotics")
 
 public class Omni extends LinearOpMode {
     HardwareOmnibot bot = new HardwareOmnibot();
@@ -29,8 +29,7 @@ public class Omni extends LinearOpMode {
         waitForStart();
 
         //Repeat while our robot's TeleOp mode is active
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             //If we want to move:
             if (-gamepad1.left_stick_y != 0 || -gamepad1.left_stick_x != 0) {
                 // Find values in each direction of directional (left) joystick and find

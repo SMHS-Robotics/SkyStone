@@ -31,8 +31,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwarePushbot
-{
+public class HardwarePushbot {
     public static final double MID_SERVO = 0.5;
     public static final double ARM_UP_POWER = 0.45;
     public static final double ARM_DOWN_POWER = -0.45;
@@ -60,14 +59,12 @@ public class HardwarePushbot
     private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public HardwarePushbot()
-    {
+    public HardwarePushbot() {
 
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap)
-    {
+    public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
@@ -126,18 +123,14 @@ public class HardwarePushbot
         resetAngle();
     }
 
-    public double getAngle()
-    {
+    public double getAngle() {
         Orientation angles = imu
                 .getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
-        if (deltaAngle < -180)
-        {
+        if (deltaAngle < -180) {
             deltaAngle += 360;
-        }
-        else if (deltaAngle > 180)
-        {
+        } else if (deltaAngle > 180) {
             deltaAngle -= 360;
         }
 
@@ -147,8 +140,7 @@ public class HardwarePushbot
         return globalAngle;
     }
 
-    public void resetAngle()
-    {
+    public void resetAngle() {
         lastAngles = imu
                 .getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;

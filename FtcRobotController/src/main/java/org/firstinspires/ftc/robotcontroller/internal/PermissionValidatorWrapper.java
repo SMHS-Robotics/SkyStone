@@ -70,15 +70,13 @@ public class PermissionValidatorWrapper extends PermissionValidatorActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         permissions = robotControllerPermissions;
     }
 
-    protected Class onStartApplication()
-    {
+    protected Class onStartApplication() {
         FtcRobotControllerActivity.setPermissionsValidated();
         return startApplication;
     }

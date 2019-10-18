@@ -82,8 +82,7 @@ import java.util.List;
 
 @TeleOp(name = "Vuforia Test 1234567890", group = "Concept")
 
-public class VuforiaTest extends LinearOpMode
-{
+public class VuforiaTest extends LinearOpMode {
 
     public static final String TAG = "Vuforia Navigation Sample";
 
@@ -99,8 +98,7 @@ public class VuforiaTest extends LinearOpMode
     VuforiaLocalizer vuforia;
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
          * If no camera monitor is desired, use the parameterless constructor instead (commented out below).
@@ -168,7 +166,7 @@ public class VuforiaTest extends LinearOpMode
         float mmPerInch = 25.4f;
         float mmBotWidth = 18 * mmPerInch;            // ... or whatever is right for your robot
         float mmFTCFieldWidth = (12 * 12 - 2) *
-                                mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
+                mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
 
         /**
          * In order for localization to work, we need to tell the system where each target we
@@ -309,11 +307,9 @@ public class VuforiaTest extends LinearOpMode
         /** Start tracking the data sets we care about. */
         stonesAndChips.activate();
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
 
-            for (VuforiaTrackable trackable : allTrackables)
-            {
+            for (VuforiaTrackable trackable : allTrackables) {
                 /**
                  * getUpdatedRobotLocation() will return null if no new information is available since
                  * the last time that call was made, or if the trackable is not currently visible.
@@ -321,25 +317,21 @@ public class VuforiaTest extends LinearOpMode
                  */
                 telemetry.addData(trackable.getName(),
                         ((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible() ?
-                        "Visible" : "Not Visible");    //
+                                "Visible" : "Not Visible");    //
 
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable
                         .getListener()).getUpdatedRobotLocation();
-                if (robotLocationTransform != null)
-                {
+                if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                 }
             }
             /**
              * Provide feedback as to where the robot was last located (if we know).
              */
-            if (lastLocation != null)
-            {
+            if (lastLocation != null) {
                 //  RobotLog.vv(TAG, "robot=%s", format(lastLocation));
                 telemetry.addData("Pos", format(lastLocation));
-            }
-            else
-            {
+            } else {
                 telemetry.addData("Pos", "Unknown");
             }
             telemetry.update();
@@ -350,8 +342,7 @@ public class VuforiaTest extends LinearOpMode
      * A simple utility that extracts positioning information from a transformation matrix
      * and formats it in a form palatable to a human being.
      */
-    String format(OpenGLMatrix transformationMatrix)
-    {
+    String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
 }
