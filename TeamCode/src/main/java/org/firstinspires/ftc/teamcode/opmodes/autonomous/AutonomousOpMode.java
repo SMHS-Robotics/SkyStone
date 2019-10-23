@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
 import java.util.Locale;
 
+<<<<<<< HEAD
 public abstract class AutonomousOpMode extends LinearOpMode
 {
     final double TURN_POWER = 1.0;
@@ -37,37 +38,30 @@ public abstract class AutonomousOpMode extends LinearOpMode
         pidRotate.enable();
         
         final double TURN_TOLERANCE = 10;
+=======
+public abstract class AutonomousOpMode extends LinearOpMode {
+    private final double aConstantProp = 0.000163;
+    private final double bConstantProp = 0.009567;
+    private final double cConstantProp = 0.126718;
 
-        power = Range.clip(power, -1, 1);
+    HardwarePushbot robot = new HardwarePushbot();
+    private AutonomousState state;
+    private Orientation angles;
+>>>>>>> origin/dev-Aditya
+
+    protected void rotate(double degrees, double power) {
+        final double TURN_TOLERANCE = 2;
+
         robot.resetAngle();
-        double leftPower, rightPower;
 
-        //set the initial power and directino of the motors depending on rotation
-        leftPower = -power * (degrees / Math.abs(degrees));
-        rightPower = power * (degrees / Math.abs(degrees));
-
-        robot.leftDrive.setPower(leftPower);
-        robot.rightDrive.setPower(rightPower);
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
 
         //rotate within TURN_TOLERANCE degrees of error before stopping, and adjust as necessary
-        //TODO: Use PID for correction!
-        while (Math.abs(robot.getAngle() - degrees) > TURN_TOLERANCE)
-        {
-            if (robot.getAngle() > degrees + TURN_TOLERANCE && leftPower < 0)
-            {
-                leftPower = power;
-                rightPower = -power;
-                robot.leftDrive.setPower(leftPower);
-                robot.rightDrive.setPower(rightPower);
-            }
-
-            if (robot.getAngle() < degrees - TURN_TOLERANCE && leftPower > 0)
-            {
-                leftPower = -power;
-                rightPower = power;
-                robot.leftDrive.setPower(leftPower);
-                robot.rightDrive.setPower(rightPower);
-            }
+        while (Math.abs(robot.getAngle() - degrees) > TURN_TOLERANCE) {
+            robot.leftDrive.setPower(quadPropCorrectLeft(degrees, robot.getAngle()));
+            robot.leftDrive.setPower(quadPropCorrectRight(degrees, robot.getAngle()));
+            sleep(10);
             telemetry.update();
         }
 
@@ -79,14 +73,12 @@ public abstract class AutonomousOpMode extends LinearOpMode
     }
 
     //robot drives until proximity sensor is hitting an object
-    protected void driveUntilImpact(double power)
-    {
+    protected void driveUntilImpact(double power) {
         power = Range.clip(power, -1, 1);
         robot.leftDrive.setPower(power);
         robot.rightDrive.setPower(power);
 
-        while (Double.isNaN(robot.distanceSensor.getDistance(DistanceUnit.CM)))
-        {
+        while (Double.isNaN(robot.distanceSensor.getDistance(DistanceUnit.CM))) {
             telemetry.update();
             sleep(25);
         }
@@ -97,18 +89,15 @@ public abstract class AutonomousOpMode extends LinearOpMode
         robot.rightDrive.setPower(0);
     }
 
-    protected String formatAngle(AngleUnit angleUnit, double angle)
-    {
+    protected String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    protected String formatDegrees(double degrees)
-    {
+    protected String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
-    protected void composeTelemetry()
-    {
+    protected void composeTelemetry() {
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
         telemetry.addAction(() ->
@@ -121,17 +110,45 @@ public abstract class AutonomousOpMode extends LinearOpMode
         });
 
         telemetry.addLine().addData("status", () -> robot.imu.getSystemStatus().toShortString())
-                 .addData("calib", () -> robot.imu.getCalibrationStatus().toString());
+                .addData("calib", () -> robot.imu.getCalibrationStatus().toString());
 
         //heading is firstAngle
         telemetry.addLine()
-                 .addData("heading", () -> formatAngle(angles.angleUnit, angles.firstAngle))
-                 .addData("roll", () -> formatAngle(angles.angleUnit, angles.secondAngle))
-                 .addData("pitch", () -> formatAngle(angles.angleUnit, angles.thirdAngle));
+                .addData("heading", () -> formatAngle(angles.angleUnit, angles.firstAngle))
+                .addData("roll", () -> formatAngle(angles.angleUnit, angles.secondAngle))
+                .addData("pitch", () -> formatAngle(angles.angleUnit, angles.thirdAngle));
 
         telemetry.addLine().addData("dist", () -> String
                 .format(Locale.US, "%.02f", robot.distanceSensor.getDistance(DistanceUnit.CM)));
 
         telemetry.addLine().addData("state", () -> state.toString());
+    }
+
+    private double quadPropCorrectRight(double target, double current) {
+        double delta = target - current;
+        double gyroMod = delta / 45.0;
+        if (Math.abs(gyroMod) > 1.0) {
+            gyroMod = Math.signum(gyroMod);
+            return -gyroMod;
+        } //set gyromod to 1 or -1 if the error is more than 45 degrees
+        else if (delta > 0) {
+            return -(aConstantProp * Math.pow(delta, 2) + bConstantProp * delta + cConstantProp);
+        } else {
+            return (aConstantProp * Math.pow(delta, 2) + bConstantProp * delta + cConstantProp);
+        } //otherwise use our quadratic model
+    }
+
+    private double quadPropCorrectLeft(double target, double current) {
+        double delta = target - current;
+        double gyroMod = delta / 45.0;
+        if (Math.abs(gyroMod) > 1.0) {
+            gyroMod = Math.signum(gyroMod);
+            return gyroMod;
+        } //set gyromod to 1 or -1 if the error is more than 45 degrees
+        else if (delta > 0) {
+            return (aConstantProp * Math.pow(delta, 2) + bConstantProp * delta + cConstantProp);
+        } else {
+            return -(aConstantProp * Math.pow(delta, 2) + bConstantProp * delta + cConstantProp);
+        } //otherwise use our quadratic model
     }
 }

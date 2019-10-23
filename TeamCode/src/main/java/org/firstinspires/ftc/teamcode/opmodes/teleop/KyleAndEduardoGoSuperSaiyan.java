@@ -24,8 +24,7 @@ import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
 
 @TeleOp(name = "Kyle and Eduardo Go Super Saiyan", group = "Pushbot")
 
-public class KyleAndEduardoGoSuperSaiyan extends LinearOpMode
-{
+public class KyleAndEduardoGoSuperSaiyan extends LinearOpMode {
 
     private final double CLAW_SPEED = 0.02;                     // sets rate to move servo
     private final double CLAW_OPEN_MAX = -0.12;
@@ -37,8 +36,7 @@ public class KyleAndEduardoGoSuperSaiyan extends LinearOpMode
     private double clawOffset = 0;                        // Servo mid position
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         double left;
         double right;
 
@@ -55,8 +53,7 @@ public class KyleAndEduardoGoSuperSaiyan extends LinearOpMode
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             // Normalize the values so neither exceed +/- 1.0
             left = Range.clip(-gamepad1.left_stick_y, -1, 1);
             right = Range.clip(-gamepad1.right_stick_y, -1, 1);
@@ -65,29 +62,19 @@ public class KyleAndEduardoGoSuperSaiyan extends LinearOpMode
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
-            if (gamepad2.b)
-            {
+            if (gamepad2.b) {
                 clawOffset += CLAW_SPEED;
-            }
-
-            else if (gamepad2.x)
-            {
+            } else if (gamepad2.x) {
                 clawOffset -= CLAW_SPEED;
             }
 
 
-
             // Use gamepad buttons to move arm up (Y) and down (A)
-            if (gamepad2.y)
-            {
+            if (gamepad2.y) {
                 robot.arm.setPower(HardwarePushbot.ARM_UP_POWER);
-            }
-            else if (gamepad2.a)
-            {
+            } else if (gamepad2.a) {
                 robot.arm.setPower(HardwarePushbot.ARM_DOWN_POWER);
-            }
-            else
-            {
+            } else {
                 robot.arm.setPower(0.0);
             }
 
