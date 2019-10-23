@@ -20,7 +20,7 @@ public class AutonomousRyan extends AutonomousOpMode
                 case CHECK_POSITION:
                     break;
                 case GET_SKYSTONE_RED:
-                    getSkystoneRed();8
+                    getSkystoneRed();
                     break;
                 case GET_SKYSTONE_BLUE:
                     break;
