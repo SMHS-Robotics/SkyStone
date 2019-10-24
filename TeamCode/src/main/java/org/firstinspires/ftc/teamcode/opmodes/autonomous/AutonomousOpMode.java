@@ -13,32 +13,6 @@ import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
 import java.util.Locale;
 
-<<<<<<< HEAD
-public abstract class AutonomousOpMode extends LinearOpMode
-{
-    final double TURN_POWER = 1.0;
-    final double DRIVE_POWER = 1.0;
-    final double KP = 2.5; //TODO: Replace placeholder values
-    final double KI = 0.1;
-    final double KD = 0.2;
-
-    PIDController pidRotate = new PIDController(KP, KI, KD);
-    HardwarePushbot robot = new HardwarePushbot();
-    AutonomousState state;
-    Orientation angles;
-
-
-    protected void rotate(double degrees, double power)
-    {
-        pidRotate.reset();
-        pidRotate.setSetpoint(degrees);
-        pidRotate.setInputRange(0, 90);
-        pidRotate.setOutputRange(.20, power);
-        pidRotate.setTolerance(2);
-        pidRotate.enable();
-        
-        final double TURN_TOLERANCE = 10;
-=======
 public abstract class AutonomousOpMode extends LinearOpMode {
     private final double aConstantProp = 0.000163;
     private final double bConstantProp = 0.009567;
@@ -47,7 +21,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     HardwarePushbot robot = new HardwarePushbot();
     private AutonomousState state;
     private Orientation angles;
->>>>>>> origin/dev-Aditya
 
     protected void rotate(double degrees, double power) {
         final double TURN_TOLERANCE = 2;
