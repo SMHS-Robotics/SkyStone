@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId 'com.qualcomm.ftcrobotcontroller'
-        minSdkVersion 19
+        minSdkVersion 27
         targetSdkVersion 28
 
         /**
@@ -66,8 +66,8 @@ android {
         matcher.find()
         def vName = matcher.group(1)
         //
-        versionCode vCode
-        versionName vName
+        versionCode 34
+        versionName '5.2'
     }
 
     // Advanced user code might just want to use Vuforia directly, so we set up the libs as needed

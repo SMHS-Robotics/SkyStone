@@ -10,16 +10,14 @@ package org.firstinspires.ftc.teamcode.opmodes.autonomous;
     TO_CRATER: Robot is driving to crater to park
     END: Robot has parked. Not moving
  */
-public enum AutonomousState
-{
+public enum AutonomousState {
     CHECK_POSITION, GET_SKYSTONE_RED, GET_SKYSTONE_BLUE, MOVE_FOUNDATION_RED, MOVE_FOUNDATION_BLUE,
     PARK_RED, PARK_BLUE, END;
 
     @Override
-    public String toString()
-    {
-        switch (this)
-        {
+
+    public String toString() {
+        switch (this) {
             case CHECK_POSITION:
                 return "CHECK_POSITION";
             case GET_SKYSTONE_RED:
