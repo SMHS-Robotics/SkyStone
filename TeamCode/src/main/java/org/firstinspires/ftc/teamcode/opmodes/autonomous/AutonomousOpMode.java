@@ -18,6 +18,8 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     private final double bConstantProp = 0.009567;
     private final double cConstantProp = 0.126718;
 
+    private final int MAX_SLIDE = 200;
+
     HardwarePushbot robot = new HardwarePushbot();
     private AutonomousState state;
     private Orientation angles;
@@ -123,5 +125,18 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         } else {
             return -(aConstantProp * Math.pow(delta, 2) + bConstantProp * delta + cConstantProp);
         } //otherwise use our quadratic model
+    }
+
+    public void linSlideMove(float height, float power){
+        robot.linSlide.setTargetPosition((int)(MAX_SLIDE*height));
+
+        robot.linSlide.setPower(power);
+
+        while (opModeIsActive() && robot.linSlide.isBusy())
+        {
+            telemetry.addData("encoder-fwd", robot.linSlide.getCurrentPosition() + "  busy=" + robot.linSlide.isBusy());
+            telemetry.update();
+            idle();
+        }
     }
 }

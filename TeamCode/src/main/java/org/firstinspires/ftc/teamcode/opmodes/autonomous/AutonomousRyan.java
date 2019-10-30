@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.hardware.HardwareDummybot;
+import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +43,12 @@ public class AutonomousRyan extends AutonomousOpMode
 
     VuforiaLocalizer vuforia;
 
+    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
     @Override
     public void runOpMode()
     {
+        robot.init(hardwareMap);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -78,7 +83,7 @@ public class AutonomousRyan extends AutonomousOpMode
         VuforiaTrackable blueAllianceRear = stonesAndChips.get(10);
         blueAllianceRear.setName("BlueAllianceWallRear");
 
-        VuforiaTrackable redAllianceFront = stonesAndChips.get(6); //TODO
+        VuforiaTrackable redAllianceFront = stonesAndChips.get(6);
         redAllianceFront.setName("RedAllianceWallFront");
 
         VuforiaTrackable redAllianceRear = stonesAndChips.get(5); //TODO
@@ -96,7 +101,7 @@ public class AutonomousRyan extends AutonomousOpMode
         VuforiaTrackable rearWallBlue = stonesAndChips.get(11); //TODO
         rearWallBlue.setName("RearWallBlueAlliance");
 
-        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
         allTrackables.addAll(stonesAndChips);
 
         float mmPerInch = 25.4f;
@@ -177,7 +182,6 @@ public class AutonomousRyan extends AutonomousOpMode
             } else {
                 telemetry.addData("Pos", "Unknown");
             }
-            telemetry.update();
 
             switch (checkPos)
             {
@@ -201,11 +205,14 @@ public class AutonomousRyan extends AutonomousOpMode
                 default:
                     break;
             }
+
+            telemetry.update();
         }
     }
 
     public void getSkystoneRed(){
-        rotate(90, 1);
+        telemetry.addLine("We did it boys");
+        /* rotate(90, 1);
 
         robot.leftDrive.setPower(1);
         robot.rightDrive.setPower(1);
@@ -265,7 +272,24 @@ public class AutonomousRyan extends AutonomousOpMode
         robot.rightClaw.setPosition(0);
 
         rotate(-90, 1);
+         */
     }
+
+   public void checkPosition(){
+       for (VuforiaTrackable trackable : allTrackables) {
+           boolean temp = ((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible();  //
+
+           OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable
+                   .getListener()).getUpdatedRobotLocation();
+           if (robotLocationTransform != null) {
+               lastLocation = robotLocationTransform;
+           }
+           switch (trackable.getName()){
+               case "RedAllianceWallFront":
+                   checkPos = AutonomousState.GET_SKYSTONE_RED;
+           }
+       }
+   }
 
     String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
