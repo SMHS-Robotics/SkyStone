@@ -48,7 +48,7 @@ public class AutonomousRyan extends AutonomousOpMode
     @Override
     public void runOpMode()
     {
-        robot.init(hardwareMap);
+        //robot.init(hardwareMap);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -186,6 +186,7 @@ public class AutonomousRyan extends AutonomousOpMode
             switch (checkPos)
             {
                 case CHECK_POSITION:
+                    checkPosition();
                     break;
                 case GET_SKYSTONE_RED:
                     getSkystoneRed();
