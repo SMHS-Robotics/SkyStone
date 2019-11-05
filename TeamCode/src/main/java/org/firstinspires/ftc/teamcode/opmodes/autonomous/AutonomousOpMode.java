@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
+import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
 import java.util.Locale;
@@ -20,7 +21,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
     private final int MAX_SLIDE = 200;
 
-    HardwarePushbot robot = new HardwarePushbot();
+    HardwareSkybot robot = new HardwareSkybot();
     private AutonomousState state;
     private Orientation angles;
 
@@ -33,7 +34,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         robot.rightDrive.setPower(0);
 
         //rotate within TURN_TOLERANCE degrees of error before stopping, and adjust as necessary
-        while (Math.abs(robot.getAngle() - degrees) > TURN_TOLERANCE) {
+        while (Math.abs(robot.getAngle() - degrees) > TURN_TOLERANCE && opModeIsActive()) {
             robot.leftDrive.setPower(quadPropCorrectLeft(degrees, robot.getAngle()));
             robot.leftDrive.setPower(quadPropCorrectRight(degrees, robot.getAngle()));
             sleep(10);
@@ -53,10 +54,10 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         robot.leftDrive.setPower(power);
         robot.rightDrive.setPower(power);
 
-        while (Double.isNaN(robot.distanceSensor.getDistance(DistanceUnit.CM))) {
+        /*while (Double.isNaN(robot.distanceSensor.getDistance(DistanceUnit.CM))) {
             telemetry.update();
             sleep(25);
-        }
+        }*/
 
         //telemetry.addLine().addData("RYAN!", " I'VE HIT LINE 204");
 
@@ -93,8 +94,8 @@ public abstract class AutonomousOpMode extends LinearOpMode {
                 .addData("roll", () -> formatAngle(angles.angleUnit, angles.secondAngle))
                 .addData("pitch", () -> formatAngle(angles.angleUnit, angles.thirdAngle));
 
-        telemetry.addLine().addData("dist", () -> String
-                .format(Locale.US, "%.02f", robot.distanceSensor.getDistance(DistanceUnit.CM)));
+        /*telemetry.addLine().addData("dist", () -> String
+                .format(Locale.US, "%.02f", robot.distanceSensor.getDistance(DistanceUnit.CM))); */
 
         telemetry.addLine().addData("state", () -> state.toString());
     }

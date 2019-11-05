@@ -48,7 +48,7 @@ public class AutonomousRyan extends AutonomousOpMode
     @Override
     public void runOpMode()
     {
-        //robot.init(hardwareMap);
+        robot.init(hardwareMap);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -192,10 +192,13 @@ public class AutonomousRyan extends AutonomousOpMode
                     getSkystoneRed();
                     break;
                 case GET_SKYSTONE_BLUE:
+                    getSkystoneBlue();
                     break;
                 case MOVE_FOUNDATION_RED:
+                    moveFoundationRed();
                     break;
                 case MOVE_FOUNDATION_BLUE:
+                    moveFoundationBlue();
                     break;
                 case PARK_RED:
                     break;
@@ -213,7 +216,7 @@ public class AutonomousRyan extends AutonomousOpMode
 
     public void getSkystoneRed(){
         telemetry.addLine("We did it boys");
-        /* rotate(90, 1);
+        rotate(90, 1);
 
         robot.leftDrive.setPower(1);
         robot.rightDrive.setPower(1);
@@ -229,17 +232,14 @@ public class AutonomousRyan extends AutonomousOpMode
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
 
-        robot.leftClaw.setPosition(1);
-        robot.rightClaw.setPosition(0);
+        //robot.leftClaw.setPosition(1);
+        //robot.rightClaw.setPosition(0);
 
         robot.leftDrive.setPower(1);
         robot.rightDrive.setPower(1);
         sleep(200); //TODO: Adjust time to drive correct distance.
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
-
-        robot.leftClaw.setPosition(0);
-        robot.rightClaw.setPosition(1);
 
         robot.leftDrive.setPower(-1);
         robot.rightDrive.setPower(-1);
@@ -269,11 +269,22 @@ public class AutonomousRyan extends AutonomousOpMode
 
         rotate(180, 1);
 
-        robot.leftClaw.setPosition(1);
-        robot.rightClaw.setPosition(0);
+        //robot.leftClaw.setPosition(1);
+        //robot.rightClaw.setPosition(0);
 
         rotate(-90, 1);
-         */
+    }
+
+    public void getSkystoneBlue(){
+
+    }
+
+    public void moveFoundationRed(){
+
+    }
+
+    public void moveFoundationBlue(){
+
     }
 
    public void checkPosition(){
@@ -288,8 +299,18 @@ public class AutonomousRyan extends AutonomousOpMode
            switch (trackable.getName()){
                case "RedAllianceWallFront":
                    checkPos = AutonomousState.GET_SKYSTONE_RED;
+               case "BlueAllianceWallFront":
+                   checkPos = AutonomousState.GET_SKYSTONE_BLUE;
+               case "RedAllianceWallRear":
+                   checkPos = AutonomousState.MOVE_FOUNDATION_RED;
+               case "BlueAllianceWallRear":
+                   checkPos = AutonomousState.MOVE_FOUNDATION_BLUE;
            }
        }
+   }
+
+   public void testTurn(){
+        rotate(90, 1);
    }
 
     String format(OpenGLMatrix transformationMatrix) {
