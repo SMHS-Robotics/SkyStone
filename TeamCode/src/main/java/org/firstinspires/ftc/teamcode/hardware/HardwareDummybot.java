@@ -64,7 +64,7 @@ public class HardwareDummybot
         // Define and Initialize Motors
         leftDrive = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
-        linear_drive = hwMap.get(DcMotor.class, "linear_drive");
+        //linear_drive = hwMap.get(DcMotor.class, "linear_drive");
         rightClaw = hwMap.get(Servo.class, "right_claw");
         leftClaw = hwMap.get(Servo.class, "left_claw");
         // Set to REVERSE if using AndyMark motors
@@ -87,7 +87,7 @@ public class HardwareDummybot
         // Set all motors to zero power
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-        linear_drive.setPower(0);
+        //linear_drive.setPower(0);
         // TODO: maybe make these into a variable to start at a certain position?
         rightClaw.setPosition(0);
         leftClaw.setPosition(0);
@@ -96,7 +96,7 @@ public class HardwareDummybot
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        linear_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //linear_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //Set Up Angle
         resetAngle();
     }

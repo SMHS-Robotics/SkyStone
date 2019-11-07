@@ -8,7 +8,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
@@ -19,34 +18,13 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     private final double bConstantProp = 0.009567;
     private final double cConstantProp = 0.126718;
 
+    PIDController pidRotate;
+
     private final int MAX_SLIDE = 200;
 
     HardwareSkybot robot = new HardwareSkybot();
     private AutonomousState state;
     private Orientation angles;
-
-    protected void rotate(double degrees, double power) {
-        final double TURN_TOLERANCE = 2;
-
-        robot.resetAngle();
-
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-
-        //rotate within TURN_TOLERANCE degrees of error before stopping, and adjust as necessary
-        while (Math.abs(robot.getAngle() - degrees) > TURN_TOLERANCE && opModeIsActive()) {
-            robot.leftDrive.setPower(quadPropCorrectLeft(degrees, robot.getAngle()));
-            robot.leftDrive.setPower(quadPropCorrectRight(degrees, robot.getAngle()));
-            sleep(10);
-            telemetry.update();
-        }
-
-        //stop the robot
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-
-        robot.resetAngle();
-    }
 
     //robot drives until proximity sensor is hitting an object
     protected void driveUntilImpact(double power) {
@@ -128,7 +106,32 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         } //otherwise use our quadratic model
     }
 
-    public void linSlideMove(float height, float power){
+    protected void rotate(double degrees){}
+
+    protected void rotate(double degrees, double power) {
+        final double TURN_TOLERANCE = 2;
+
+        robot.resetAngle();
+
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+
+        //rotate within TURN_TOLERANCE degrees of error before stopping, and adjust as necessary
+        while (Math.abs(robot.getAngle() - degrees) > TURN_TOLERANCE) {
+            robot.leftDrive.setPower(quadPropCorrectLeft(degrees, robot.getAngle()));
+            robot.leftDrive.setPower(quadPropCorrectRight(degrees, robot.getAngle()));
+            sleep(10);
+            telemetry.update();
+        }
+
+        //stop the robot
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+
+        robot.resetAngle();
+    }
+
+    /*public void linSlideMove(float height, float power){
         robot.linSlide.setTargetPosition((int)(MAX_SLIDE*height));
 
         robot.linSlide.setPower(power);
@@ -139,5 +142,5 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             telemetry.update();
             idle();
         }
-    }
+    }*/
 }

@@ -175,7 +175,7 @@ public class PIDController {
      * Sets the maximum and minimum values expected from the input.
      *
      * @param minimumInput the minimum value expected from the input, always positive
-     * @param maximumInput the maximum value expected from the output, always positive
+     * @param maximumInput the maximum value expected from the input, always positive
      */
     public void setInputRange(double minimumInput, double maximumInput) {
         m_minimumInput = Math.abs(minimumInput);

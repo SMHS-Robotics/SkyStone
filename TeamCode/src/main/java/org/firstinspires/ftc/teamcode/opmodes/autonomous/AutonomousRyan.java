@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name = "owo", group = "yes")
+@Autonomous(name = "uwu", group = "yes")
 public class AutonomousRyan extends AutonomousOpMode
 {
 
@@ -216,7 +216,7 @@ public class AutonomousRyan extends AutonomousOpMode
 
     public void getSkystoneRed(){
         telemetry.addLine("We did it boys");
-        rotate(90, 1);
+        rotate(90);
 
         robot.leftDrive.setPower(1);
         robot.rightDrive.setPower(1);
@@ -224,7 +224,7 @@ public class AutonomousRyan extends AutonomousOpMode
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
 
-        rotate(-90, 1);
+        rotate(-90);
 
         robot.leftDrive.setPower(1);
         robot.rightDrive.setPower(1);
@@ -247,7 +247,7 @@ public class AutonomousRyan extends AutonomousOpMode
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
 
-        rotate(90, 1);
+        rotate(90);
 
         robot.leftDrive.setPower(1);
         robot.rightDrive.setPower(1);
@@ -255,7 +255,7 @@ public class AutonomousRyan extends AutonomousOpMode
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
 
-        rotate(90, 1);
+        rotate(90);
 
         //robot.backHook?.setPosition(1); TODO: find actual variable for this etc.
 
@@ -267,24 +267,24 @@ public class AutonomousRyan extends AutonomousOpMode
 
         //robot.backHook?.setPosition(0); TODO: find actual variable for this etc.
 
-        rotate(180, 1);
+        rotate(180);
 
         //robot.leftClaw.setPosition(1);
         //robot.rightClaw.setPosition(0);
 
-        rotate(-90, 1);
+        rotate(-90);
     }
 
     public void getSkystoneBlue(){
-
+        rotate(90);
     }
 
     public void moveFoundationRed(){
-
+        rotate(90);
     }
 
     public void moveFoundationBlue(){
-
+        rotate(90);
     }
 
    public void checkPosition(){
@@ -310,7 +310,7 @@ public class AutonomousRyan extends AutonomousOpMode
    }
 
    public void testTurn(){
-        rotate(90, 1);
+        rotate(90);
    }
 
     String format(OpenGLMatrix transformationMatrix) {
