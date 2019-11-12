@@ -100,7 +100,7 @@ public class HardwarePushbot {
         arm.setPower(0.0);
 
         // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        //        // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

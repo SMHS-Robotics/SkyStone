@@ -3,15 +3,14 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.teamcode.hardware.HardwareDummybot;
+import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot;
 
 @TeleOp(name = "CummyBoy", group = "Dummybot")
-
 public class WannaSmashBro extends LinearOpMode
 {
     public static final double CLAW_SPEED = 0.05;
-    HardwareDummybot robot = new HardwareDummybot();
+    HardwareSkybot robot = new HardwareSkybot();
 
     @Override
     public void runOpMode()
@@ -19,6 +18,7 @@ public class WannaSmashBro extends LinearOpMode
         double left;
         double right;
         double linear;
+
 
         robot.init(hardwareMap);
         waitForStart();
@@ -55,9 +55,23 @@ public class WannaSmashBro extends LinearOpMode
                         + (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
             }
 
+            int prevEncoderCount = 0;
+            if(gamepad1.a){
+                do{
+                    robot.linSlide.setPower(0.25);
+                    sleep(25);
+                }while(opModeIsActive() && prevEncoderCount == robot.linSlide.getCurrentPosition());
+            }else if(gamepad1.x){
+                robot.linSlide.setPower(0.25);
+            }else if(gamepad1.y){
+                robot.linSlide.setPower(-0.25);
+            }else{
+                robot.linSlide.setPower(0);
+            }
+
             telemetry.addData("left", left);
             telemetry.addData("right", right);
-            telemetry.addData("linear tower", linear);
+            telemetry.addData("linear tower", prevEncoderCount);
             //telemetry.addData("Current DC Position", robot.linear_drive.getCurrentPosition());
             telemetry.addData("Right Servo Position", robot.rightClaw.getPosition());
             telemetry.addData("Left Servo Position", robot.leftClaw.getPosition());
