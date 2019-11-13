@@ -390,6 +390,7 @@ public class AutonomousSkystone extends AutonomousOpMode
     }
 
     private void straight(double power){
+
         correction = pidStraight.performPID(getAngle());
 
     }
