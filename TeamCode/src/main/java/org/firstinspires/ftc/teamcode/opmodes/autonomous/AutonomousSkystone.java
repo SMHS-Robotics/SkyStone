@@ -39,7 +39,7 @@ public class AutonomousSkystone extends AutonomousOpMode
     final double KD = -0.8235;
 
     PIDController pidRotate, pidStraight;
-    double power = 0.3, rotation, globalAngle, correction;
+    double power = 0.5, rotation, globalAngle = 0, correction;
     Orientation lastAngles = new Orientation();
 
     AutonomousState checkPos = AutonomousState.GET_SKYSTONE_BLUE;
@@ -364,7 +364,7 @@ public class AutonomousSkystone extends AutonomousOpMode
 
             do
             {
-                power = pidRotate.performPID(getAngle()); // power will be - on right turn.
+                power = pidRotate.performPID(Math.abs(getAngle())); // power will be - on right turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
             } while (opModeIsActive() && !pidRotate.onTarget());
@@ -372,7 +372,7 @@ public class AutonomousSkystone extends AutonomousOpMode
         else    // left turn.
             do
             {
-                power = pidRotate.performPID(getAngle()); // power will be + on left turn.
+                power = pidRotate.performPID(Math.abs(getAngle())); // power will be + on left turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
             } while (opModeIsActive() && !pidRotate.onTarget());
@@ -394,6 +394,7 @@ public class AutonomousSkystone extends AutonomousOpMode
         correction = pidStraight.performPID(getAngle());
 
         robot.leftDrive.setPower(power + correction);
+
         robot.rightDrive.setPower(power);
     }
 
