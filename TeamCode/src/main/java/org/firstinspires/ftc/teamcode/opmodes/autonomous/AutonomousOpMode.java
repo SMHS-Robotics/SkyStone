@@ -106,8 +106,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         } //otherwise use our quadratic model
     }
 
-    protected void rotate(double degrees){}
-
     protected void rotate(double degrees, double power) {
         final double TURN_TOLERANCE = 2;
 

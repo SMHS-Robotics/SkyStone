@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
+import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot;
 
 @TeleOp(name = "Kamikaze.TeleOp.SMHS", group = "MateoBotics")
 
 public class KamikazeTele extends LinearOpMode {
-    HardwarePushbot bot = new HardwarePushbot();
+    HardwareSkybot bot = new HardwareSkybot();
 
     // Telemetric Operation: Manual, remote-controlled operations including movement
     // and manipulation of blocks.
