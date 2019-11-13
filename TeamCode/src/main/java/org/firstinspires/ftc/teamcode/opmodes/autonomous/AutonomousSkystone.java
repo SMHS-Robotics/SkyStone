@@ -389,20 +389,20 @@ public class AutonomousSkystone extends AutonomousOpMode
         resetAngle();
     }
 
-    private void straight(double power){
-
+    private void straight(double power) {
         correction = pidStraight.performPID(getAngle());
-
+        robot.leftDrive.setPower(power+correction);
+        robot.rightDrive.setPower(power);
     }
 
     private void straight(double power, double secs) {
-        for (int i = 0; i<secs; i+=20) {
+        for (int i = 0; i<secs; i+=0.02) {
             straight(power);
+            sleep(20);
         }
     }
 
-    private double getAngle()
-    {
+    private double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
