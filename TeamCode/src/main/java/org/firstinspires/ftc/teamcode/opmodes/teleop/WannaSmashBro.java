@@ -28,8 +28,8 @@ public class WannaSmashBro extends LinearOpMode
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
             left = Range.clip(drive + turn, -1.0, 1.0) * 0.3;
-            right = Range.clip(drive - turn, -1.0, 1.0  ) * 0.3;
-            linear = Range.clip(-gamepad2.left_stick_y, -1.0, 1.0);
+            right = Range.clip(drive - turn, -1.0, 1.0  ) * 0.32;
+            //linear = Range.clip(-gamepad2.left_stick_y, -1.0, 1.0);
 
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
@@ -56,7 +56,7 @@ public class WannaSmashBro extends LinearOpMode
             }
 
             int prevEncoderCount = 0;
-            if(gamepad1.a){
+            /*if(gamepad1.a){
                 do{
                     robot.linSlide.setPower(0.25);
                     sleep(25);
@@ -67,7 +67,7 @@ public class WannaSmashBro extends LinearOpMode
                 robot.linSlide.setPower(-0.25);
             }else{
                 robot.linSlide.setPower(0);
-            }
+            }*/
 
             telemetry.addData("left", left);
             telemetry.addData("right", right);

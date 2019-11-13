@@ -189,7 +189,7 @@ public class AutonomousRyan extends AutonomousOpMode
                     checkPosition();
                     break;
                 case GET_SKYSTONE_RED:
-                    getSkystoneRed();
+
                     break;
                 case GET_SKYSTONE_BLUE:
                     getSkystoneBlue();
@@ -214,7 +214,7 @@ public class AutonomousRyan extends AutonomousOpMode
         }
     }
 
-    public void getSkystoneRed(){
+    /*public void getSkystoneRed(){
         telemetry.addLine("We did it boys");
         rotate(90);
 
@@ -273,18 +273,18 @@ public class AutonomousRyan extends AutonomousOpMode
         //robot.rightClaw.setPosition(0);
 
         rotate(-90);
-    }
+    } */
 
     public void getSkystoneBlue(){
-        rotate(90);
+
     }
 
     public void moveFoundationRed(){
-        rotate(90);
+
     }
 
     public void moveFoundationBlue(){
-        rotate(90);
+
     }
 
    public void checkPosition(){
@@ -309,11 +309,10 @@ public class AutonomousRyan extends AutonomousOpMode
        }
    }
 
-   public void testTurn(){
-        rotate(90);
-   }
 
     String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
+
+
 }

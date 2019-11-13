@@ -34,12 +34,12 @@ public class AutonomousSkystone extends AutonomousOpMode
                     "1Ma3uP9H5Xiz1HY8RbtWZtgwozIZSRJUB+8km2LqZsI/bUTQ4ysXNRUC/KrxHVThhdcllY40" +
                     "J8A260JkRcUj";
 
-    final double KP = 0.2465;
-    final double KI = 0.00364;
-    final double KD = -0.8235;
+    final double KP = 0.5;
+    final double KI = 0;
+    final double KD = 0;
 
     PIDController pidRotate, pidStraight;
-    double power = 0.5, rotation, globalAngle = 0, correction;
+    double power = 0.2, rotation, globalAngle = 0, correction;
     Orientation lastAngles = new Orientation();
 
     AutonomousState checkPos = AutonomousState.GET_SKYSTONE_BLUE;
@@ -169,7 +169,7 @@ public class AutonomousSkystone extends AutonomousOpMode
         telemetry.addData(">", "It is Almost Active");
         telemetry.update();
 
-        while (!opModeIsActive())
+        while (opModeIsActive())
         {
             telemetry.addData(">", "It is Almost Active");
             telemetry.update();
@@ -293,6 +293,7 @@ public class AutonomousSkystone extends AutonomousOpMode
 
     public void getSkystoneBlue(){
         rotate(90);
+        stop();
     }
 
     public void moveFoundationRed(){
@@ -336,7 +337,7 @@ public class AutonomousSkystone extends AutonomousOpMode
 
     protected void rotate(double degrees) {
 
-        final double TURN_TOLERANCE = 2;
+        final double TURN_TOLERANCE = 7.5;
 
         robot.resetAngle();
 
@@ -351,6 +352,8 @@ public class AutonomousSkystone extends AutonomousOpMode
         pidRotate.setOutputRange(0, power);
         pidRotate.setTolerance(TURN_TOLERANCE);
         pidRotate.enable();
+        telemetry.addLine("Reached");
+        telemetry.update();
 
         if (degrees < 0)
         {
@@ -388,6 +391,9 @@ public class AutonomousSkystone extends AutonomousOpMode
 
         // reset angle tracking on new heading.
         resetAngle();
+
+        telemetry.addLine("Done");
+        telemetry.update();
     }
 
     private void straight(double power) {
