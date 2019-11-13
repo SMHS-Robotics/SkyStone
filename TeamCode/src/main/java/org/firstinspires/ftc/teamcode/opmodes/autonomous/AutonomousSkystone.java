@@ -34,9 +34,9 @@ public class AutonomousSkystone extends AutonomousOpMode
                     "1Ma3uP9H5Xiz1HY8RbtWZtgwozIZSRJUB+8km2LqZsI/bUTQ4ysXNRUC/KrxHVThhdcllY40" +
                     "J8A260JkRcUj";
 
-    final double KP = 0.246;
+    final double KP = 0.2465;
     final double KI = 0.00364;
-    final double KD = -1.64701;
+    final double KD = -0.8235;
 
     PIDController pidRotate, pidStraight;
     double power = 0.3, rotation, globalAngle, correction;
