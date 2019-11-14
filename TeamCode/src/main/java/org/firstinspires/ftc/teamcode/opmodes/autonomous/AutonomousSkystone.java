@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.utilities.PIDController;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name = "owo", group = "yes")
+@Autonomous(name = "AutoSkystone", group = "SMHSBots")
 public class AutonomousSkystone extends AutonomousOpMode
 {
 
@@ -35,20 +35,21 @@ public class AutonomousSkystone extends AutonomousOpMode
                     "J8A260JkRcUj";
 
     double power = 0.3, rotation, globalAngle = 0, correction;
-    final double KP = 0.0035;
-    final double KI = 0.000035;
-    final double KD = 0;
+    private static final double base = -1.5;
+    private static final double KD = base;
+    private static final double KP = KD/-150;
+    private static final double KI = KP/150;
 
-    PIDController pidRotate, pidStraight;
-    Orientation lastAngles = new Orientation();
+    private PIDController pidRotate, pidStraight;
+    private Orientation lastAngles = new Orientation();
 
-    AutonomousState checkPos = AutonomousState.GET_SKYSTONE_BLUE;
+    private AutonomousState checkPos = AutonomousState.GET_SKYSTONE_BLUE;
 
-    OpenGLMatrix lastLocation = null;
+    private OpenGLMatrix lastLocation = null;
 
-    VuforiaLocalizer vuforia;
+    private VuforiaLocalizer vuforia;
 
-    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+    private List<VuforiaTrackable> allTrackables = new ArrayList<>();
 
     @Override
     public void runOpMode()
@@ -174,7 +175,7 @@ public class AutonomousSkystone extends AutonomousOpMode
             telemetry.addData(">", "It is Almost Active");
             telemetry.update();
             for (VuforiaTrackable trackable : allTrackables) {
-                /**
+                /*
                  * getUpdatedRobotLocation() will return null if no new information is available since
                  * the last time that call was made, or if the trackable is not currently visible.
                  * getRobotLocation() will return null if the trackable is not currently visible.
@@ -405,9 +406,9 @@ public class AutonomousSkystone extends AutonomousOpMode
     }
 
     private void straight(double power, double secs) {
-        for (int i = 0; i<secs; i+=0.02) {
+        for (int i = 0; i<secs; i+=0.01) {
             straight(power);
-            sleep(20);
+            sleep(10);
         }
     }
 
