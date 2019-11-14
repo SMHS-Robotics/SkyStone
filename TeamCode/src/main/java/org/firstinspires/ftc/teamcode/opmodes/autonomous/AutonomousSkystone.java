@@ -34,11 +34,12 @@ public class AutonomousSkystone extends AutonomousOpMode
                     "1Ma3uP9H5Xiz1HY8RbtWZtgwozIZSRJUB+8km2LqZsI/bUTQ4ysXNRUC/KrxHVThhdcllY40" +
                     "J8A260JkRcUj";
 
-    double power = 0.3, rotation, globalAngle = 0, correction;
-    private static final double base = -1.5;
-    private static final double KD = base;
-    private static final double KP = KD/-150;
-    private static final double KI = KP/150;
+    private double power = 0.3, rotation, globalAngle = 0, correction;
+    private static final double maxError = 90, targetSpeedMax = 0.4, multiplier = 80;
+    private static final double base = targetSpeedMax/maxError;
+    private static final double KD = base * multiplier;
+    private static final double KP = base;
+    private static final double KI = base/multiplier;
 
     private PIDController pidRotate, pidStraight;
     private Orientation lastAngles = new Orientation();
@@ -327,18 +328,14 @@ public class AutonomousSkystone extends AutonomousOpMode
         }
     }
 
-    public void testTurn(){
-        rotate(90);
-    }
-
-    String format(OpenGLMatrix transformationMatrix) {
+    private String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
 
 
-    protected void rotate(double degrees) {
+    private void rotate(double degrees) {
 
-        final double TURN_TOLERANCE = 2;
+        final double TURN_TOLERANCE = 0.5;
 
         robot.resetAngle();
 
@@ -349,7 +346,7 @@ public class AutonomousSkystone extends AutonomousOpMode
 
         pidRotate.reset();
         pidRotate.setSetpoint(degrees);
-        pidRotate.setInputRange(0, degrees);
+        pidRotate.setInputRange(0, degrees+0.1);
         pidRotate.setOutputRange(0, power);
         pidRotate.setTolerance(TURN_TOLERANCE);
         pidRotate.enable();
