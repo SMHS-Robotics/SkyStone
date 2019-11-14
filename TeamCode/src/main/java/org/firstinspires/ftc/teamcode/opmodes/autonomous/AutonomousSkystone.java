@@ -34,12 +34,12 @@ public class AutonomousSkystone extends AutonomousOpMode
                     "1Ma3uP9H5Xiz1HY8RbtWZtgwozIZSRJUB+8km2LqZsI/bUTQ4ysXNRUC/KrxHVThhdcllY40" +
                     "J8A260JkRcUj";
 
-    final double KP = 0.5;
-    final double KI = 0;
+    double power = 0.3, rotation, globalAngle = 0, correction;
+    final double KP = 0.0035;
+    final double KI = 0.000035;
     final double KD = 0;
 
     PIDController pidRotate, pidStraight;
-    double power = 0.2, rotation, globalAngle = 0, correction;
     Orientation lastAngles = new Orientation();
 
     AutonomousState checkPos = AutonomousState.GET_SKYSTONE_BLUE;
@@ -337,7 +337,7 @@ public class AutonomousSkystone extends AutonomousOpMode
 
     protected void rotate(double degrees) {
 
-        final double TURN_TOLERANCE = 7.5;
+        final double TURN_TOLERANCE = 2;
 
         robot.resetAngle();
 
