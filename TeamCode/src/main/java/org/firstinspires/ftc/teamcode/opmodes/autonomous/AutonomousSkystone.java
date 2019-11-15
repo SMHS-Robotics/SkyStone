@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -35,11 +34,17 @@ public class AutonomousSkystone extends AutonomousOpMode
                     "J8A260JkRcUj";
 
     private double power = 0.3, rotation, globalAngle = 0, correction;
-    private static final double maxError = 90, targetSpeedMax = 0.4, multiplier = 80;
-    private static final double base = targetSpeedMax/maxError;
-    private static final double KD = base * multiplier;
-    private static final double KP = base;
-    private static final double KI = base/multiplier;
+    private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 0.45;
+    private static final double baseR = targetSpeedMaxRotate/maxErrorRotate;
+    private static final double KDrotate = baseR * 15;
+    private static final double KProtate = baseR;
+    private static final double KIrotate = baseR/125;
+
+    private static final double maxErrorStraight = 5, targetSpeedMaxStraight = 0.3;
+    private static final double baseS = targetSpeedMaxStraight/maxErrorStraight;
+    private static final double KDstraight = baseS * 15;
+    private static final double KPstraight = baseS;
+    private static final double KIstraight = baseS/125;
 
     private PIDController pidRotate, pidStraight;
     private Orientation lastAngles = new Orientation();
@@ -56,8 +61,8 @@ public class AutonomousSkystone extends AutonomousOpMode
     public void runOpMode()
     {
         robot.init(hardwareMap);
-        pidRotate = new PIDController(KP, KI, KD);
-        pidStraight = new PIDController(KP, KI, KD);
+        pidRotate = new PIDController(KProtate, KIrotate, KDrotate);
+        pidStraight = new PIDController(KPstraight, KIstraight, KDstraight);
         resetAngle();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
@@ -96,19 +101,19 @@ public class AutonomousSkystone extends AutonomousOpMode
         VuforiaTrackable redAllianceFront = stonesAndChips.get(6);
         redAllianceFront.setName("RedAllianceWallFront");
 
-        VuforiaTrackable redAllianceRear = stonesAndChips.get(5); //TODO
+        VuforiaTrackable redAllianceRear = stonesAndChips.get(5);
         redAllianceRear.setName("RedAllianceWallRear");
 
-        VuforiaTrackable frontWallRed = stonesAndChips.get(7); //TODO
+        VuforiaTrackable frontWallRed = stonesAndChips.get(7);
         frontWallRed.setName("FrontWallRedAlliance");
 
-        VuforiaTrackable frontWallBlue = stonesAndChips.get(8); //TODO
+        VuforiaTrackable frontWallBlue = stonesAndChips.get(8);
         frontWallBlue.setName("FrontWallBlueAlliance");
 
-        VuforiaTrackable rearWallRed = stonesAndChips.get(12); //TODO
+        VuforiaTrackable rearWallRed = stonesAndChips.get(12);
         rearWallRed.setName("RearWallRedAlliance");
 
-        VuforiaTrackable rearWallBlue = stonesAndChips.get(11); //TODO
+        VuforiaTrackable rearWallBlue = stonesAndChips.get(11);
         rearWallBlue.setName("RearWallBlueAlliance");
 
 
@@ -399,7 +404,7 @@ public class AutonomousSkystone extends AutonomousOpMode
 
         robot.leftDrive.setPower(power + correction);
 
-        robot.rightDrive.setPower(power);
+        robot.rightDrive.setPower(power - correction);
     }
 
     private void straight(double power, double secs) {
