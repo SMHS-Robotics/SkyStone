@@ -340,7 +340,7 @@ public class AutonomousSkystone extends AutonomousOpMode
 
     private void rotate(double degrees) {
 
-        final double TURN_TOLERANCE = 0.5;
+        final double TURN_TOLERANCE = 0.25;
 
         robot.resetAngle();
 
