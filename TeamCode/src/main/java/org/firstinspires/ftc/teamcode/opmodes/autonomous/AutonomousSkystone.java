@@ -40,9 +40,9 @@ public class AutonomousSkystone extends AutonomousOpMode {
 
     private static final double maxErrorStraight = 3, targetSpeedMaxStraight = 0.5;
     private static final double baseS = targetSpeedMaxStraight / maxErrorStraight;
-    private static final double KDstraight = baseS * 5;
-    private static final double KPstraight = baseS/1.75;
-    private static final double KIstraight = baseS / 60;
+    private static final double KDstraight = baseS * 2.5;
+    private static final double KPstraight = baseS/3.5;
+    private static final double KIstraight = baseS / 120;
 
     private PIDController pidRotate, pidStraight;
     private Orientation lastAngles = new Orientation();
@@ -166,8 +166,8 @@ public class AutonomousSkystone extends AutonomousOpMode {
         stonesAndChips.activate();
 
         pidStraight.setSetpoint(0);
-        pidStraight.setOutputRange(0, 0.1);
-        pidStraight.setInputRange(-2, 2);
+        pidStraight.setOutputRange(0, 0.05);
+        pidStraight.setInputRange(-1, 1);
         pidStraight.enable();
 
         telemetry.addData(">", "It is Almost Active");
@@ -393,9 +393,9 @@ public class AutonomousSkystone extends AutonomousOpMode {
         resetAngle();
         correction = pidStraight.performPID(getAngle());
 
-        robot.leftDrive.setPower(power - correction);
+        robot.leftDrive.setPower(power - correction/2);
 
-        robot.rightDrive.setPower(power + correction);
+        robot.rightDrive.setPower(power + correction/2);
     }
 
     private void straight(double millisecs, double power) {
@@ -403,9 +403,7 @@ public class AutonomousSkystone extends AutonomousOpMode {
             straight(power);
             sleep(10);
         }
-        robot.leftDrive.setPower(0);
-
-        robot.rightDrive.setPower(0);
+        stop();
     }
 
     private double getAngle() {
