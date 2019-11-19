@@ -15,13 +15,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous(name = "AutoSkystone", group = "SMHSBots")
-public class AutonomousSkystone extends AutonomousOpMode
-{
+public class AutonomousSkystone extends AutonomousOpMode {
 
     public static final String TAG = "Vuforia Navigation Sample";
 
@@ -33,18 +31,18 @@ public class AutonomousSkystone extends AutonomousOpMode
                     "1Ma3uP9H5Xiz1HY8RbtWZtgwozIZSRJUB+8km2LqZsI/bUTQ4ysXNRUC/KrxHVThhdcllY40" +
                     "J8A260JkRcUj";
 
-    private double power = 0.3, rotation, globalAngle = 0, correction;
+    private static double power = 0.25, rotation, globalAngle = 0, correction;
     private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 0.45;
-    private static final double baseR = targetSpeedMaxRotate/maxErrorRotate;
-    private static final double KDrotate = baseR * 15;
+    private static final double baseR = targetSpeedMaxRotate / maxErrorRotate;
+    private static final double KDrotate = baseR * 20;
     private static final double KProtate = baseR;
-    private static final double KIrotate = baseR/125;
+    private static final double KIrotate = baseR / 125;
 
-    private static final double maxErrorStraight = 5, targetSpeedMaxStraight = 0.3;
-    private static final double baseS = targetSpeedMaxStraight/maxErrorStraight;
-    private static final double KDstraight = baseS * 15;
-    private static final double KPstraight = baseS;
-    private static final double KIstraight = baseS/125;
+    private static final double maxErrorStraight = 3, targetSpeedMaxStraight = 0.5;
+    private static final double baseS = targetSpeedMaxStraight / maxErrorStraight;
+    private static final double KDstraight = baseS * 5;
+    private static final double KPstraight = baseS/1.75;
+    private static final double KIstraight = baseS / 60;
 
     private PIDController pidRotate, pidStraight;
     private Orientation lastAngles = new Orientation();
@@ -58,8 +56,7 @@ public class AutonomousSkystone extends AutonomousOpMode
     private List<VuforiaTrackable> allTrackables = new ArrayList<>();
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         robot.init(hardwareMap);
         pidRotate = new PIDController(KProtate, KIrotate, KDrotate);
         pidStraight = new PIDController(KPstraight, KIstraight, KDstraight);
@@ -169,15 +166,14 @@ public class AutonomousSkystone extends AutonomousOpMode
         stonesAndChips.activate();
 
         pidStraight.setSetpoint(0);
-        pidStraight.setOutputRange(0, power);
-        pidStraight.setInputRange(-90, 90);
+        pidStraight.setOutputRange(0, 0.1);
+        pidStraight.setInputRange(-2, 2);
         pidStraight.enable();
 
         telemetry.addData(">", "It is Almost Active");
         telemetry.update();
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             telemetry.addData(">", "It is Almost Active");
             telemetry.update();
             for (VuforiaTrackable trackable : allTrackables) {
@@ -206,8 +202,7 @@ public class AutonomousSkystone extends AutonomousOpMode
                 telemetry.addData("Pos", "Unknown");
             }
 
-            switch (checkPos)
-            {
+            switch (checkPos) {
                 case CHECK_POSITION:
                     checkPosition();
                     break;
@@ -237,7 +232,7 @@ public class AutonomousSkystone extends AutonomousOpMode
         }
     }
 
-    public void getSkystoneRed(){
+    public void getSkystoneRed() {
         telemetry.addLine("We did it boys");
         rotate(90);
 
@@ -298,20 +293,20 @@ public class AutonomousSkystone extends AutonomousOpMode
         rotate(-90);
     }
 
-    public void getSkystoneBlue(){
-        rotate(90);
+    public void getSkystoneBlue() {
+        straight(1000, 4);
         stop();
     }
 
-    public void moveFoundationRed(){
+    public void moveFoundationRed() {
         rotate(90);
     }
 
-    public void moveFoundationBlue(){
+    public void moveFoundationBlue() {
         rotate(90);
     }
 
-    public void checkPosition(){
+    public void checkPosition() {
         for (VuforiaTrackable trackable : allTrackables) {
             boolean temp = ((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible();  //
 
@@ -320,7 +315,7 @@ public class AutonomousSkystone extends AutonomousOpMode
             if (robotLocationTransform != null) {
                 lastLocation = robotLocationTransform;
             }
-            switch (trackable.getName()){
+            switch (trackable.getName()) {
                 case "RedAllianceWallFront":
                     checkPos = AutonomousState.GET_SKYSTONE_RED;
                 case "BlueAllianceWallFront":
@@ -351,33 +346,28 @@ public class AutonomousSkystone extends AutonomousOpMode
 
         pidRotate.reset();
         pidRotate.setSetpoint(degrees);
-        pidRotate.setInputRange(0, degrees+0.1);
-        pidRotate.setOutputRange(0, power);
+        pidRotate.setInputRange(0, degrees + 0.1);
+        pidRotate.setOutputRange(0, targetSpeedMaxRotate/4);
         pidRotate.setTolerance(TURN_TOLERANCE);
         pidRotate.enable();
         telemetry.addLine("Reached");
         telemetry.update();
 
-        if (degrees < 0)
-        {
+        if (degrees < 0) {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && getAngle() == 0)
-            {
+            while (opModeIsActive() && getAngle() == 0) {
                 robot.leftDrive.setPower(power);
                 robot.rightDrive.setPower(-power);
                 sleep(100);
             }
 
-            do
-            {
+            do {
                 power = pidRotate.performPID(Math.abs(getAngle())); // power will be - on right turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
             } while (opModeIsActive() && !pidRotate.onTarget());
-        }
-        else    // left turn.
-            do
-            {
+        } else    // left turn.
+            do {
                 power = pidRotate.performPID(Math.abs(getAngle())); // power will be + on left turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
@@ -400,18 +390,22 @@ public class AutonomousSkystone extends AutonomousOpMode
     }
 
     private void straight(double power) {
+        resetAngle();
         correction = pidStraight.performPID(getAngle());
 
-        robot.leftDrive.setPower(power + correction);
+        robot.leftDrive.setPower(power - correction);
 
-        robot.rightDrive.setPower(power - correction);
+        robot.rightDrive.setPower(power + correction);
     }
 
-    private void straight(double power, double secs) {
-        for (int i = 0; i<secs; i+=0.01) {
+    private void straight(double millisecs, double power) {
+        for (int i = 0; i < millisecs; i += 10) {
             straight(power);
             sleep(10);
         }
+        robot.leftDrive.setPower(0);
+
+        robot.rightDrive.setPower(0);
     }
 
     private double getAngle() {
@@ -436,7 +430,7 @@ public class AutonomousSkystone extends AutonomousOpMode
         return globalAngle;
     }
 
-    public void resetAngle(){
+    public void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
