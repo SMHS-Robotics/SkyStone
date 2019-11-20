@@ -47,7 +47,7 @@ public class AutonomousSkystone extends AutonomousOpMode {
     private PIDController pidRotate, pidStraight;
     private Orientation lastAngles = new Orientation();
 
-    private AutonomousState checkPos = AutonomousState.GET_SKYSTONE_BLUE;
+    private AutonomousState checkPos = AutonomousState.CHECK_POSITION;
 
     private OpenGLMatrix lastLocation = null;
 
@@ -234,18 +234,19 @@ public class AutonomousSkystone extends AutonomousOpMode {
 
     public void getSkystoneRed() {
         telemetry.addLine("We did it boys");
-        rotate(90);
+        rotate(-90);
 
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(1);
+        robot.leftDrive.setPower(0.3);
+        robot.rightDrive.setPower(0.3);
         sleep(1000); //TODO: Adjust time to drive correct distance.
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
 
-        rotate(-90);
+        rotate(90);
 
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(1);
+        //Drives up to the block
+        robot.leftDrive.setPower(0.3);
+        robot.rightDrive.setPower(0.3);
         sleep(1000); //TODO: Adjust time to drive correct distance.
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
@@ -253,6 +254,7 @@ public class AutonomousSkystone extends AutonomousOpMode {
         //robot.leftClaw.setPosition(1);
         //robot.rightClaw.setPosition(0);
 
+        //Drives back after
         robot.leftDrive.setPower(1);
         robot.rightDrive.setPower(1);
         sleep(200); //TODO: Adjust time to drive correct distance.
