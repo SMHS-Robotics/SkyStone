@@ -40,9 +40,9 @@ public class AutonomousSkystone extends AutonomousOpMode {
 
     private static final double maxErrorStraight = 3, targetSpeedMaxStraight = 0.5;
     private static final double baseS = targetSpeedMaxStraight / maxErrorStraight;
-    private static final double KDstraight = baseS * 2.5;
-    private static final double KPstraight = baseS/3.5;
-    private static final double KIstraight = baseS / 120;
+    private static final double KDstraight = baseS * 2;
+    private static final double KPstraight = baseS/2;
+    private static final double KIstraight = baseS / 100;
 
     private PIDController pidRotate, pidStraight;
     private Orientation lastAngles = new Orientation();
@@ -294,7 +294,8 @@ public class AutonomousSkystone extends AutonomousOpMode {
     }
 
     public void getSkystoneBlue() {
-        straight(1000, 4);
+        rotate(90);
+        straight(1000, 1.5);
         stop();
     }
 
@@ -393,9 +394,9 @@ public class AutonomousSkystone extends AutonomousOpMode {
         resetAngle();
         correction = pidStraight.performPID(getAngle());
 
-        robot.leftDrive.setPower(power - correction/2);
+        robot.leftDrive.setPower(power - correction);
 
-        robot.rightDrive.setPower(power + correction/2);
+        robot.rightDrive.setPower(power + correction);
     }
 
     private void straight(double millisecs, double power) {
