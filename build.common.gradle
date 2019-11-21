@@ -38,7 +38,11 @@ android {
 
     defaultConfig {
         applicationId 'com.qualcomm.ftcrobotcontroller'
+<<<<<<< Updated upstream
         minSdkVersion 27
+=======
+        minSdkVersion 24
+>>>>>>> Stashed changes
         targetSdkVersion 28
 
         /**

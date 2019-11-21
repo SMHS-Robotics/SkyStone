@@ -6,8 +6,14 @@ apply plugin: 'com.android.library'
 android {
 
     defaultConfig {
+<<<<<<< Updated upstream
         minSdkVersion 19
         targetSdkVersion 26
+=======
+        minSdkVersion 24
+        targetSdkVersion 28
+        signingConfig signingConfigs.debug
+>>>>>>> Stashed changes
     }
 
     compileSdkVersion 28
