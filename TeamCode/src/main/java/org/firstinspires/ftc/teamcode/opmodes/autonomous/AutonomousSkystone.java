@@ -337,8 +337,8 @@ public class AutonomousSkystone extends AutonomousOpMode {
 
 
     private void rotate(double degrees) {
-
-        final double TURN_TOLERANCE = 0.25;
+        degrees = -degrees;
+        final double TURN_TOLERANCE = 0.15;
 
         robot.resetAngle();
 
@@ -365,13 +365,13 @@ public class AutonomousSkystone extends AutonomousOpMode {
             }
 
             do {
-                power = pidRotate.performPID(Math.abs(getAngle())); // power will be - on right turn.
+                power = pidRotate.performPID(getAngle()); // power will be - on right turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
             } while (opModeIsActive() && !pidRotate.onTarget());
         } else    // left turn.
             do {
-                power = pidRotate.performPID(Math.abs(getAngle())); // power will be + on left turn.
+                power = pidRotate.performPID(getAngle()); // power will be + on left turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
             } while (opModeIsActive() && !pidRotate.onTarget());
@@ -435,5 +435,9 @@ public class AutonomousSkystone extends AutonomousOpMode {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
+    }
+
+    public void goStraight(double distance){
+
     }
 }

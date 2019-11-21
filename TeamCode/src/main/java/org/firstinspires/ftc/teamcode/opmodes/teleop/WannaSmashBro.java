@@ -17,7 +17,6 @@ public class WannaSmashBro extends LinearOpMode
     {
         double left;
         double right;
-        double linear;
 
 
         robot.init(hardwareMap);
@@ -34,7 +33,7 @@ public class WannaSmashBro extends LinearOpMode
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
-            if (gamepad2.right_bumper) {
+            /*if (gamepad2.right_bumper) {
                 robot.rightClaw.setPosition(1.0);
                 robot.leftClaw.setPosition(0.0);
             }
@@ -53,26 +52,24 @@ public class WannaSmashBro extends LinearOpMode
                         - (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
                 robot.leftClaw.setPosition(Range.clip(robot.leftClaw.getPosition()
                         + (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
+            }*/
+
+            if (gamepad2.dpad_down) {
+                robot.linSlide.setPower(-1);
+            } else if (gamepad2.dpad_up) {
+                robot.linSlide.setPower(1);
+            } else {
+                robot.linSlide.setPower(0);
             }
 
-            int prevEncoderCount = 0;
-            /*if(gamepad1.a){
-                do{
-                    robot.linSlide.setPower(0.25);
-                    sleep(25);
-                }while(opModeIsActive() && prevEncoderCount == robot.linSlide.getCurrentPosition());
-            }else if(gamepad1.x){
-                robot.linSlide.setPower(0.25);
-            }else if(gamepad1.y){
-                robot.linSlide.setPower(-0.25);
-            }else{
-                robot.linSlide.setPower(0);
-            }*/
+            if(gamepad2.a){
+                robot.hook.setPosition(0.5);
+            }else if(gamepad2.b){
+                robot.hook.setPosition(0);
+            }
 
             telemetry.addData("left", left);
             telemetry.addData("right", right);
-            telemetry.addData("linear tower", prevEncoderCount);
-            //telemetry.addData("Current DC Position", robot.linear_drive.getCurrentPosition());
             telemetry.addData("Right Servo Position", robot.rightClaw.getPosition());
             telemetry.addData("Left Servo Position", robot.leftClaw.getPosition());
             telemetry.update();

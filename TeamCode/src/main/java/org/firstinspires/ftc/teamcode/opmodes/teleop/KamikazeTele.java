@@ -31,42 +31,14 @@ public class KamikazeTele extends LinearOpMode {
             leftMotor = Range.clip(-gamepad1.left_stick_y, -1.0, 1.0);
             rightMotor = Range.clip(-gamepad1.right_stick_y, -1.0, 1.0);
 
-            // Find values of needed bumper based on lifted bool
-            if (lifted) {
-                if (gamepad1.left_bumper) {
-                    bot.linSlide.setPower(1);
-                } else {
-                    bot.linSlide.setPower(0);
-                }
-
-            } else {
-                if (gamepad1.right_bumper) {
+                if (gamepad1.dpad_down) {
                     bot.linSlide.setPower(-1);
+                } else if (gamepad1.dpad_up) {
+                    bot.linSlide.setPower(1);
                     lifted = true;
                 } else {
                     bot.linSlide.setPower(0);
                 }
-            }
-
-            // Find values of needed bumper based on lifted bool
-            if (lifted) {
-                if (gamepad1.left_bumper) {
-                    bot.linSlide.setPower(1);
-                }
-                else {
-                    bot.linSlide.setPower(0);
-                }
-
-            }
-            else {
-                if (gamepad1.right_bumper) {
-                    bot.linSlide.setPower(-1);
-                    lifted = true;
-                }
-                else {
-                    bot.linSlide.setPower(0);
-                }
-            }
 
             // Set power of left and right motors
             bot.leftDrive.setPower(leftMotor);

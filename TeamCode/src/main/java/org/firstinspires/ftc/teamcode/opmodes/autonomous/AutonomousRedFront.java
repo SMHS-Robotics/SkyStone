@@ -62,6 +62,9 @@ public class AutonomousRedFront extends AutonomousOpMode
 
             rotate(90);
 
+            robot.leftClaw.setPosition(1);
+            robot.rightClaw.setPosition(0);
+
             //Drives up to the block
             robot.leftDrive.setPower(0.3);
             robot.rightDrive.setPower(0.3);
@@ -69,18 +72,12 @@ public class AutonomousRedFront extends AutonomousOpMode
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
-            //robot.leftClaw.setPosition(1);
-            //robot.rightClaw.setPosition(0);
+            robot.leftClaw.setPosition(0);
+            robot.rightClaw.setPosition(1);
 
-            //Drives back after
-            robot.leftDrive.setPower(1);
-            robot.rightDrive.setPower(1);
-            sleep(200); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
-
-            robot.leftDrive.setPower(-1);
-            robot.rightDrive.setPower(-1);
+            //Drives back after picking up the block
+            robot.leftDrive.setPower(-0.3);
+            robot.rightDrive.setPower(-0.3);
             sleep(200); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
@@ -93,32 +90,20 @@ public class AutonomousRedFront extends AutonomousOpMode
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
-            rotate(90);
+            robot.leftClaw.setPosition(1);
+            robot.rightClaw.setPosition(0);
 
-            //robot.backHook?.setPosition(1); TODO: find actual variable for this etc.
-
-            robot.leftDrive.setPower(1);
-            robot.rightDrive.setPower(1);
+            robot.leftDrive.setPower(-0.3);
+            robot.rightDrive.setPower(-0.3);
             sleep(800); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
-
-            //robot.backHook?.setPosition(0); TODO: find actual variable for this etc.
-
-            rotate(180);
-
-            //robot.leftClaw.setPosition(1);
-            //robot.rightClaw.setPosition(0);
-
-            rotate(-90);
-            telemetry.update();
         }
     }
 
-    private void rotate(double degrees)
-    {
-
-        final double TURN_TOLERANCE = 0.25;
+    private void rotate(double degrees) {
+        degrees = -degrees;
+        final double TURN_TOLERANCE = 0.15;
 
         robot.resetAngle();
 
@@ -130,38 +115,31 @@ public class AutonomousRedFront extends AutonomousOpMode
         pidRotate.reset();
         pidRotate.setSetpoint(degrees);
         pidRotate.setInputRange(0, degrees + 0.1);
-        pidRotate.setOutputRange(0, targetSpeedMaxRotate / 4);
+        pidRotate.setOutputRange(0, targetSpeedMaxRotate/4);
         pidRotate.setTolerance(TURN_TOLERANCE);
         pidRotate.enable();
         telemetry.addLine("Reached");
         telemetry.update();
 
-        if (degrees < 0)
-        {
+        if (degrees < 0) {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && getAngle() == 0)
-            {
+            while (opModeIsActive() && getAngle() == 0) {
                 robot.leftDrive.setPower(power);
                 robot.rightDrive.setPower(-power);
                 sleep(100);
             }
 
-            do
-            {
-                power = pidRotate.performPID(Math.abs(getAngle())); // power will be - on right turn.
+            do {
+                power = pidRotate.performPID(getAngle()); // power will be - on right turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
-            }
-            while (opModeIsActive() && !pidRotate.onTarget());
-        }
-        else    // left turn.
-            do
-            {
-                power = pidRotate.performPID(Math.abs(getAngle())); // power will be + on left turn.
+            } while (opModeIsActive() && !pidRotate.onTarget());
+        } else    // left turn.
+            do {
+                power = pidRotate.performPID(getAngle()); // power will be + on left turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
-            }
-            while (opModeIsActive() && !pidRotate.onTarget());
+            } while (opModeIsActive() && !pidRotate.onTarget());
 
         // turn the motors off.
         robot.rightDrive.setPower(0);

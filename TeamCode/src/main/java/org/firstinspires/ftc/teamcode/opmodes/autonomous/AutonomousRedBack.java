@@ -115,10 +115,9 @@ public class AutonomousRedBack extends AutonomousOpMode
         }
     }
 
-    private void rotate(double degrees)
-    {
-
-        final double TURN_TOLERANCE = 0.25;
+    private void rotate(double degrees) {
+        degrees = -degrees;
+        final double TURN_TOLERANCE = 0.15;
 
         robot.resetAngle();
 
@@ -130,38 +129,31 @@ public class AutonomousRedBack extends AutonomousOpMode
         pidRotate.reset();
         pidRotate.setSetpoint(degrees);
         pidRotate.setInputRange(0, degrees + 0.1);
-        pidRotate.setOutputRange(0, targetSpeedMaxRotate / 4);
+        pidRotate.setOutputRange(0, targetSpeedMaxRotate/4);
         pidRotate.setTolerance(TURN_TOLERANCE);
         pidRotate.enable();
         telemetry.addLine("Reached");
         telemetry.update();
 
-        if (degrees < 0)
-        {
+        if (degrees < 0) {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && getAngle() == 0)
-            {
+            while (opModeIsActive() && getAngle() == 0) {
                 robot.leftDrive.setPower(power);
                 robot.rightDrive.setPower(-power);
                 sleep(100);
             }
 
-            do
-            {
-                power = pidRotate.performPID(Math.abs(getAngle())); // power will be - on right turn.
+            do {
+                power = pidRotate.performPID(getAngle()); // power will be - on right turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
-            }
-            while (opModeIsActive() && !pidRotate.onTarget());
-        }
-        else    // left turn.
-            do
-            {
-                power = pidRotate.performPID(Math.abs(getAngle())); // power will be + on left turn.
+            } while (opModeIsActive() && !pidRotate.onTarget());
+        } else    // left turn.
+            do {
+                power = pidRotate.performPID(getAngle()); // power will be + on left turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
-            }
-            while (opModeIsActive() && !pidRotate.onTarget());
+            } while (opModeIsActive() && !pidRotate.onTarget());
 
         // turn the motors off.
         robot.rightDrive.setPower(0);

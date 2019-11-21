@@ -189,7 +189,6 @@ public class AutonomousRyan extends AutonomousOpMode
                     checkPosition();
                     break;
                 case GET_SKYSTONE_RED:
-
                     break;
                 case GET_SKYSTONE_BLUE:
                     getSkystoneBlue();
