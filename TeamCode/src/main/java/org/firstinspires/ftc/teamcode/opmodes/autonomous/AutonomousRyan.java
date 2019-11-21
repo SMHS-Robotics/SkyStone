@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.hardware.HardwareDummybot;
 import org.firstinspires.ftc.teamcode.hardware.HardwarePushbot;
+import org.firstinspires.ftc.teamcode.utilities.DistanceTracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -312,6 +313,4 @@ public class AutonomousRyan extends AutonomousOpMode
     String format(OpenGLMatrix transformationMatrix) {
         return transformationMatrix.formatAsTransform();
     }
-
-
 }

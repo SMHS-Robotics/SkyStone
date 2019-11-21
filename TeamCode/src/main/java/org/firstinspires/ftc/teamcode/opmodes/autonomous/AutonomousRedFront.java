@@ -6,6 +6,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
+import org.firstinspires.ftc.teamcode.utilities.DistanceTracker;
+
 
 @Autonomous(name = "AutoCummyBoi", group = "SMHSBots")
 public class AutonomousRedFront extends AutonomousOpMode
@@ -200,10 +202,8 @@ public class AutonomousRedFront extends AutonomousOpMode
         return globalAngle;
     }
 
-    public void resetAngle()
-    {
+    public void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
         globalAngle = 0;
     }
 }

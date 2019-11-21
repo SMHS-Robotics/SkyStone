@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot;
+import org.firstinspires.ftc.teamcode.utilities.DistanceTracker;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
 import java.util.Locale;
@@ -129,7 +130,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         robot.resetAngle();
     }
 
-    /*public void linSlideMove(float height, float power){
+    public void linSlideMove(float height, float power){
         robot.linSlide.setTargetPosition((int)(MAX_SLIDE*height));
 
         robot.linSlide.setPower(power);
@@ -140,5 +141,17 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             telemetry.update();
             idle();
         }
-    }*/
+    }
+    //distance and errorDist MUST be positive and non-zero.
+    //Power must satisfy: -1.0 <= power <= 1.0.
+    private void driveDistance (double distance, double errorDist, double power) {
+        DistanceTracker sense = new DistanceTracker();
+        distance = Math.abs(distance);
+        sense.start(robot);
+        while (sense.getDistance() < distance - errorDist) {
+            robot.leftDrive.setPower(power);
+            robot.rightDrive.setPower(power);
+        }
+        sense.stop();
+    }
 }
