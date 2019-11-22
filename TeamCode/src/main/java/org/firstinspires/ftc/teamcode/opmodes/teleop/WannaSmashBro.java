@@ -28,12 +28,11 @@ public class WannaSmashBro extends LinearOpMode
             double turn = gamepad1.right_stick_x;
             left = Range.clip(drive + turn, -1.0, 1.0) * 0.3;
             right = Range.clip(drive - turn, -1.0, 1.0  ) * 0.32;
-            //linear = Range.clip(-gamepad2.left_stick_y, -1.0, 1.0);
 
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
-            /*if (gamepad2.right_bumper) {
+            if (gamepad2.right_bumper) {
                 robot.rightClaw.setPosition(1.0);
                 robot.leftClaw.setPosition(0.0);
             }
@@ -52,7 +51,7 @@ public class WannaSmashBro extends LinearOpMode
                         - (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
                 robot.leftClaw.setPosition(Range.clip(robot.leftClaw.getPosition()
                         + (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
-            }*/
+            }
 
             if (gamepad2.dpad_down) {
                 robot.linSlide.setPower(-1);
