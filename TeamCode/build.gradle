@@ -17,7 +17,8 @@ apply from: '../build.common.gradle'
 android {
 
     defaultConfig {
-        multiDexEnabled = true
+        multiDexEnabled = false
+        signingConfig signingConfigs.debug
     }
     buildToolsVersion = '28.0.3'
 }
