@@ -9,13 +9,14 @@ public class DistanceTracker {
     private double Vcurrent = 0;
     private double distance = 0;
     private boolean isRunning = false;
+    private boolean killSig = false;
 
     public DistanceTracker () {}
 
     public void start(HardwareSkybot bot) {
         isRunning = true;
         CompletableFuture.runAsync(() -> {
-            while (isRunning) {
+            while (!killSig) {
                 Vcurrent += Math.sqrt(Math.pow(bot.imu.getAcceleration().toUnit(DistanceUnit.INCH).xAccel, 2) + Math.pow(bot.imu.getAcceleration().toUnit(DistanceUnit.INCH).zAccel, 2)) * 0.01;
                 distance += 0.01 * Vcurrent;
                 try {
@@ -24,10 +25,12 @@ public class DistanceTracker {
                 }
             }
         });
+        isRunning = false;
+        killSig = false;
     }
 
     public void stop() {
-        isRunning = false;
+        killSig = true;
         Vcurrent = 0;
         distance = 0;
     }
