@@ -9,6 +9,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         signingConfig signingConfigs.debug
+        multiDexEnabled = false
     }
 
     compileSdkVersion 28
