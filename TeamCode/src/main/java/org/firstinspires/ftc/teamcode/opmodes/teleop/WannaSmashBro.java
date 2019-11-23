@@ -12,6 +12,8 @@ public class WannaSmashBro extends LinearOpMode
     public static final double CLAW_SPEED = 0.05;
     HardwareSkybot robot = new HardwareSkybot();
 
+    public double upPosLeft, upPosRight;
+
     @Override
     public void runOpMode()
     {
@@ -32,13 +34,15 @@ public class WannaSmashBro extends LinearOpMode
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
+            //opens
             if (gamepad2.right_bumper) {
-                robot.rightClaw.setPosition(1.0);
-                robot.leftClaw.setPosition(0.0);
+                robot.rightClaw.setPosition(0.6);
+                robot.leftClaw.setPosition(0.4);
             }
+            //closes
             else if (gamepad2.left_bumper) {
-                robot.rightClaw.setPosition(0.0);
-                robot.leftClaw.setPosition(1.0);
+                robot.rightClaw.setPosition(0.2);
+                robot.leftClaw.setPosition(0.8);
             }
             else if (gamepad2.right_trigger > 0) {
                 robot.rightClaw.setPosition(Range.clip(robot.rightClaw.getPosition()
@@ -61,10 +65,12 @@ public class WannaSmashBro extends LinearOpMode
                 robot.linSlide.setPower(0);
             }
 
-            if(gamepad2.a){
-                robot.hook.setPosition(0.5);
-            }else if(gamepad2.b){
-                robot.hook.setPosition(0);
+            if(gamepad1.a){
+                robot.leftHook.setPosition(0);
+                robot.rightHook.setPosition(0);
+            }else if(gamepad1.b){
+                robot.leftHook.setPosition(0.5);
+                robot.rightHook.setPosition(0.5);
             }
 
             telemetry.addData("left", left);

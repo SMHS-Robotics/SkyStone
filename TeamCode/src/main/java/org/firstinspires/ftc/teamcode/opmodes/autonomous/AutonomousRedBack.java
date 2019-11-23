@@ -52,67 +52,47 @@ public class AutonomousRedBack extends AutonomousOpMode
 
         while (opModeIsActive())
         {
-            telemetry.addLine("We did it boys");
-            rotate(-90);
-
+            //move forward 18 inches
             robot.leftDrive.setPower(0.3);
             robot.rightDrive.setPower(0.3);
             sleep(1000); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
+            //turn 90 degrees clockwise
             rotate(90);
 
-            //Drives up to the block
+            //move forward 12 inches
             robot.leftDrive.setPower(0.3);
             robot.rightDrive.setPower(0.3);
             sleep(1000); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
-            //robot.leftClaw.setPosition(1);
-            //robot.rightClaw.setPosition(0);
+            //rotate 90 degrees clockwise
+            rotate(90);
+            robot.leftHook.setPosition(1);
+            robot.rightHook.setPosition(1);
 
-            //Drives back after
-            robot.leftDrive.setPower(1);
-            robot.rightDrive.setPower(1);
+            //drive back 6 inches
+            robot.leftDrive.setPower(-0.3);
+            robot.rightDrive.setPower(-0.3);
             sleep(200); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
-            robot.leftDrive.setPower(-1);
-            robot.rightDrive.setPower(-1);
+            //hook down
+            robot.leftHook.setPosition(0);
+            robot.rightHook.setPosition(0);
+
+            //drive forward until the end
+            robot.leftDrive.setPower(0.3);
+            robot.rightDrive.setPower(0.3);
             sleep(200); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
-            rotate(90);
-
-            robot.leftDrive.setPower(1);
-            robot.rightDrive.setPower(1);
-            sleep(1500); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
-
-            rotate(90);
-
-            //robot.backHook?.setPosition(1); TODO: find actual variable for this etc.
-
-            robot.leftDrive.setPower(1);
-            robot.rightDrive.setPower(1);
-            sleep(800); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
-
-            //robot.backHook?.setPosition(0); TODO: find actual variable for this etc.
-
-            rotate(180);
-
-            //robot.leftClaw.setPosition(1);
-            //robot.rightClaw.setPosition(0);
-
-            rotate(-90);
-            telemetry.update();
+            stop();
         }
     }
 

@@ -31,8 +31,8 @@ public class AutonomousSkystone extends AutonomousOpMode {
                     "1Ma3uP9H5Xiz1HY8RbtWZtgwozIZSRJUB+8km2LqZsI/bUTQ4ysXNRUC/KrxHVThhdcllY40" +
                     "J8A260JkRcUj";
 
-    private static double power = 0.25, rotation, globalAngle = 0, correction;
-    private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 0.45;
+    private static double power = 0.85, rotation, globalAngle = 0, correction;
+    private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 1;
     private static final double baseR = targetSpeedMaxRotate / maxErrorRotate;
     private static final double KDrotate = baseR * 20;
     private static final double KProtate = baseR;
@@ -47,7 +47,7 @@ public class AutonomousSkystone extends AutonomousOpMode {
     private PIDController pidRotate, pidStraight;
     private Orientation lastAngles = new Orientation();
 
-    private AutonomousState checkPos = AutonomousState.CHECK_POSITION;
+    private AutonomousState checkPos = AutonomousState.GET_SKYSTONE_RED;
 
     private OpenGLMatrix lastLocation = null;
 
@@ -207,7 +207,12 @@ public class AutonomousSkystone extends AutonomousOpMode {
                     checkPosition();
                     break;
                 case GET_SKYSTONE_RED:
-                    getSkystoneRed();
+                    robot.leftDrive.setPower(0.8);
+                    robot.rightDrive.setPower(0.8);
+                    sleep(1000); //TODO: Adjust time to drive correct distance.
+                    robot.leftDrive.setPower(0);
+                    robot.rightDrive.setPower(0);
+                    stop();
                     break;
                 case GET_SKYSTONE_BLUE:
                     getSkystoneBlue();

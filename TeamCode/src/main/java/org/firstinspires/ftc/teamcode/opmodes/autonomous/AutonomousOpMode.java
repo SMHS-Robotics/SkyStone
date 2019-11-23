@@ -144,7 +144,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
     //distance and errorDist MUST be positive and non-zero.
     //Power must satisfy: -1.0 <= power <= 1.0.
-    private void driveDistance (double distance, double errorDist, double power) {
+    public void driveDistance (double distance, double errorDist, double power) {
         DistanceTracker sense = new DistanceTracker();
         distance = Math.abs(distance);
         sense.start(robot);

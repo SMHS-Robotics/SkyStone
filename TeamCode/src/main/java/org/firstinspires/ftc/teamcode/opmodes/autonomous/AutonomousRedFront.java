@@ -14,7 +14,7 @@ public class AutonomousRedFront extends AutonomousOpMode
 {
 
     private static double power = 0.25, rotation, globalAngle = 0, correction;
-    private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 0.45;
+    private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 1;
     private static final double baseR = targetSpeedMaxRotate / maxErrorRotate;
     private static final double KDrotate = baseR * 20;
     private static final double KProtate = baseR;
@@ -54,13 +54,8 @@ public class AutonomousRedFront extends AutonomousOpMode
         while (opModeIsActive())
         {
             telemetry.addLine("We did it boys");
-            rotate(-90);
 
-            robot.leftDrive.setPower(0.3);
-            robot.rightDrive.setPower(0.3);
-            sleep(1000); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
+            driveDistance(12, 0.1, 0.75);
 
             rotate(90);
 
@@ -68,8 +63,8 @@ public class AutonomousRedFront extends AutonomousOpMode
             robot.rightClaw.setPosition(0);
 
             //Drives up to the block
-            robot.leftDrive.setPower(0.3);
-            robot.rightDrive.setPower(0.3);
+            robot.leftDrive.setPower(0.8);
+            robot.rightDrive.setPower(0.8);
             sleep(1000); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
@@ -78,28 +73,33 @@ public class AutonomousRedFront extends AutonomousOpMode
             robot.rightClaw.setPosition(1);
 
             //Drives back after picking up the block
-            robot.leftDrive.setPower(-0.3);
-            robot.rightDrive.setPower(-0.3);
+            robot.leftDrive.setPower(-0.8);
+            robot.rightDrive.setPower(-0.8);
             sleep(200); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
             rotate(90);
 
-            robot.leftDrive.setPower(1);
-            robot.rightDrive.setPower(1);
+            robot.leftDrive.setPower(0.8);
+            robot.rightDrive.setPower(0.8);
             sleep(1500); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
+            robot.linSlide.setPower(1);
+            sleep(3000);
+
             robot.leftClaw.setPosition(1);
             robot.rightClaw.setPosition(0);
 
-            robot.leftDrive.setPower(-0.3);
-            robot.rightDrive.setPower(-0.3);
+            robot.leftDrive.setPower(-0.8);
+            robot.rightDrive.setPower(-0.85);
             sleep(800); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
+
+            stop();
         }
     }
 

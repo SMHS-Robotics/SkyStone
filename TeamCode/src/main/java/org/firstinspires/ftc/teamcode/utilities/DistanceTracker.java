@@ -21,8 +21,7 @@ public class DistanceTracker {
                 distance += 0.01 * Vcurrent;
                 try {
                     Thread.sleep(10);
-                } catch (InterruptedException ignore) {
-                }
+                } catch (InterruptedException ignore) {}
             }
         });
         isRunning = false;

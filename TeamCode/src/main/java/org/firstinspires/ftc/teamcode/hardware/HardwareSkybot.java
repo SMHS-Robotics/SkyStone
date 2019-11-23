@@ -23,7 +23,8 @@ public class HardwareSkybot {
     public DcMotor linSlide = null;
     public Servo leftClaw = null;
     public Servo rightClaw = null;
-    public Servo hook = null;
+    public Servo rightHook = null;
+    public Servo leftHook = null;
     public BNO055IMU imu = null;
 
     /* local OpMode members. */
@@ -91,10 +92,12 @@ public class HardwareSkybot {
         // Define and initialize ALL installed servos.
         leftClaw = hwMap.get(Servo.class, "left_claw");
         rightClaw = hwMap.get(Servo.class, "right_claw");
-        hook = hwMap.get(Servo.class, "hook");
+        rightHook = hwMap.get(Servo.class, "right_hook");
+        leftHook = hwMap.get(Servo.class, "left_hook");
         leftClaw.setPosition(MID_SERVO);
         rightClaw.setPosition(MID_SERVO);
-        hook.setPosition(0);
+        leftHook.setPosition(0);
+        rightHook.setPosition(0);
 
         //Set Up Angle
         resetAngle();
