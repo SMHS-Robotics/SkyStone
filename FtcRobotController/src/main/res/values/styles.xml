@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!-- This is a placeholder for adding future style-specific content in the robot controller only -->
 <resources>
-
-    <style name="AppThemeRedRC" parent="AppTheme.Red"></style>
-
     <style name="AppThemeGreenRC" parent="AppTheme.Green"></style>
 
     <style name="AppThemeBlueRC" parent="AppTheme.Blue"></style>
@@ -13,4 +10,5 @@
 
     <style name="AppThemeTealRC" parent="AppTheme.Teal"></style>
 
+    <style name="AppThemeRedRC" parent="AppTheme.Red"></style>
 </resources>

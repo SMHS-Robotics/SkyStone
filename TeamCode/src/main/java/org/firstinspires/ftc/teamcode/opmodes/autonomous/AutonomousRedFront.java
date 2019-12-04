@@ -6,7 +6,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
-import org.firstinspires.ftc.teamcode.utilities.DistanceTracker;
 
 
 @Autonomous(name = "AutoCummyBoi", group = "SMHSBots")
@@ -54,8 +53,9 @@ public class AutonomousRedFront extends AutonomousOpMode
         while (opModeIsActive())
         {
             telemetry.addLine("We did it boys");
+            telemetry.update();
 
-            driveDistance(24, 1, 0.4);
+            driveDistance(24, 0.8);
 
             stop();
         }

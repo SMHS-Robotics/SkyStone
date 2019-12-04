@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot;
-import org.firstinspires.ftc.teamcode.utilities.DistanceTracker;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
 import java.util.Locale;
@@ -144,8 +144,34 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
     //distance and errorDist MUST be positive and non-zero.
     //Power must satisfy: -1.0 <= power <= 1.0.
-    public void driveDistance (double distance, double errorDist, double power) {
-        DistanceTracker sense = new DistanceTracker();
-        sense.start(robot, distance);
+    public void driveDistance (double distance, double power) {
+        robot.resetAngle();
+        new DistanceTracker().start(distance, power);
+    }
+    public class DistanceTracker {
+        private double Vcurrent = 0;
+        private double distance = 0;
+        private DistanceTracker () {}
+
+        public void start(double target, double power) {
+            robot.leftDrive.setPower(power);
+            robot.rightDrive.setPower(power);
+            double currentTime;
+            double prevTime = System.nanoTime();
+            double deltaTime;
+            while (Math.abs(target - distance) < 0.05) {
+                currentTime = System.nanoTime();
+                deltaTime = currentTime - prevTime;
+                telemetry.addData("ChangeInTime", deltaTime);
+                Vcurrent += robot.imu.getAcceleration().zAccel * deltaTime/1000000000;
+                telemetry.addData("Velocity", Vcurrent);
+                distance += Vcurrent * deltaTime/1000000000;
+                telemetry.addData("Distance", distance);
+                prevTime = currentTime;
+                sleep(10);
+            }
+            robot.leftDrive.setPower(0);
+            robot.rightDrive.setPower(0);
+        }
     }
 }
