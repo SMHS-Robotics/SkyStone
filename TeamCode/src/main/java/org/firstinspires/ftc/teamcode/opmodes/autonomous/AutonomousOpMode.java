@@ -124,4 +124,55 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             return -(aConstantProp * Math.pow(delta, 2) + bConstantProp * delta + cConstantProp);
         } //otherwise use our quadratic model
     }
+<<<<<<< Updated upstream
+=======
+
+    protected void rotate(double degrees, double power) {
+        final double TURN_TOLERANCE = 2;
+
+        robot.resetAngle();
+
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+
+        //rotate within TURN_TOLERANCE degrees of error before stopping, and adjust as necessary
+        while (Math.abs(robot.getAngle() - degrees) > TURN_TOLERANCE) {
+            robot.leftDrive.setPower(quadPropCorrectLeft(degrees, robot.getAngle()));
+            robot.leftDrive.setPower(quadPropCorrectRight(degrees, robot.getAngle()));
+            sleep(10);
+            telemetry.update();
+        }
+
+        //stop the robot
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+
+        robot.resetAngle();
+    }
+
+    public void linSlideMove(float height, float power){
+        robot.linSlide.setTargetPosition((int)(MAX_SLIDE*height));
+
+        robot.linSlide.setPower(power);
+
+        while (opModeIsActive() && robot.linSlide.isBusy())
+        {
+            telemetry.addData("encoder-fwd", robot.linSlide.getCurrentPosition() + "  busy=" + robot.linSlide.isBusy());
+            telemetry.update();
+            idle();
+        }
+    }
+    //distance and errorDist MUST be positive and non-zero.
+    //Power must satisfy: -1.0 <= power <= 1.0.
+    private void driveDistance (double distance, double errorDist, double power) {
+        DistanceTracker sense = new DistanceTracker();
+        distance = Math.abs(distance);
+        sense.start(robot, distance, errorDist);
+        while (sense.getDistance() < distance - errorDist) {
+            robot.leftDrive.setPower(power);
+            robot.rightDrive.setPower(power);
+        }
+        sense.stop();
+    }
+>>>>>>> Stashed changes
 }

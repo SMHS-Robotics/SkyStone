@@ -10,12 +10,18 @@ public class DistanceTracker {
     private double distance = 0;
     private boolean isRunning = false;
 
-    public void start(HardwareSkybot bot) {
+    public void start(HardwareSkybot bot, double target, double error) {
         isRunning = true;
         CompletableFuture.runAsync(() -> {
+<<<<<<< Updated upstream
             while (isRunning) {
                 deltaV += Math.sqrt(Math.pow(bot.imu.getAcceleration().toUnit(DistanceUnit.INCH).xAccel, 2) + Math.pow(bot.imu.getAcceleration().toUnit(DistanceUnit.INCH).zAccel, 2)) * 0.025;
                 distance += 0.025 * deltaV;
+=======
+            while (distance <= target-error) {
+                Vcurrent += Math.sqrt(Math.pow(bot.imu.getAcceleration().toUnit(DistanceUnit.INCH).xAccel, 2) + Math.pow(bot.imu.getAcceleration().toUnit(DistanceUnit.INCH).zAccel, 2)) * 0.01;
+                distance += 0.01 * Vcurrent;
+>>>>>>> Stashed changes
                 try {
                     Thread.sleep(25);
                 } catch (InterruptedException ignore) {
