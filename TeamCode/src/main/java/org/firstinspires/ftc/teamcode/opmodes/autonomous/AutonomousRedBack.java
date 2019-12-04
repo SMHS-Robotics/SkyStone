@@ -52,43 +52,26 @@ public class AutonomousRedBack extends AutonomousOpMode
 
         while (opModeIsActive())
         {
+            robot.leftHook.setPosition(0.5);
+            robot.rightHook.setPosition(0.5);
             //move forward 18 inches
-            robot.leftDrive.setPower(0.3);
-            robot.rightDrive.setPower(0.3);
-            sleep(1000); //TODO: Adjust time to drive correct distance.
+            robot.leftDrive.setPower(-0.8);
+            robot.rightDrive.setPower(-0.8);
+            sleep(3000); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 
-            //turn 90 degrees clockwise
-            rotate(90);
-
-            //move forward 12 inches
-            robot.leftDrive.setPower(0.3);
-            robot.rightDrive.setPower(0.3);
-            sleep(1000); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
-
-            //rotate 90 degrees clockwise
-            rotate(90);
-            robot.leftHook.setPosition(1);
-            robot.rightHook.setPosition(1);
-
-            //drive back 6 inches
-            robot.leftDrive.setPower(-0.3);
-            robot.rightDrive.setPower(-0.3);
-            sleep(200); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
+            robot.leftHook.setPosition(0.5);
+            robot.rightHook.setPosition(0.5);
 
             //hook down
             robot.leftHook.setPosition(0);
             robot.rightHook.setPosition(0);
 
             //drive forward until the end
-            robot.leftDrive.setPower(0.3);
-            robot.rightDrive.setPower(0.3);
-            sleep(200); //TODO: Adjust time to drive correct distance.
+            robot.leftDrive.setPower(0.6);
+            robot.rightDrive.setPower(0.6);
+            sleep(8000); //TODO: Adjust time to drive correct distance.
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
 

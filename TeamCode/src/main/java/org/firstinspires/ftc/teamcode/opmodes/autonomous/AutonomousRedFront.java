@@ -55,49 +55,7 @@ public class AutonomousRedFront extends AutonomousOpMode
         {
             telemetry.addLine("We did it boys");
 
-            driveDistance(12, 0.1, 0.75);
-
-            rotate(90);
-
-            robot.leftClaw.setPosition(1);
-            robot.rightClaw.setPosition(0);
-
-            //Drives up to the block
-            robot.leftDrive.setPower(0.8);
-            robot.rightDrive.setPower(0.8);
-            sleep(1000); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
-
-            robot.leftClaw.setPosition(0);
-            robot.rightClaw.setPosition(1);
-
-            //Drives back after picking up the block
-            robot.leftDrive.setPower(-0.8);
-            robot.rightDrive.setPower(-0.8);
-            sleep(200); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
-
-            rotate(90);
-
-            robot.leftDrive.setPower(0.8);
-            robot.rightDrive.setPower(0.8);
-            sleep(1500); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
-
-            robot.linSlide.setPower(1);
-            sleep(3000);
-
-            robot.leftClaw.setPosition(1);
-            robot.rightClaw.setPosition(0);
-
-            robot.leftDrive.setPower(-0.8);
-            robot.rightDrive.setPower(-0.85);
-            sleep(800); //TODO: Adjust time to drive correct distance.
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
+            driveDistance(24, 1, 0.4);
 
             stop();
         }

@@ -146,12 +146,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     //Power must satisfy: -1.0 <= power <= 1.0.
     public void driveDistance (double distance, double errorDist, double power) {
         DistanceTracker sense = new DistanceTracker();
-        distance = Math.abs(distance);
-        sense.start(robot);
-        while (sense.getDistance() < distance - errorDist) {
-            robot.leftDrive.setPower(power);
-            robot.rightDrive.setPower(power);
-        }
-        sense.stop();
+        sense.start(robot, distance);
     }
 }
