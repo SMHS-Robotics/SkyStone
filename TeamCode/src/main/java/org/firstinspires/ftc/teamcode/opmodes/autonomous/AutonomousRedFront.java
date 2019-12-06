@@ -47,6 +47,8 @@ public class AutonomousRedFront extends AutonomousOpMode
         pidStraight.setInputRange(-1, 1);
         pidStraight.enable();
 
+
+
         telemetry.addData(">", "It is Almost Active");
         telemetry.update();
 
@@ -55,7 +57,7 @@ public class AutonomousRedFront extends AutonomousOpMode
             telemetry.addLine("We did it boys");
             telemetry.update();
 
-            driveDistance(24, 0.8);
+            driveDistance(1, 0.2);
 
             stop();
         }
