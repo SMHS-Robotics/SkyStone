@@ -19,8 +19,7 @@ import java.util.Locale;
 
 @TeleOp(name = "Sensor: BNO055 IMU Calibration", group = "Sensor")
 
-public class IMUTestCalibration extends LinearOpMode
-{
+public class IMUTestCalibration extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State
     //----------------------------------------------------------------------------------------------
@@ -39,8 +38,7 @@ public class IMUTestCalibration extends LinearOpMode
     //----------------------------------------------------------------------------------------------
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
 
         telemetry.log().setCapacity(12);
         telemetry.log().add("");
@@ -64,19 +62,16 @@ public class IMUTestCalibration extends LinearOpMode
         telemetry.log().add("Waiting for start...");
 
         // Wait until we're told to go
-        while (!isStarted())
-        {
+        while (!isStarted()) {
             telemetry.update();
             idle();
         }
 
         telemetry.log().add("...started...");
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
 
-            if (gamepad1.a)
-            {
+            if (gamepad1.a) {
 
                 // Get the calibration data
                 BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
@@ -92,8 +87,7 @@ public class IMUTestCalibration extends LinearOpMode
                 telemetry.log().add("saved to '%s'", filename);
 
                 // Wait for the button to be released
-                while (gamepad1.a)
-                {
+                while (gamepad1.a) {
                     telemetry.update();
                     idle();
                 }
@@ -103,8 +97,7 @@ public class IMUTestCalibration extends LinearOpMode
         }
     }
 
-    void composeTelemetry()
-    {
+    void composeTelemetry() {
 
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
@@ -121,41 +114,39 @@ public class IMUTestCalibration extends LinearOpMode
         });
 
         telemetry.addLine().addData("status", () -> imu.getSystemStatus().toShortString())
-                 .addData("calib", () -> imu.getCalibrationStatus().toString());
+                .addData("calib", () -> imu.getCalibrationStatus().toString());
 
         //heading is firstAngle
         telemetry.addLine()
-                 .addData("heading", () -> formatAngle(angles.angleUnit, angles.firstAngle))
-                 .addData("roll", () -> formatAngle(angles.angleUnit, angles.secondAngle))
-                 .addData("pitch", () -> formatAngle(angles.angleUnit, angles.thirdAngle));
+                .addData("heading", () -> formatAngle(angles.angleUnit, angles.firstAngle))
+                .addData("roll", () -> formatAngle(angles.angleUnit, angles.secondAngle))
+                .addData("pitch", () -> formatAngle(angles.angleUnit, angles.thirdAngle));
 
         telemetry.addLine().addData("acc", () -> accel.toString())
-                 .addData("xAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.xAccel))
-                 .addData("yAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.yAccel))
-                 .addData("zAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.zAccel));
+                .addData("xAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.xAccel))
+                .addData("yAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.yAccel))
+                .addData("zAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.zAccel));
 
         telemetry.addLine().addData("vel", () -> speed.toString())
-                 .addData("xVel", () -> String.format(Locale.getDefault(), "%.3f", speed.xVeloc))
-                 .addData("yVel", () -> String.format(Locale.getDefault(), "%.3f", speed.yVeloc))
-                 .addData("zVel", () -> String.format(Locale.getDefault(), "%.3f", speed.zVeloc));
+                .addData("xVel", () -> String.format(Locale.getDefault(), "%.3f", speed.xVeloc))
+                .addData("yVel", () -> String.format(Locale.getDefault(), "%.3f", speed.yVeloc))
+                .addData("zVel", () -> String.format(Locale.getDefault(), "%.3f", speed.zVeloc));
 
         telemetry.addLine().addData("pos", () -> speed.toString())
-                 .addData("xPos", () -> String.format(Locale.getDefault(), "%.3f", location.x))
-                 .addData("yPos", () -> String.format(Locale.getDefault(), "%.3f", location.y))
-                 .addData("zPos", () -> String.format(Locale.getDefault(), "%.3f", location.z));
+                .addData("xPos", () -> String.format(Locale.getDefault(), "%.3f", location.x))
+                .addData("yPos", () -> String.format(Locale.getDefault(), "%.3f", location.y))
+                .addData("zPos", () -> String.format(Locale.getDefault(), "%.3f", location.z));
     }
 
     //----------------------------------------------------------------------------------------------
     // Formatting
     //----------------------------------------------------------------------------------------------
 
-    String formatAngle(AngleUnit angleUnit, double angle)
-    {
+    String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    String formatDegrees(double degrees)
-    {
+    String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
