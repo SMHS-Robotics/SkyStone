@@ -34,6 +34,10 @@ public class WannaSmashBro extends LinearOpMode
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
+            if(gamepad1.dpad_up){
+                
+            }
+
             sleep(25);
         }
 
