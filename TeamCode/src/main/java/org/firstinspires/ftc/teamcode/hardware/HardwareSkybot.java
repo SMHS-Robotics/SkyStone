@@ -53,12 +53,18 @@ public class HardwareSkybot {
         // Define and Initialize Motors
         leftDrive = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
+        leftDriveFront = hwMap.get(DcMotor.class, "left_drive_front");
+        rightDriveFront = hwMap.get(DcMotor.class, "right_drive_front");
         linSlide = hwMap.get(DcMotor.class, "linear_drive");
 
         // Set to FORWARD if using AndyMark motors
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        // Set to FORWARD if using AndyMark motors
+        leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
+        // Set to REVERSE if using AndyMark motors
+        rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
         //Set to REVERSE if using AndyMark motors
         linSlide.setDirection(DcMotor.Direction.FORWARD);
 
@@ -77,10 +83,14 @@ public class HardwareSkybot {
         // Set all motors to zero power
         leftDrive.setPower(0.0);
         rightDrive.setPower(0.0);
+        leftDriveFront.setPower(0.0);
+        rightDriveFront.setPower(0.0);
         linSlide.setPower(0.0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -90,6 +100,8 @@ public class HardwareSkybot {
         //Robot
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 

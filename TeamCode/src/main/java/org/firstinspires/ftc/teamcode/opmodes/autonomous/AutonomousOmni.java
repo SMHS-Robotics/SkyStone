@@ -38,13 +38,7 @@ public class AutonomousOmni extends AutonomousOpMode {
     private static final double KProtate = baseR;
     private static final double KIrotate = baseR / 125;
 
-    private static final double maxErrorStraight = 3, targetSpeedMaxStraight = 0.5;
-    private static final double baseS = targetSpeedMaxStraight / maxErrorStraight;
-    private static final double KDstraight = baseS * 2;
-    private static final double KPstraight = baseS/2;
-    private static final double KIstraight = baseS / 100;
-
-    private PIDController pidRotate, pidStraight;
+    private PIDController pidRotate;
     private Orientation lastAngles = new Orientation();
 
     private AutonomousState checkPos = AutonomousState.GET_SKYSTONE_RED;
@@ -55,11 +49,14 @@ public class AutonomousOmni extends AutonomousOpMode {
 
     private List<VuforiaTrackable> allTrackables = new ArrayList<>();
 
+    public void getSkystoneRed() {
+
+    }
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
         pidRotate = new PIDController(KProtate, KIrotate, KDrotate);
-        pidStraight = new PIDController(KPstraight, KIstraight, KDstraight);
         resetAngle();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
@@ -79,40 +76,28 @@ public class AutonomousOmni extends AutonomousOpMode {
 
         VuforiaTrackable blueSkybridgeRear = stonesAndChips.get(1);
         blueSkybridgeRear.setName("BlueSkybridgeRear");
-
         VuforiaTrackable blueSkybridgeFront = stonesAndChips.get(4);
         blueSkybridgeFront.setName("BlueSkybridgeFront");
-
         VuforiaTrackable redSkybridgeRear = stonesAndChips.get(2);
         redSkybridgeRear.setName("RedSkybridgeRear");
-
         VuforiaTrackable redSkybridgeFront = stonesAndChips.get(3);
         redSkybridgeFront.setName("RedSkybridgeFront");
-
         VuforiaTrackable blueAllianceFront = stonesAndChips.get(9);
         blueAllianceFront.setName("BlueAllianceWallFront");
-
         VuforiaTrackable blueAllianceRear = stonesAndChips.get(10);
         blueAllianceRear.setName("BlueAllianceWallRear");
-
         VuforiaTrackable redAllianceFront = stonesAndChips.get(6);
         redAllianceFront.setName("RedAllianceWallFront");
-
         VuforiaTrackable redAllianceRear = stonesAndChips.get(5);
         redAllianceRear.setName("RedAllianceWallRear");
-
         VuforiaTrackable frontWallRed = stonesAndChips.get(7);
         frontWallRed.setName("FrontWallRedAlliance");
-
         VuforiaTrackable frontWallBlue = stonesAndChips.get(8);
         frontWallBlue.setName("FrontWallBlueAlliance");
-
         VuforiaTrackable rearWallRed = stonesAndChips.get(12);
         rearWallRed.setName("RearWallRedAlliance");
-
         VuforiaTrackable rearWallBlue = stonesAndChips.get(11);
         rearWallBlue.setName("RearWallBlueAlliance");
-
 
         allTrackables.addAll(stonesAndChips);
 
@@ -165,11 +150,6 @@ public class AutonomousOmni extends AutonomousOpMode {
         /** Start tracking the data sets we care about. */
         stonesAndChips.activate();
 
-        pidStraight.setSetpoint(0);
-        pidStraight.setOutputRange(0, 0.05);
-        pidStraight.setInputRange(-1, 1);
-        pidStraight.enable();
-
         telemetry.addData(">", "It is Almost Active");
         telemetry.update();
 
@@ -207,16 +187,7 @@ public class AutonomousOmni extends AutonomousOpMode {
                     checkPosition();
                     break;
                 case GET_SKYSTONE_RED:
-                    robot.leftDrive.setPower(0.8);
-                    robot.rightDrive.setPower(0.8);
-                    robot.leftDriveFront.setPower(0.8);
-                    robot.rightDriveFront.setPower(0.8);
-                    sleep(1000); //TODO: Adjust time to drive correct distance.
-                    robot.leftDrive.setPower(0);
-                    robot.rightDrive.setPower(0);
-                    robot.leftDriveFront.setPower(0);
-                    robot.rightDriveFront.setPower(0);
-                    stop();
+                    getSkystoneRed();
                     break;
                 case GET_SKYSTONE_BLUE:
                     getSkystoneBlue();
@@ -241,87 +212,8 @@ public class AutonomousOmni extends AutonomousOpMode {
         }
     }
 
-    public void getSkystoneRed() {
-        telemetry.addLine("We did it boys");
-        //Changed
-        //deleted rotations
-        robot.leftDrive.setPower(0.3);
-        robot.rightDrive.setPower(-0.3);
-        robot.leftDriveFront.setPower(-0.3);
-        robot.rightDriveFront.setPower(0.3);
-        sleep(1000); //TODO: Adjust time to drive correct distance.
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-        robot.leftDriveFront.setPower(0);
-        robot.rightDriveFront.setPower(0);
-
-
-
-        //Drives up to the block
-        robot.leftDrive.setPower(0.3);
-        robot.rightDrive.setPower(0.3);
-        robot.leftDriveFront.setPower(0.3);
-        robot.rightDriveFront.setPower(0.3);
-        sleep(1000); //TODO: Adjust time to drive correct distance.
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-        robot.leftDriveFront.setPower(0);
-        robot.rightDriveFront.setPower(0);
-        //robot.leftClaw.setPosition(1);
-        //robot.rightClaw.setPosition(0);
-
-        //Drives back after
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(1);
-        robot.leftDriveFront.setPower(1);
-        robot.rightDriveFront.setPower(1);
-        sleep(200); //TODO: Adjust time to drive correct distance.
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-        robot.leftDriveFront.setPower(0);
-        robot.rightDriveFront.setPower(0);
-
-        robot.leftDrive.setPower(-1);
-        robot.rightDrive.setPower(-1);
-        robot.leftDriveFront.setPower(-1);
-        robot.rightDriveFront.setPower(-1);
-        sleep(200); //TODO: Adjust time to drive correct distance.
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-        robot.leftDriveFront.setPower(0);
-        robot.rightDriveFront.setPower(0);
-
-        rotate(90);
-
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(1);
-        sleep(1500); //TODO: Adjust time to drive correct distance.
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-
-        rotate(90);
-
-        //robot.backHook?.setPosition(1); TODO: find actual variable for this etc.
-
-        robot.leftDrive.setPower(1);
-        robot.rightDrive.setPower(1);
-        sleep(800); //TODO: Adjust time to drive correct distance.
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
-
-        //robot.backHook?.setPosition(0); TODO: find actual variable for this etc.
-
-        rotate(180);
-
-        //robot.leftClaw.setPosition(1);
-        //robot.rightClaw.setPosition(0);
-
-        rotate(-90);
-    }
-
     public void getSkystoneBlue() {
         rotate(90);
-        straight(1000, 1.5);
         stop();
     }
 
@@ -414,7 +306,6 @@ public class AutonomousOmni extends AutonomousOpMode {
         // turn the motors off.
         robot.rightDrive.setPower(0);
         robot.leftDrive.setPower(0);
-        //EDIT
         robot.leftDriveFront.setPower(0);
         robot.rightDriveFront.setPower(0);
 
@@ -428,27 +319,6 @@ public class AutonomousOmni extends AutonomousOpMode {
 
         telemetry.addLine("Done");
         telemetry.update();
-    }
-
-    private void straight(double power) {
-        resetAngle();
-        correction = pidStraight.performPID(getAngle());
-
-        robot.leftDrive.setPower(power - correction);
-
-        robot.rightDrive.setPower(power + correction);
-        //EDIT
-        robot.leftDriveFront.setPower(power - correction);
-
-        robot.rightDriveFront.setPower(power + correction);
-    }
-
-    private void straight(double millisecs, double power) {
-        for (int i = 0; i < millisecs; i += 10) {
-            straight(power);
-            sleep(10);
-        }
-        stop();
     }
 
     private double getAngle() {
@@ -479,7 +349,7 @@ public class AutonomousOmni extends AutonomousOpMode {
         globalAngle = 0;
     }
 
-    public void goStraight(double distance){
-
+    public void straightWithEncoders (double rotations){
+        
     }
 }
