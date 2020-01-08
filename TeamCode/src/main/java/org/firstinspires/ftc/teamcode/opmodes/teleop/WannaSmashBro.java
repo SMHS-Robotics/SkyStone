@@ -34,6 +34,38 @@ public class WannaSmashBro extends LinearOpMode
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
+            if(gamepad1.dpad_up){
+                robot.leftDrive.setPower(1);
+                robot.rightDrive.setPower(1);
+                robot.leftDriveFront.setPower(1);
+                robot.rightDriveFront.setPower(1);
+            } else if(gamepad1.dpad_down){
+                robot.leftDrive.setPower(-1);
+                robot.rightDrive.setPower(-1);
+                robot.leftDriveFront.setPower(-1);
+                robot.rightDriveFront.setPower(-1);
+            } else if(gamepad1.dpad_left){
+                robot.leftDrive.setPower(1);
+                robot.rightDrive.setPower(-1);
+                robot.leftDriveFront.setPower(-1);
+                robot.rightDriveFront.setPower(1);
+            } else if(gamepad1.dpad_right){
+                robot.leftDrive.setPower(-1);
+                robot.rightDrive.setPower(1);
+                robot.leftDriveFront.setPower(1);
+                robot.rightDriveFront.setPower(-1);
+            } else if(gamepad1.right_bumper){
+                robot.leftDrive.setPower(1);
+                robot.rightDrive.setPower(-1);
+                robot.leftDriveFront.setPower(1);
+                robot.rightDriveFront.setPower(-1);
+            } else if (gamepad1.left_bumper){
+                robot.leftDrive.setPower(1);
+                robot.rightDrive.setPower(-1);
+                robot.leftDriveFront.setPower(1);
+                robot.rightDriveFront.setPower(-1);
+            }
+
             //opens
             if (gamepad2.right_bumper) {
                 robot.rightClaw.setPosition(0.6);
@@ -78,6 +110,7 @@ public class WannaSmashBro extends LinearOpMode
             telemetry.addData("Right Servo Position", robot.rightClaw.getPosition());
             telemetry.addData("Left Servo Position", robot.leftClaw.getPosition());
             telemetry.update();
+
             sleep(25);
         }
 
