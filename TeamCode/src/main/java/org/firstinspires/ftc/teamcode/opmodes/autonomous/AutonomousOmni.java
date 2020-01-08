@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -349,7 +350,27 @@ public class AutonomousOmni extends AutonomousOpMode {
         globalAngle = 0;
     }
 
-    public void straightWithEncoders (double rotations){
-        
+    public void straightWithEncoders (int counts){
+        //resets the encoder and sets the leftDrive to run with encoders
+        robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.leftDrive.setTargetPosition(counts);
+
+        robot.leftDrive.setPower(power);
+        robot.rightDrive.setPower(power);
+        robot.leftDriveFront.setPower(power);
+        robot.rightDriveFront.setPower(power);
+
+        while(robot.leftDrive.isBusy() && opModeIsActive()){
+
+        }
+
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+        robot.leftDriveFront.setPower(0);
+        robot.rightDriveFront.setPower(0);
+
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }
