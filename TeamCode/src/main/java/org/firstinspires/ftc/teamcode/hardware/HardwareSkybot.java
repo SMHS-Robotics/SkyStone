@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.hardware.adafruit.AdafruitBNO055IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,6 +26,7 @@ public class HardwareSkybot {
     public Servo rightClaw = null;
     public Servo rightHook = null;
     public Servo leftHook = null;
+
     public BNO055IMU imu = null;
 
     /* local OpMode members. */
