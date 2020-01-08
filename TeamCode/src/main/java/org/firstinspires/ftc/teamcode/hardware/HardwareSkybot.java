@@ -19,7 +19,9 @@ public class HardwareSkybot {
 
     /* Public OpMode members. */
     public DcMotor leftDrive = null;
+    public DcMotor leftDriveFront = null;
     public DcMotor rightDrive = null;
+    public DcMotor rightDriveFront = null;
     public DcMotor linSlide = null;
     public Servo leftClaw = null;
     public Servo rightClaw = null;
