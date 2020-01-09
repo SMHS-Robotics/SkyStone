@@ -39,7 +39,7 @@ public class AutonomousOmni extends AutonomousOpMode {
     private static final double KProtate = baseR;
     private static final double KIrotate = baseR / 125;
 
-    private PIDController pidRotate;
+    private PIDController pidRotate, pidDrive;
     private Orientation lastAngles = new Orientation();
 
     private AutonomousState checkPos = AutonomousState.GET_SKYSTONE_RED;
@@ -58,6 +58,11 @@ public class AutonomousOmni extends AutonomousOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         pidRotate = new PIDController(KProtate, KIrotate, KDrotate);
+        pidDrive = new PIDController(.05, 0, 0);
+        pidDrive.setSetpoint(0);
+        pidDrive.setOutputRange(0, power);
+        pidDrive.setInputRange(-90, 90);
+        pidDrive.enable();
         resetAngle();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
@@ -261,7 +266,6 @@ public class AutonomousOmni extends AutonomousOpMode {
 
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
-        //EDIT
         robot.leftDriveFront.setPower(0);
         robot.rightDriveFront.setPower(0);
         if (Math.abs(degrees) > 359) degrees = (int) Math.copySign(359, degrees);
@@ -280,7 +284,6 @@ public class AutonomousOmni extends AutonomousOpMode {
             while (opModeIsActive() && getAngle() == 0) {
                 robot.leftDrive.setPower(power);
                 robot.rightDrive.setPower(-power);
-                //EDIT
                 robot.leftDriveFront.setPower(power);
                 robot.rightDriveFront.setPower(-power);
                 sleep(100);
@@ -290,7 +293,6 @@ public class AutonomousOmni extends AutonomousOpMode {
                 power = pidRotate.performPID(getAngle()); // power will be - on right turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
-                //EDIT
                 robot.leftDriveFront.setPower(-power);
                 robot.rightDriveFront.setPower(power);
             } while (opModeIsActive() && !pidRotate.onTarget());
@@ -299,7 +301,6 @@ public class AutonomousOmni extends AutonomousOpMode {
                 power = pidRotate.performPID(getAngle()); // power will be + on left turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
-                //EDIT
                 robot.leftDriveFront.setPower(-power);
                 robot.rightDriveFront.setPower(power);
             } while (opModeIsActive() && !pidRotate.onTarget());
@@ -362,8 +363,31 @@ public class AutonomousOmni extends AutonomousOpMode {
         robot.leftDriveFront.setPower(power);
         robot.rightDriveFront.setPower(power);
 
-        while(robot.leftDrive.isBusy() && opModeIsActive()){
+        while(robot.leftDrive.isBusy() && opModeIsActive()){ }
 
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+        robot.leftDriveFront.setPower(0);
+        robot.rightDriveFront.setPower(0);
+
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void pidDriveWithEncoders (int counts) {
+        robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.leftDrive.setTargetPosition(counts);
+
+        robot.leftDrive.setPower(power);
+        robot.rightDrive.setPower(power);
+        robot.leftDriveFront.setPower(power);
+        robot.rightDriveFront.setPower(power);
+
+        while(robot.leftDrive.isBusy() && opModeIsActive()){
+            correction = pidDrive.performPID(getAngle());
+            robot.leftDrive.setPower(power-correction);
+            robot.rightDrive.setPower(power+correction);
         }
 
         robot.leftDrive.setPower(0);
