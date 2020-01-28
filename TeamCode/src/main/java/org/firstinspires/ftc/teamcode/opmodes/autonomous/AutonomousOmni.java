@@ -54,35 +54,109 @@ public class AutonomousOmni extends AutonomousOpMode {
             telemetry.addData(">", "It is Almost Active");
             telemetry.update();
 
-            moveFoundation();
+            moveFoundationRed();
 
             stop();
         }
     }
 
 
-    public void moveFoundation() {
-        pidDriveWithEncoders(1 * ticksPerInch, power);
+    public void moveFoundationRed() {
+        //go halfway to foundation
+        pidDriveWithEncoders(19 * ticksPerInch, power);
+
+        //turn 180 degrees
         rotate(90);
         rotate(90);
-        pidDriveWithEncoders(-1 * ticksPerInch, -power);
+
+        //go rest of way to foundation
+        pidDriveWithEncoders(-19 * ticksPerInch, -power);
+
+        //clamp
         robot.leftHook.setPosition(0.5);
         robot.rightHook.setPosition(0.5);
-        pidDriveWithEncoders(2 * ticksPerInch, power);
+
+        //drag back to area
+        pidDriveWithEncoders(40 * ticksPerInch, power);
+
+        //unclamp
+        robot.leftHook.setPosition(0);
+        robot.rightHook.setPosition(0);
+
+        //park
+        rightWithEncoders(16 * ticksPerInch, power);
+    }
+
+    public void moveFoundationBlue() {
+        //go halfway to foundation
+        pidDriveWithEncoders(19 * ticksPerInch, power);
+
+        //turn 180 degrees
+        rotate(90);
+        rotate(90);
+
+        //go rest of way to foundation
+        pidDriveWithEncoders(-19 * ticksPerInch, -power);
+
+        //clamp
+        robot.leftHook.setPosition(0.5);
+        robot.rightHook.setPosition(0.5);
+
+        //drag back to area
+        pidDriveWithEncoders(40 * ticksPerInch, power);
+
+        //unclamp
+        robot.leftHook.setPosition(0);
+        robot.rightHook.setPosition(0);
+
+        //park
+        leftWithEncoders(16 * ticksPerInch, power);
     }
 
     public void getSkystoneRed() {
+        //unclamp
         //TODO: set claw position
+
+        //drive to block
         pidDriveWithEncoders(38 * ticksPerInch, power);
+
+        //clamp
         //TODO: set claw position
+
+        //head back to wall
         pidDriveWithEncoders(-38 * ticksPerInch, -power);
+        pidDriveWithEncoders(5 * ticksPerInch, power);
+
+        //rotate and go under team bridge
         rotate(-90);
         pidDriveWithEncoders(72 * ticksPerInch, power);
+
+        //unclamp and park under bridge
         //TODO: set claw position
+        pidDriveWithEncoders(-36 * ticksPerInch, -power);
     }
 
     public void getSkystoneBlue() {
+        //unclamp
+        //TODO: set claw position
 
+        //drive to block
+        pidDriveWithEncoders(38 * ticksPerInch, power);
+
+        //clamp
+        //TODO: set claw position
+
+        //head back to wall
+        pidDriveWithEncoders(-38 * ticksPerInch, -power);
+        pidDriveWithEncoders(5 * ticksPerInch, power);
+
+        //rotate and go under team bridge
+        rotate(90);
+        pidDriveWithEncoders(72 * ticksPerInch, power);
+
+        //unclamp and park under bridge
+        //TODO: set claw position
+        pidDriveWithEncoders(-36 * ticksPerInch, -power);
     }
 
     private void rotate(double degrees) {
@@ -190,7 +264,49 @@ public class AutonomousOmni extends AutonomousOpMode {
         robot.leftDriveFront.setPower(power);
         robot.rightDriveFront.setPower(power);
 
-        while(robot.leftDrive.isBusy() && opModeIsActive()){ }
+        while(robot.leftDrive.isBusy() && opModeIsActive()) {}
+
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+        robot.leftDriveFront.setPower(0);
+        robot.rightDriveFront.setPower(0);
+
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void leftWithEncoders (int counts, double power) {
+        robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.leftDrive.setTargetPosition(counts);
+
+        robot.leftDrive.setPower(power);
+        robot.rightDrive.setPower(-power);
+        robot.leftDriveFront.setPower(-power);
+        robot.rightDriveFront.setPower(power);
+
+        while(robot.leftDrive.isBusy() && opModeIsActive()){}
+
+        robot.leftDrive.setPower(0);
+        robot.rightDrive.setPower(0);
+        robot.leftDriveFront.setPower(0);
+        robot.rightDriveFront.setPower(0);
+
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void rightWithEncoders (int counts, double power) {
+        robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.leftDrive.setTargetPosition(-counts);
+
+        robot.leftDrive.setPower(-power);
+        robot.rightDrive.setPower(power);
+        robot.leftDriveFront.setPower(power);
+        robot.rightDriveFront.setPower(-power);
+
+        while(robot.leftDrive.isBusy() && opModeIsActive()){}
 
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
