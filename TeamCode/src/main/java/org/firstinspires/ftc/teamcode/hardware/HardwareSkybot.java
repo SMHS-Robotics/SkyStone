@@ -107,7 +107,7 @@ public class HardwareSkybot {
 
         // Define and initialize ALL installed servos.
         leftClaw = hwMap.get(Servo.class, "left_claw");
-        rightClaw = hwMap.get(Servo.class, "right_claw");
+        //rightClaw = hwMap.get(Servo.class, "right_claw");
         rightHook = hwMap.get(Servo.class, "right_hook");
         leftHook = hwMap.get(Servo.class, "left_hook");
         leftClaw.setPosition(MID_SERVO);

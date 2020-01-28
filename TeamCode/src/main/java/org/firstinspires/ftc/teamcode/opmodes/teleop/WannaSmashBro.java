@@ -26,13 +26,16 @@ public class WannaSmashBro extends LinearOpMode
 
         while (opModeIsActive())
         {
+
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
             left = Range.clip(drive + turn, -1.0, 1.0) * 0.3;
-            right = Range.clip(drive - turn, -1.0, 1.0  ) * 0.32;
+            right = Range.clip(drive - turn, -1.0, 1.0  ) * 0.3;
 
             robot.leftDrive.setPower(left);
+            robot.leftDriveFront.setPower(left);
             robot.rightDrive.setPower(right);
+            robot.rightDriveFront.setPower(right);
 
             if(gamepad1.dpad_up){
                 robot.leftDrive.setPower(1);
@@ -64,6 +67,11 @@ public class WannaSmashBro extends LinearOpMode
                 robot.rightDrive.setPower(-1);
                 robot.leftDriveFront.setPower(1);
                 robot.rightDriveFront.setPower(-1);
+            } else {
+                robot.leftDrive.setPower(0);
+                robot.rightDrive.setPower(0);
+                robot.leftDriveFront.setPower(0);
+                robot.rightDriveFront.setPower(0);
             }
 
             //opens
@@ -104,12 +112,6 @@ public class WannaSmashBro extends LinearOpMode
                 robot.leftHook.setPosition(0.5);
                 robot.rightHook.setPosition(0.5);
             }
-
-            telemetry.addData("left", left);
-            telemetry.addData("right", right);
-            telemetry.addData("Right Servo Position", robot.rightClaw.getPosition());
-            telemetry.addData("Left Servo Position", robot.leftClaw.getPosition());
-            telemetry.update();
 
             sleep(25);
         }
