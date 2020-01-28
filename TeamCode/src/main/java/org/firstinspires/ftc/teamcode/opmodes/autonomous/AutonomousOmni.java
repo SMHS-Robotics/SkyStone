@@ -62,27 +62,72 @@ public class AutonomousOmni extends AutonomousOpMode {
 
 
     public void moveFoundation() {
-        pidDriveWithEncoders(1 * ticksPerInch, power);
+        //go halfway to foundation
+        pidDriveWithEncoders(19 * ticksPerInch, power);
+
+        //turn 180 degrees
         rotate(90);
         rotate(90);
-        pidDriveWithEncoders(-1 * ticksPerInch, -power);
+
+        //go rest of way to foundation
+        pidDriveWithEncoders(-19 * ticksPerInch, -power);
+
+        //clamp
         robot.leftHook.setPosition(0.5);
         robot.rightHook.setPosition(0.5);
-        pidDriveWithEncoders(2 * ticksPerInch, power);
+
+        //drag back to area
+        pidDriveWithEncoders(40 * ticksPerInch, power);
+        
+        //unclamp
+        robot.leftHook.setPosition(0);
+        robot.rightHook.setPosition(0);
     }
 
     public void getSkystoneRed() {
+        //unclamp
         //TODO: set claw position
+
+        //drive to block
         pidDriveWithEncoders(38 * ticksPerInch, power);
+
+        //clamp
         //TODO: set claw position
+
+        //head back to wall
         pidDriveWithEncoders(-38 * ticksPerInch, -power);
+        pidDriveWithEncoders(5 * ticksPerInch, power);
+
+        //rotate and go under team bridge
         rotate(-90);
         pidDriveWithEncoders(72 * ticksPerInch, power);
+
+        //unclamp and park under bridge
         //TODO: set claw position
+        pidDriveWithEncoders(-36 * ticksPerInch, -power);
     }
 
     public void getSkystoneBlue() {
+        //unclamp
+        //TODO: set claw position
 
+        //drive to block
+        pidDriveWithEncoders(38 * ticksPerInch, power);
+
+        //clamp
+        //TODO: set claw position
+
+        //head back to wall
+        pidDriveWithEncoders(-38 * ticksPerInch, -power);
+        pidDriveWithEncoders(5 * ticksPerInch, power);
+
+        //rotate and go under team bridge
+        rotate(90);
+        pidDriveWithEncoders(72 * ticksPerInch, power);
+
+        //unclamp and park under bridge
+        //TODO: set claw position
+        pidDriveWithEncoders(-36 * ticksPerInch, -power);
     }
 
     private void rotate(double degrees) {
