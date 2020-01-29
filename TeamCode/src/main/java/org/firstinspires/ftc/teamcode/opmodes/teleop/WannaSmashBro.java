@@ -17,8 +17,10 @@ public class WannaSmashBro extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        double left;
-        double right;
+        double leftF;
+        double rightF;
+        double leftB;
+        double rightB;
 
 
         robot.init(hardwareMap);
@@ -28,26 +30,19 @@ public class WannaSmashBro extends LinearOpMode
         {
 
             double drive = -gamepad1.left_stick_y;
+            double shift = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
-            left = Range.clip(drive + turn, -1.0, 1.0) * 0.3;
-            right = Range.clip(drive - turn, -1.0, 1.0  ) * 0.3;
+            leftF = Range.clip(drive + shift + turn, -1.0, 1.0) * 0.3;
+            rightF = Range.clip(drive - shift - turn, -1.0, 1.0  ) * 0.3;
+            leftB = Range.clip(drive - shift + turn, -1.0, 1.0  ) * 0.3;
+            rightB = Range.clip(drive + shift - turn, -1.0, 1.0) * 0.3;
 
-            robot.leftDrive.setPower(left);
-            robot.leftDriveFront.setPower(left);
-            robot.rightDrive.setPower(right);
-            robot.rightDriveFront.setPower(right);
+            robot.leftDrive.setPower(leftB);
+            robot.leftDriveFront.setPower(leftF);
+            robot.rightDrive.setPower(rightB);
+            robot.rightDriveFront.setPower(rightF);
 
-            if(gamepad1.dpad_up){
-                robot.leftDrive.setPower(1);
-                robot.rightDrive.setPower(1);
-                robot.leftDriveFront.setPower(1);
-                robot.rightDriveFront.setPower(1);
-            } else if(gamepad1.dpad_down){
-                robot.leftDrive.setPower(-1);
-                robot.rightDrive.setPower(-1);
-                robot.leftDriveFront.setPower(-1);
-                robot.rightDriveFront.setPower(-1);
-            } else if(gamepad1.dpad_left){
+            if(gamepad1.dpad_left){
                 robot.leftDrive.setPower(1);
                 robot.rightDrive.setPower(-1);
                 robot.leftDriveFront.setPower(-1);
@@ -55,16 +50,6 @@ public class WannaSmashBro extends LinearOpMode
             } else if(gamepad1.dpad_right){
                 robot.leftDrive.setPower(-1);
                 robot.rightDrive.setPower(1);
-                robot.leftDriveFront.setPower(1);
-                robot.rightDriveFront.setPower(-1);
-            } else if(gamepad1.right_bumper){
-                robot.leftDrive.setPower(1);
-                robot.rightDrive.setPower(-1);
-                robot.leftDriveFront.setPower(1);
-                robot.rightDriveFront.setPower(-1);
-            } else if (gamepad1.left_bumper){
-                robot.leftDrive.setPower(1);
-                robot.rightDrive.setPower(-1);
                 robot.leftDriveFront.setPower(1);
                 robot.rightDriveFront.setPower(-1);
             } else {
