@@ -133,18 +133,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         robot.resetAngle();
     }
 
-    public void linSlideMove(float height, float power){
-        robot.linSlide.setTargetPosition((int)(MAX_SLIDE*height));
-
-        robot.linSlide.setPower(power);
-
-        while (opModeIsActive() && robot.linSlide.isBusy())
-        {
-            telemetry.addData("encoder-fwd", robot.linSlide.getCurrentPosition() + "  busy=" + robot.linSlide.isBusy());
-            telemetry.update();
-            idle();
-        }
-    }
     //distance and errorDist MUST be positive and non-zero.
     //Power must satisfy: -1.0 <= power <= 1.0.
     public void driveDistance (double target, double power) {

@@ -54,7 +54,8 @@ public class AutonomousOmni extends AutonomousOpMode {
             telemetry.addData(">", "It is Almost Active");
             telemetry.update();
 
-            moveFoundationRed();
+            //moveFoundationRed();
+            rotate(90);
 
             stop();
         }

@@ -29,14 +29,7 @@ public class Test extends LinearOpMode
         {
 
             if(gamepad1.a){
-                robot.linSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.linSlide.setTargetPosition(1000);
-                robot.linSlide.setPower(1);
-                while(robot.linSlide.isBusy() && opModeIsActive()){};
-                robot.linSlide.setPower(0);
-                robot.linSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
-            telemetry.addData("Motor Position", robot.rightClaw.getPosition());
             telemetry.update();
 
             sleep(25);

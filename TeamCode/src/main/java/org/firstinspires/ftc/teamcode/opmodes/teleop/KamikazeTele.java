@@ -31,14 +31,6 @@ public class KamikazeTele extends LinearOpMode {
             leftMotor = Range.clip(-gamepad1.left_stick_y, -1.0, 1.0);
             rightMotor = Range.clip(-gamepad1.right_stick_y, -1.0, 1.0);
 
-                if (gamepad1.dpad_down) {
-                    bot.linSlide.setPower(-1);
-                } else if (gamepad1.dpad_up) {
-                    bot.linSlide.setPower(1);
-                    lifted = true;
-                } else {
-                    bot.linSlide.setPower(0);
-                }
 
             // Set power of left and right motors
             bot.leftDrive.setPower(leftMotor);

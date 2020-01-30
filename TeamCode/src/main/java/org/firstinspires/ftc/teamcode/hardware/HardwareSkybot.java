@@ -4,6 +4,7 @@ import com.qualcomm.hardware.adafruit.AdafruitBNO055IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -23,9 +24,7 @@ public class HardwareSkybot {
     public DcMotor leftDriveFront = null;
     public DcMotor rightDrive = null;
     public DcMotor rightDriveFront = null;
-    public DcMotor linSlide = null;
     public Servo leftClaw = null;
-    public Servo rightClaw = null;
     public Servo rightHook = null;
     public Servo leftHook = null;
 
@@ -55,18 +54,16 @@ public class HardwareSkybot {
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         leftDriveFront = hwMap.get(DcMotor.class, "left_drive_front");
         rightDriveFront = hwMap.get(DcMotor.class, "right_drive_front");
-        linSlide = hwMap.get(DcMotor.class, "linear_drive");
 
         // Set to FORWARD if using AndyMark motors
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
         // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
         // Set to FORWARD if using AndyMark motors
         leftDriveFront.setDirection(DcMotor.Direction.FORWARD);
         // Set to REVERSE if using AndyMark motors
         rightDriveFront.setDirection(DcMotor.Direction.REVERSE);
         //Set to REVERSE if using AndyMark motors
-        linSlide.setDirection(DcMotor.Direction.FORWARD);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -85,7 +82,6 @@ public class HardwareSkybot {
         rightDrive.setPower(0.0);
         leftDriveFront.setPower(0.0);
         rightDriveFront.setPower(0.0);
-        linSlide.setPower(0.0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -93,7 +89,6 @@ public class HardwareSkybot {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        linSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Tick Per Revolution: 1120
 
@@ -102,16 +97,13 @@ public class HardwareSkybot {
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDriveFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // Define and initialize ALL installed servos.
-        leftClaw = hwMap.get(Servo.class, "left_claw");
-        //rightClaw = hwMap.get(Servo.class, "right_claw");
+                leftClaw = hwMap.get(Servo.class, "left_claw");
         rightHook = hwMap.get(Servo.class, "right_hook");
         leftHook = hwMap.get(Servo.class, "left_hook");
         leftClaw.setPosition(MID_SERVO);
-        rightClaw.setPosition(MID_SERVO);
         leftHook.setPosition(0);
         rightHook.setPosition(0);
 
