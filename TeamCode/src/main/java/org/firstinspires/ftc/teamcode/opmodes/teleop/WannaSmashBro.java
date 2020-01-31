@@ -29,13 +29,14 @@ public class WannaSmashBro extends LinearOpMode
         while (opModeIsActive())
         {
 
+
             double drive = -gamepad1.left_stick_y;
             double shift = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
-            leftF = Range.clip(drive + shift + turn, -1.0, 1.0) * 0.8;
-            rightF = Range.clip(drive - shift - turn, -1.0, 1.0  ) * 0.8;
-            leftB = Range.clip(drive + shift - turn, -1.0, 1.0  ) * 0.8;
-            rightB = Range.clip(drive - shift + turn, -1.0, 1.0) * 0.8;
+            leftF = Range.clip(drive - shift - turn, -1.0, 1.0) * 0.6;
+            rightF = Range.clip(drive + shift + turn, -1.0, 1.0  ) * 0.6;
+            leftB = Range.clip(drive - shift + turn, -1.0, 1.0  ) * 0.6;
+            rightB = Range.clip(drive + shift - turn, -1.0, 1.0) * 0.6;
 
             if(Math.abs(leftF) + Math.abs(leftB) + Math.abs(rightB) + Math.abs(rightF) > 1){
                 rampPow = Range.clip(rampPow + 0.1, 0, 1);
@@ -69,11 +70,13 @@ public class WannaSmashBro extends LinearOpMode
             if (gamepad2.right_bumper) {
                 //robot.rightClaw.setPosition(0.6);
                 robot.leftClaw.setPosition(0.4);
+                telemetry.addLine("it opened?");
             }
             //closes
             else if (gamepad2.left_bumper) {
                 //robot.rightClaw.setPosition(0.2);
                 robot.leftClaw.setPosition(0.8);
+                telemetry.addLine("it closed?");
             }
             else if (gamepad2.right_trigger > 0) {
                 //robot.rightClaw.setPosition(Range.clip(robot.rightClaw.getPosition()
@@ -98,11 +101,18 @@ public class WannaSmashBro extends LinearOpMode
 
             if(gamepad1.a){
                 robot.leftHook.setPosition(0);
-                robot.rightHook.setPosition(0);
+                robot.rightHook.setPosition(1);
+                telemetry.addLine("you call is very important to us.");
             }else if(gamepad1.b){
                 robot.leftHook.setPosition(0.5);
                 robot.rightHook.setPosition(0.5);
+                telemetry.addLine("is this Patrick?");
             }
+
+            telemetry.addData("Claw Pos:", robot.leftClaw.getPosition());
+            telemetry.addData("Hook Pos:", robot.leftHook.getPosition());
+            telemetry.addData("R Hook Pos", robot.rightHook.getPosition());
+            telemetry.update();
 
             sleep(25);
         }

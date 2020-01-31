@@ -22,7 +22,8 @@ import java.util.List;
 @Autonomous(name = "MoveFoundation", group = "SMHSBots")
 public class AutonomousOmni extends AutonomousOpMode {
 
-    private static double power = 0.85, rotation, globalAngle = 0, correction;
+    private static final double power = 0.3;
+    private static double rotation, globalAngle = 0, correction;
     private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 1;
     private static final double baseR = targetSpeedMaxRotate / maxErrorRotate;
     private static final double KDrotate = baseR * 20;
@@ -32,7 +33,7 @@ public class AutonomousOmni extends AutonomousOpMode {
     private PIDController pidRotate, pidDrive;
     private Orientation lastAngles = new Orientation();
 
-    private static final int ticksPerInch = 1000;
+    private static final int ticksPerInch = 25;
 
     @Override
     public void runOpMode() {
@@ -47,15 +48,10 @@ public class AutonomousOmni extends AutonomousOpMode {
 
         waitForStart();
 
-        telemetry.addData(">", "It is Almost Active");
-        telemetry.update();
-
         while (opModeIsActive()) {
-            telemetry.addData(">", "It is Almost Active");
+            telemetry.addLine("Here");
             telemetry.update();
-
-            //moveFoundationRed();
-            rotate(90);
+            getSkystoneRed();
 
             stop();
         }
@@ -115,26 +111,25 @@ public class AutonomousOmni extends AutonomousOpMode {
     }
 
     public void getSkystoneRed() {
-        //unclamp
-        //TODO: set claw position
 
         //drive to block
-        pidDriveWithEncoders(38 * ticksPerInch, power);
+        pidDriveWithEncoders(42 * ticksPerInch, power);
+
+        sleep(100);
 
         //clamp
-        //TODO: set claw position
+        robot.leftClaw.setPosition(0.8);
 
+        sleep(500);
         //head back to wall
-        pidDriveWithEncoders(-38 * ticksPerInch, -power);
-        pidDriveWithEncoders(5 * ticksPerInch, power);
+        pidDriveWithEncoders(-25 * ticksPerInch, power);
 
         //rotate and go under team bridge
         rotate(-90);
         pidDriveWithEncoders(72 * ticksPerInch, power);
 
-        //unclamp and park under bridge
-        //TODO: set claw position
-        pidDriveWithEncoders(-36 * ticksPerInch, -power);
+        robot.leftClaw.setPosition(0.4);
+        pidDriveWithEncoders(-36 * ticksPerInch, power);
     }
 
     public void getSkystoneBlue() {
@@ -161,6 +156,7 @@ public class AutonomousOmni extends AutonomousOpMode {
     }
 
     private void rotate(double degrees) {
+        double rpower = power;
         degrees = -degrees;
         final double TURN_TOLERANCE = 0.15;
 
@@ -178,34 +174,45 @@ public class AutonomousOmni extends AutonomousOpMode {
         pidRotate.setOutputRange(0, targetSpeedMaxRotate/4);
         pidRotate.setTolerance(TURN_TOLERANCE);
         pidRotate.enable();
-        telemetry.addLine("Reached");
+        telemetry.addLine("About to Rotate");
         telemetry.update();
 
         if (degrees < 0) {
             // On right turn we have to get off zero first.
             while (opModeIsActive() && getAngle() == 0) {
-                robot.leftDrive.setPower(power);
-                robot.rightDrive.setPower(-power);
-                robot.leftDriveFront.setPower(power);
-                robot.rightDriveFront.setPower(-power);
+                robot.leftDrive.setPower(-rpower);
+                robot.rightDrive.setPower(rpower);
+                robot.leftDriveFront.setPower(rpower);
+                robot.rightDriveFront.setPower(-rpower);
+                telemetry.addLine("About to rotate right");
+                telemetry.update();
                 sleep(100);
             }
 
             do {
-                power = pidRotate.performPID(getAngle()); // power will be - on right turn.
+                telemetry.addLine("Rotating Right");
+                telemetry.update();
+                rpower = pidRotate.performPID(getAngle()); // power will be - on right turn.
+                robot.leftDrive.setPower(-rpower);
+                robot.rightDrive.setPower(rpower);
+                robot.leftDriveFront.setPower(rpower);
+                robot.rightDriveFront.setPower(-rpower);
+            } while (opModeIsActive() && !pidRotate.onTarget());
+        } else
+        {   // left turn.
+            do
+            {
+                rpower = pidRotate.performPID(getAngle()); // power will be + on left turn.
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
-                robot.leftDriveFront.setPower(-power);
-                robot.rightDriveFront.setPower(power);
-            } while (opModeIsActive() && !pidRotate.onTarget());
-        } else    // left turn.
-            do {
-                power = pidRotate.performPID(getAngle()); // power will be + on left turn.
-                robot.leftDrive.setPower(-power);
-                robot.rightDrive.setPower(power);
-                robot.leftDriveFront.setPower(-power);
-                robot.rightDriveFront.setPower(power);
-            } while (opModeIsActive() && !pidRotate.onTarget());
+                robot.leftDriveFront.setPower(power);
+                robot.rightDriveFront.setPower(-power);
+                telemetry.addLine("Updating");
+                telemetry.addData("Degrees: ", degrees);
+                telemetry.update();
+            }
+            while (opModeIsActive() && !pidRotate.onTarget());
+        }
 
         // turn the motors off.
         robot.rightDrive.setPower(0);
@@ -258,14 +265,19 @@ public class AutonomousOmni extends AutonomousOpMode {
         robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.leftDrive.setTargetPosition(counts);
+        telemetry.addData("Target Count: ", counts);
+        telemetry.addData("Current Count: ", robot.leftDrive.getCurrentPosition());
+        telemetry.update();
 
         robot.leftDrive.setPower(power);
         robot.rightDrive.setPower(power);
         robot.leftDriveFront.setPower(power);
         robot.rightDriveFront.setPower(power);
 
-        while(robot.leftDrive.isBusy() && opModeIsActive()) {}
+        while(robot.leftDrive.getCurrentPosition()<counts && opModeIsActive()) {
+            telemetry.addData("Current Count: ", robot.leftDrive.getCurrentPosition());
+            telemetry.update();
+        }
 
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
@@ -322,22 +334,29 @@ public class AutonomousOmni extends AutonomousOpMode {
         robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         robot.leftDrive.setTargetPosition(counts);
+        telemetry.addData("Target Count: ", counts);
+        telemetry.update();
 
-        robot.leftDrive.setPower(power);
-        robot.rightDrive.setPower(power);
-        robot.leftDriveFront.setPower(power);
-        robot.rightDriveFront.setPower(power);
+        double spower = counts > 0 ? power : -power;
 
-        while(robot.leftDrive.isBusy() && opModeIsActive()){
+        robot.leftDrive.setPower(spower);
+        robot.rightDrive.setPower(spower);
+        robot.leftDriveFront.setPower(spower);
+        robot.rightDriveFront.setPower(spower);
+
+        while(Math.abs(robot.leftDrive.getCurrentPosition()) < Math.abs(counts) && opModeIsActive()){
             correction = pidDrive.performPID(getAngle());
-            robot.leftDrive.setPower(power-correction);
-            robot.rightDrive.setPower(power+correction);
+            robot.leftDrive.setPower(spower-correction);
+            robot.rightDrive.setPower(spower+correction);
+            telemetry.addData("Current Count: ", robot.leftDrive.getCurrentPosition());
+            telemetry.update();
         }
 
         robot.leftDrive.setPower(0);
         robot.rightDrive.setPower(0);
-        robot.leftDriveFront.setPower(0);
         robot.rightDriveFront.setPower(0);
+        robot.leftDriveFront.setPower(0);
+
 
         robot.leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
