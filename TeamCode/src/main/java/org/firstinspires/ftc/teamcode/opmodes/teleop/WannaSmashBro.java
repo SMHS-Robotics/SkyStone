@@ -33,10 +33,10 @@ public class WannaSmashBro extends LinearOpMode
             double drive = -gamepad1.left_stick_y;
             double shift = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
-            leftF = Range.clip(drive - shift - turn, -1.0, 1.0) * 0.6;
-            rightF = Range.clip(drive + shift + turn, -1.0, 1.0  ) * 0.6;
-            leftB = Range.clip(drive - shift + turn, -1.0, 1.0  ) * 0.6;
-            rightB = Range.clip(drive + shift - turn, -1.0, 1.0) * 0.6;
+            leftF = Range.clip(drive - shift - turn, -1.0, 1.0) * 0.4;
+            rightF = Range.clip(drive + shift + turn, -1.0, 1.0  ) * 0.4;
+            leftB = Range.clip(drive - shift + turn, -1.0, 1.0  ) * 0.4;
+            rightB = Range.clip(drive + shift - turn, -1.0, 1.0) * 0.4;
 
             if(Math.abs(leftF) + Math.abs(leftB) + Math.abs(rightB) + Math.abs(rightF) > 1){
                 rampPow = Range.clip(rampPow + 0.1, 0, 1);

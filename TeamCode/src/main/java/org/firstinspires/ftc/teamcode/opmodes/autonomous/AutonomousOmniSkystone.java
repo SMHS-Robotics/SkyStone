@@ -2,31 +2,21 @@ package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Autonomous(name = "MoveFoundation", group = "SMHSBots")
-public class AutonomousOmni extends AutonomousOpMode {
+@Autonomous(name = "GetSkystoneRed", group = "SMHSBots")
+public class AutonomousOmniSkystone extends AutonomousOpMode {
 
     private static final double power = 0.3;
     private static double rotation, globalAngle = 0, correction;
     private static final double maxErrorRotate = 90, targetSpeedMaxRotate = 1;
     private static final double baseR = targetSpeedMaxRotate / maxErrorRotate;
-    private static final double KDrotate = baseR * 20;
+    private static final double KDrotate = baseR * 21;
     private static final double KProtate = baseR;
     private static final double KIrotate = baseR / 125;
 
@@ -51,7 +41,7 @@ public class AutonomousOmni extends AutonomousOpMode {
         while (opModeIsActive()) {
             telemetry.addLine("Here");
             telemetry.update();
-            moveFoundationRed();
+            getSkystoneRed();
             stop();
         }
     }
@@ -102,28 +92,8 @@ public class AutonomousOmni extends AutonomousOpMode {
     public void getSkystoneRed() {
 
         //drive to block
-        pidDriveWithEncoders(42 * ticksPerInch, power);
-
-        sleep(100);
-
-        //clamp
-        robot.leftClaw.setPosition(0.8);
-
-        sleep(500);
-        //head back to wall
-        pidDriveWithEncoders(-25 * ticksPerInch, power);
-
-        //rotate and go under team bridge
-        rotate(-90);
-        pidDriveWithEncoders(72 * ticksPerInch, power);
-
-        robot.leftClaw.setPosition(0.4);
-        pidDriveWithEncoders(-36 * ticksPerInch, power);
-    }
-
-    public void getSkystoneBlue() {
-        //drive to block
-        pidDriveWithEncoders(42 * ticksPerInch, power);
+        pidDriveWithEncoders(32 * ticksPerInch, power);
+        pidDriveWithEncoders(10 * ticksPerInch, power/2);
 
         sleep(100);
 
@@ -136,17 +106,58 @@ public class AutonomousOmni extends AutonomousOpMode {
 
         //rotate and go under team bridge
         rotate(90);
-        pidDriveWithEncoders(72 * ticksPerInch, power);
+        pidDriveWithEncoders(68 * ticksPerInch, power);
 
-        //unclamp and park under bridge
         robot.leftClaw.setPosition(0.4);
-        pidDriveWithEncoders(-36 * ticksPerInch, -power);
+        pidDriveWithEncoders(-40 * ticksPerInch, power);
+
+        rotate(-90);
+        pidDriveWithEncoders(20 * ticksPerInch, power);
+        pidDriveWithEncoders(10 * ticksPerInch, power/2);
+        robot.leftClaw.setPosition(0.8);
+        pidDriveWithEncoders(-30 * ticksPerInch, power);
+        rotate(90);
+        pidDriveWithEncoders(48 * ticksPerInch, power);
+        robot.leftClaw.setPosition(0.4);
+        pidDriveWithEncoders(-18 * ticksPerInch, power);
+    }
+
+    public void getSkystoneBlue() {
+        //drive to block
+        pidDriveWithEncoders(32 * ticksPerInch, power);
+        pidDriveWithEncoders(10 * ticksPerInch, power/2);
+
+        sleep(100);
+
+        //clamp
+        robot.leftClaw.setPosition(0.8);
+
+        sleep(500);
+        //head back to wall
+        pidDriveWithEncoders(-25 * ticksPerInch, power);
+
+        //rotate and go under team bridge
+        rotate(-90);
+        pidDriveWithEncoders(68 * ticksPerInch, power);
+
+        robot.leftClaw.setPosition(0.4);
+        pidDriveWithEncoders(-40 * ticksPerInch, power);
+
+        rotate(90);
+        pidDriveWithEncoders(20 * ticksPerInch, power);
+        pidDriveWithEncoders(10 * ticksPerInch, power/2);
+        robot.leftClaw.setPosition(0.8);
+        pidDriveWithEncoders(-30 * ticksPerInch, power);
+        rotate(-90);
+        pidDriveWithEncoders(48 * ticksPerInch, power);
+        robot.leftClaw.setPosition(0.4);
+        pidDriveWithEncoders(-18 * ticksPerInch, power);
     }
 
     private void rotate(double degrees) {
         double rpower = power;
         degrees = -degrees;
-        final double TURN_TOLERANCE = 0.15;
+        final double TURN_TOLERANCE = 0.5;
 
         robot.resetAngle();
 
@@ -191,10 +202,10 @@ public class AutonomousOmni extends AutonomousOpMode {
             do
             {
                 rpower = pidRotate.performPID(getAngle()); // power will be + on left turn.
-                robot.leftDrive.setPower(-power);
-                robot.rightDrive.setPower(power);
-                robot.leftDriveFront.setPower(power);
-                robot.rightDriveFront.setPower(-power);
+                robot.leftDrive.setPower(-rpower);
+                robot.rightDrive.setPower(rpower);
+                robot.leftDriveFront.setPower(rpower);
+                robot.rightDriveFront.setPower(-rpower);
                 telemetry.addLine("Updating");
                 telemetry.addData("Degrees: ", degrees);
                 telemetry.update();

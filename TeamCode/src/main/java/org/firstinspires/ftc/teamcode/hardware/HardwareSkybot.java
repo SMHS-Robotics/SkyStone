@@ -103,8 +103,8 @@ public class HardwareSkybot {
         leftClaw = hwMap.get(Servo.class, "left_claw");
         rightHook = hwMap.get(Servo.class, "right_hook");
         leftHook = hwMap.get(Servo.class, "left_hook");
-        leftClaw.setPosition(MID_SERVO);
-        leftHook.setPosition(0);
+        leftClaw.setPosition(0);
+        leftHook.setPosition(1);
         rightHook.setPosition(0);
 
         //Set Up Angle
