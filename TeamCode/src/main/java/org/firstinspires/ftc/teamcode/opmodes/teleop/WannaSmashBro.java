@@ -33,10 +33,10 @@ public class WannaSmashBro extends LinearOpMode
             double drive = -gamepad1.left_stick_y;
             double shift = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
-            leftF = Range.clip(drive - shift - turn, -1.0, 1.0) * 0.4;
-            rightF = Range.clip(drive + shift + turn, -1.0, 1.0  ) * 0.4;
-            leftB = Range.clip(drive - shift + turn, -1.0, 1.0  ) * 0.4;
-            rightB = Range.clip(drive + shift - turn, -1.0, 1.0) * 0.4;
+            leftF = Range.clip(drive - shift - turn, -1.0, 1.0) * 0.7;
+            rightF = Range.clip(drive + shift + turn, -1.0, 1.0  ) * 0.7;
+            leftB = Range.clip(drive - shift + turn, -1.0, 1.0  ) * 0.7;
+            rightB = Range.clip(drive + shift - turn, -1.0, 1.0) * 0.7;
 
             if(Math.abs(leftF) + Math.abs(leftB) + Math.abs(rightB) + Math.abs(rightF) > 1){
                 rampPow = Range.clip(rampPow + 0.1, 0, 1);
@@ -44,11 +44,18 @@ public class WannaSmashBro extends LinearOpMode
                 rampPow = Range.clip(rampPow - 0.1, 0, 1);
             }
 
-            robot.leftDrive.setPower(leftB);
-            robot.leftDriveFront.setPower(leftF);
-            robot.rightDrive.setPower(rightB);
-            robot.rightDriveFront.setPower(rightF);
-
+            if (gamepad1.left_stick_button)
+            {
+                robot.leftDrive.setPower(leftB);
+                robot.leftDriveFront.setPower(leftF);
+                robot.rightDrive.setPower(rightB);
+                robot.rightDriveFront.setPower(rightF);
+            } else {
+                robot.leftDrive.setPower(leftB/2);
+                robot.leftDriveFront.setPower(leftF/2);
+                robot.rightDrive.setPower(rightB/2);
+                robot.rightDriveFront.setPower(rightF/2);
+            }
             /*if(gamepad1.dpad_left){
                 robot.leftDrive.setPower(1);
                 robot.rightDrive.setPower(-1);
@@ -107,6 +114,30 @@ public class WannaSmashBro extends LinearOpMode
                 robot.leftHook.setPosition(0.5);
                 robot.rightHook.setPosition(0.5);
                 telemetry.addLine("is this Patrick?");
+            }
+
+            if (gamepad1.right_bumper) {
+                robot.rightHook.setPosition(1);
+                robot.leftHook.setPosition(0);
+                telemetry.addLine("it opened?");
+            }
+            //closes
+            else if (gamepad1.left_bumper) {
+                robot.rightHook.setPosition(0.5);
+                robot.leftHook.setPosition(0.5);
+                telemetry.addLine("it closed?");
+            }
+            else if (gamepad1.right_trigger > 0) {
+                robot.rightHook.setPosition(Range.clip(robot.rightHook.getPosition()
+                + (gamepad1.right_trigger * CLAW_SPEED), 0, 1));
+                robot.leftHook.setPosition(Range.clip(robot.leftHook.getPosition()
+                        - (gamepad1.right_trigger * CLAW_SPEED), 0, 1));
+            }
+            else if (gamepad1.left_trigger > 0) {
+                robot.rightHook.setPosition(Range.clip(robot.rightHook.getPosition()
+                 - (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
+                robot.leftHook.setPosition(Range.clip(robot.leftHook.getPosition()
+                        + (gamepad2.left_trigger * CLAW_SPEED), 0, 1));
             }
 
             telemetry.addData("Claw Pos:", robot.leftClaw.getPosition());

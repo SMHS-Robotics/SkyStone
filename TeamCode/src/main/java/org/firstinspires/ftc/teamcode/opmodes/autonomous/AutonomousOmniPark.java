@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.utilities.PIDController;
 
-@Autonomous(name = "GetSkystoneBlue", group = "SMHSBots")
-public class AutonomousOmniSkystoneBlue extends AutonomousOpMode {
+@Autonomous(name = "Park", group = "SMHSBots")
+public class AutonomousOmniPark extends AutonomousOpMode {
 
     private static final double power = 0.3;
     private static double rotation, globalAngle = 0, correction;
@@ -41,7 +41,7 @@ public class AutonomousOmniSkystoneBlue extends AutonomousOpMode {
         while (opModeIsActive()) {
             telemetry.addLine("Here");
             telemetry.update();
-            getSkystoneBlue();
+            EZPark();
             stop();
         }
     }
@@ -89,6 +89,10 @@ public class AutonomousOmniSkystoneBlue extends AutonomousOpMode {
         robot.rightHook.setPosition(0);
     }
 
+    public void EZPark(){
+        pidDriveWithEncoders(30*ticksPerInch, power);
+    }
+
     public void getSkystoneRed() {
 
         //drive to block
@@ -106,10 +110,10 @@ public class AutonomousOmniSkystoneBlue extends AutonomousOpMode {
 
         //rotate and go under team bridge
         rotate(90);
-        pidDriveWithEncoders(68 * ticksPerInch, power);
+        pidDriveWithEncoders(62 * ticksPerInch, power);
 
         robot.leftClaw.setPosition(0.4);
-        pidDriveWithEncoders(-40 * ticksPerInch, power);
+        pidDriveWithEncoders(-36 * ticksPerInch, power);
 
         rotate(-90);
         pidDriveWithEncoders(20 * ticksPerInch, power);
@@ -117,12 +121,13 @@ public class AutonomousOmniSkystoneBlue extends AutonomousOpMode {
         robot.leftClaw.setPosition(0.8);
         pidDriveWithEncoders(-30 * ticksPerInch, power);
         rotate(90);
-        pidDriveWithEncoders(48 * ticksPerInch, power);
+        pidDriveWithEncoders(40 * ticksPerInch, power);
         robot.leftClaw.setPosition(0.4);
         pidDriveWithEncoders(-18 * ticksPerInch, power);
     }
 
     public void getSkystoneBlue() {
+        //drive to block
         pidDriveWithEncoders(32 * ticksPerInch, power);
         pidDriveWithEncoders(10 * ticksPerInch, power/2);
 
@@ -133,14 +138,24 @@ public class AutonomousOmniSkystoneBlue extends AutonomousOpMode {
 
         sleep(500);
         //head back to wall
-        pidDriveWithEncoders(-21 * ticksPerInch, power);
+        pidDriveWithEncoders(-25 * ticksPerInch, power);
 
         //rotate and go under team bridge
         rotate(-90);
-        pidDriveWithEncoders(58 * ticksPerInch, power);
+        pidDriveWithEncoders(68 * ticksPerInch, power);
 
         robot.leftClaw.setPosition(0.4);
-        pidDriveWithEncoders(-38 * ticksPerInch, power);
+        pidDriveWithEncoders(-40 * ticksPerInch, power);
+
+        rotate(90);
+        pidDriveWithEncoders(20 * ticksPerInch, power);
+        pidDriveWithEncoders(10 * ticksPerInch, power/2);
+        robot.leftClaw.setPosition(0.8);
+        pidDriveWithEncoders(-30 * ticksPerInch, power);
+        rotate(-90);
+        pidDriveWithEncoders(48 * ticksPerInch, power);
+        robot.leftClaw.setPosition(0.4);
+        pidDriveWithEncoders(-18 * ticksPerInch, power);
     }
 
     private void rotate(double degrees) {

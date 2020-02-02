@@ -102,24 +102,23 @@ public class AutonomousOmniSkystone extends AutonomousOpMode {
 
         sleep(500);
         //head back to wall
-        pidDriveWithEncoders(-25 * ticksPerInch, power);
+        pidDriveWithEncoders(-10 * ticksPerInch, power);
 
         //rotate and go under team bridge
         rotate(90);
-        pidDriveWithEncoders(68 * ticksPerInch, power);
+        pidDriveWithEncoders(58 * ticksPerInch, power);
 
         robot.leftClaw.setPosition(0.4);
-        pidDriveWithEncoders(-40 * ticksPerInch, power);
+        pidDriveWithEncoders(-50 * ticksPerInch, power);
 
         rotate(-90);
-        pidDriveWithEncoders(20 * ticksPerInch, power);
-        pidDriveWithEncoders(10 * ticksPerInch, power/2);
+        pidDriveWithEncoders(16 * ticksPerInch, power/2);
         robot.leftClaw.setPosition(0.8);
-        pidDriveWithEncoders(-30 * ticksPerInch, power);
+        pidDriveWithEncoders(-16 * ticksPerInch, power);
         rotate(90);
-        pidDriveWithEncoders(48 * ticksPerInch, power);
+        pidDriveWithEncoders(40 * ticksPerInch, power);
         robot.leftClaw.setPosition(0.4);
-        pidDriveWithEncoders(-18 * ticksPerInch, power);
+        pidDriveWithEncoders(-24 * ticksPerInch, power);
     }
 
     public void getSkystoneBlue() {
