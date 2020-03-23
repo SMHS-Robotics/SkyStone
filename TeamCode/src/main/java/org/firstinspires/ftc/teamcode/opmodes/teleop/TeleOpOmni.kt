@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot
 import kotlin.math.abs
 
-@TeleOp(name = "CummyBoy", group = "Dummybot")
-class WannaSmashBro : LinearOpMode() {
+@TeleOp(name = "TeleOp", group = "SMHSBots")
+class TeleOpOmni : LinearOpMode() {
     private val robot = HardwareSkybot()
 
     override fun runOpMode() {
@@ -36,51 +36,51 @@ class WannaSmashBro : LinearOpMode() {
             }
 
             if (gamepad1.left_stick_button) {
-                robot.leftDrive.power = leftB
-                robot.leftDriveFront.power = leftF
-                robot.rightDrive.power = rightB
-                robot.rightDriveFront.power = rightF
+                robot.leftDrive!!.power = leftB
+                robot.leftDriveFront!!.power = leftF
+                robot.rightDrive!!.power = rightB
+                robot.rightDriveFront!!.power = rightF
             } else {
-                robot.leftDrive.power = leftB / 2
-                robot.leftDriveFront.power = leftF / 2
-                robot.rightDrive.power = rightB / 2
-                robot.rightDriveFront.power = rightF / 2
+                robot.leftDrive!!.power = leftB / 2
+                robot.leftDriveFront!!.power = leftF / 2
+                robot.rightDrive!!.power = rightB / 2
+                robot.rightDriveFront!!.power = rightF / 2
             }
 
             if (gamepad1.a) {
-                robot.leftHook.position = 0.0
-                robot.rightHook.position = 1.0
+                robot.leftHook!!.position = 0.0
+                robot.rightHook!!.position = 1.0
                 telemetry.addLine("your call is very important to us!")
             } else if (gamepad1.b) {
-                robot.leftHook.position = 0.5
-                robot.rightHook.position = 0.5
+                robot.leftHook!!.position = 0.5
+                robot.rightHook!!.position = 0.5
                 telemetry.addLine("is this Patrick!")
             }
 
             when {
                 gamepad1.right_bumper -> {
-                    robot.rightHook.position = 1.0
-                    robot.leftHook.position = 0.0
+                    robot.rightHook!!.position = 1.0
+                    robot.leftHook!!.position = 0.0
                     telemetry.addLine("it opened!");
                 }
                 gamepad1.left_bumper -> {
-                    robot.rightHook.position = 0.5
-                    robot.leftHook.position = 0.5
+                    robot.rightHook!!.position = 0.5
+                    robot.leftHook!!.position = 0.5
                     telemetry.addLine("it closed!")
                 }
                 gamepad1.right_trigger > 0 -> {
-                    robot.rightHook.position = Range.clip(robot.rightHook.position + gamepad1.right_trigger * CLAW_SPEED, 0.0, 1.0)
-                    robot.leftHook.position = Range.clip(robot.leftHook.position - gamepad1.right_trigger * CLAW_SPEED, 0.0, 1.0)
+                    robot.rightHook!!.position = Range.clip(robot.rightHook!!.position + gamepad1.right_trigger * CLAW_SPEED, 0.0, 1.0)
+                    robot.leftHook!!.position = Range.clip(robot.leftHook!!.position - gamepad1.right_trigger * CLAW_SPEED, 0.0, 1.0)
                 }
                 gamepad1.left_trigger > 0 -> {
-                    robot.rightHook.position = Range.clip(robot.rightHook.position - gamepad2.left_trigger * CLAW_SPEED, 0.0, 1.0)
-                    robot.leftHook.position = Range.clip(robot.leftHook.position + gamepad2.left_trigger * CLAW_SPEED, 0.0, 1.0)
+                    robot.rightHook!!.position = Range.clip(robot.rightHook!!.position - gamepad2.left_trigger * CLAW_SPEED, 0.0, 1.0)
+                    robot.leftHook!!.position = Range.clip(robot.leftHook!!.position + gamepad2.left_trigger * CLAW_SPEED, 0.0, 1.0)
                 }
             } //closes
 
-            telemetry.addData("Claw Pos:", robot.leftClaw.position)
-            telemetry.addData("Hook Pos:", robot.leftHook.position)
-            telemetry.addData("R Hook Pos", robot.rightHook.position)
+            telemetry.addData("Claw Pos:", robot.leftClaw!!.position)
+            telemetry.addData("Hook Pos:", robot.leftHook!!.position)
+            telemetry.addData("R Hook Pos", robot.rightHook!!.position)
             telemetry.update()
 
             sleep(25)
