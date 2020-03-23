@@ -23,8 +23,7 @@ import java.util.Locale;
 
 @Autonomous(name = "Ryan-kun Uwu", group = "Test")
 
-public class IMUTest extends LinearOpMode
-{
+public class IMUTest extends LinearOpMode {
 
     // State used for updating telemetry
     Orientation angles;
@@ -44,9 +43,8 @@ public class IMUTest extends LinearOpMode
     //----------------------------------------------------------------------------------------------
 
     @Override
-    public void runOpMode()
-    {
-        Log.i("FRICK","time: " + time.toString());
+    public void runOpMode() {
+        Log.i("FRICK", "time: " + time.toString());
 
         robot.init(hardwareMap);
 
@@ -55,14 +53,12 @@ public class IMUTest extends LinearOpMode
         // Wait until we're told to go
         waitForStart();
 
-        if (opModeIsActive())
-        {
+        if (opModeIsActive()) {
             rotate(180, 0.2);
         }
 
         // Loop and update the dashboard
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             telemetry.update();
         }
 
@@ -72,8 +68,7 @@ public class IMUTest extends LinearOpMode
     // Telemetry Configuration
     //----------------------------------------------------------------------------------------------
 
-    void composeTelemetry()
-    {
+    void composeTelemetry() {
 
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
@@ -88,31 +83,29 @@ public class IMUTest extends LinearOpMode
         });
 
         telemetry.addLine().addData("status", () -> robot.imu.getSystemStatus().toShortString())
-                 .addData("calib", () -> robot.imu.getCalibrationStatus().toString());
+                .addData("calib", () -> robot.imu.getCalibrationStatus().toString());
 
         //heading is firstAngle
         telemetry.addLine()
-                 .addData("heading", () -> formatAngle(angles.angleUnit, angles.firstAngle))
-                 .addData("roll", () -> formatAngle(angles.angleUnit, angles.secondAngle))
-                 .addData("pitch", () -> formatAngle(angles.angleUnit, angles.thirdAngle));
+                .addData("heading", () -> formatAngle(angles.angleUnit, angles.firstAngle))
+                .addData("roll", () -> formatAngle(angles.angleUnit, angles.secondAngle))
+                .addData("pitch", () -> formatAngle(angles.angleUnit, angles.thirdAngle));
 
         telemetry.addLine().addData("acc", () -> accel.toString())
-                 .addData("xAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.xAccel))
-                 .addData("yAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.yAccel))
-                 .addData("zAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.zAccel));
+                .addData("xAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.xAccel))
+                .addData("yAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.yAccel))
+                .addData("zAccel", () -> String.format(Locale.getDefault(), "%.3f", accel.zAccel));
     }
 
     //----------------------------------------------------------------------------------------------
     // Formatting
     //----------------------------------------------------------------------------------------------
 
-    String formatAngle(AngleUnit angleUnit, double angle)
-    {
+    String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    String formatDegrees(double degrees)
-    {
+    String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
@@ -123,8 +116,7 @@ public class IMUTest extends LinearOpMode
      * @param degrees Degrees to turn, + is left - is right
      * @param power   supplied to both motors between -1.0 and 1.0
      */
-    private void rotate(int degrees, double power)
-    {
+    private void rotate(int degrees, double power) {
         // restart imu angle tracking.
         robot.resetAngle();
 
@@ -150,28 +142,23 @@ public class IMUTest extends LinearOpMode
 
         // rotate until turn is completed.
 
-        if (degrees < 0)
-        {
+        if (degrees < 0) {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && robot.getAngle() == 0)
-            {
+            while (opModeIsActive() && robot.getAngle() == 0) {
                 robot.leftDrive.setPower(-power);
                 robot.rightDrive.setPower(power);
                 sleep(100);
             }
 
-            do
-            {
+            do {
                 power = pidRotate.performPID(robot.getAngle()); // power will be - on right turn.
                 robot.leftDrive.setPower(power);
                 robot.rightDrive.setPower(-power);
             }
             while (opModeIsActive() && !pidRotate.onTarget());
-        }
-        else    // left turn.
+        } else    // left turn.
         {
-            do
-            {
+            do {
                 power = pidRotate.performPID(robot.getAngle()); // power will be + on left turn.
                 robot.leftDrive.setPower(power);
                 robot.rightDrive.setPower(-power);

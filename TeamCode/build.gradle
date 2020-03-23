@@ -15,5 +15,10 @@
 apply from: '../build.common.gradle'
 
 android {
+
+    defaultConfig {
+        multiDexEnabled = false
+        signingConfig signingConfigs.debug
+    }
     buildToolsVersion = '28.0.3'
 }

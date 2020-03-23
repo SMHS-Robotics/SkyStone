@@ -21,7 +21,7 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     signingConfigs {
         debug {
@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId 'com.qualcomm.ftcrobotcontroller'
-        minSdkVersion 19
+        minSdkVersion 25
         targetSdkVersion 28
 
         /**
@@ -50,8 +50,6 @@ android {
          * We accomplish this with the help of a funky little Groovy script that maintains that
          * correspondence automatically.
          *
-         * @see <a href="http://developer.android.com/tools/building/configuring-gradle.html">Configure Your Build</a>
-         * @see <a href="http://developer.android.com/tools/publishing/versioning.html">Versioning Your App</a>
          */
         def manifestFile = project(':FtcRobotController').file('src/main/AndroidManifest.xml');
         def manifestText = manifestFile.getText()
@@ -66,8 +64,8 @@ android {
         matcher.find()
         def vName = matcher.group(1)
         //
-        versionCode vCode
-        versionName vName
+        versionCode 34
+        versionName '5.2'
     }
 
     // Advanced user code might just want to use Vuforia directly, so we set up the libs as needed

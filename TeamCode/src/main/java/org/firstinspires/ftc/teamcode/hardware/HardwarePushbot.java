@@ -27,12 +27,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * <p>
  * Motor channel:  Left  drive motor:        "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
- * Motor channel:  Manipulator drive motor:  "left_arm"
+ * Motor channel:  Linear Slide motor:       "linear_slide"
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwarePushbot
-{
+public class HardwarePushbot {
     public static final double MID_SERVO = 0.5;
     public static final double ARM_UP_POWER = 0.45;
     public static final double ARM_DOWN_POWER = -0.45;
@@ -41,6 +40,7 @@ public class HardwarePushbot
     /* Public OpMode members. */
     public DcMotor leftDrive = null;
     public DcMotor rightDrive = null;
+    public DcMotor linSlide = null;
     public DcMotor arm = null;
     public Servo leftClaw = null;
     public Servo rightClaw = null;
@@ -59,14 +59,12 @@ public class HardwarePushbot
     private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public HardwarePushbot()
-    {
+    public HardwarePushbot() {
 
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap)
-    {
+    public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
@@ -74,10 +72,14 @@ public class HardwarePushbot
         leftDrive = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         arm = hwMap.get(DcMotor.class, "arm");
-        // Set to REVERSE if using AndyMark motors
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        linSlide = hwMap.get(DcMotor.class, "linear_slide");
+
         // Set to FORWARD if using AndyMark motors
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        // Set to REVERSE if using AndyMark motors
+        linSlide.setDirection(DcMotor.Direction.REVERSE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -92,14 +94,16 @@ public class HardwarePushbot
         imu.initialize(parameters);
 
         // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-        arm.setPower(0);
+        leftDrive.setPower(0.0);
+        rightDrive.setPower(0.0);
+        linSlide.setPower(0.0);
+        arm.setPower(0.0);
 
         // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        //        // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        linSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
@@ -119,18 +123,14 @@ public class HardwarePushbot
         resetAngle();
     }
 
-    public double getAngle()
-    {
+    public double getAngle() {
         Orientation angles = imu
                 .getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
-        if (deltaAngle < -180)
-        {
+        if (deltaAngle < -180) {
             deltaAngle += 360;
-        }
-        else if (deltaAngle > 180)
-        {
+        } else if (deltaAngle > 180) {
             deltaAngle -= 360;
         }
 
@@ -140,8 +140,7 @@ public class HardwarePushbot
         return globalAngle;
     }
 
-    public void resetAngle()
-    {
+    public void resetAngle() {
         lastAngles = imu
                 .getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;

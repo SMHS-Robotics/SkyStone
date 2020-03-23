@@ -33,8 +33,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwareOmnibot
-{
+public class HardwareOmnibot {
 
     /* Public OpMode members. */
     public DcMotor leftDrive = null;
@@ -54,14 +53,12 @@ public class HardwareOmnibot
     double globalAngle = 0;
 
     /* Constructor */
-    public HardwareOmnibot()
-    {
+    public HardwareOmnibot() {
 
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap)
-    {
+    public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
@@ -104,18 +101,14 @@ public class HardwareOmnibot
         resetAngle();
     }
 
-    public double getAngle()
-    {
+    public double getAngle() {
         Orientation angles = imu
                 .getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
-        if (deltaAngle < -180)
-        {
+        if (deltaAngle < -180) {
             deltaAngle += 360;
-        }
-        else if (deltaAngle > 180)
-        {
+        } else if (deltaAngle > 180) {
             deltaAngle -= 360;
         }
 
@@ -125,8 +118,7 @@ public class HardwareOmnibot
         return globalAngle;
     }
 
-    public void resetAngle()
-    {
+    public void resetAngle() {
         lastAngles = imu
                 .getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;

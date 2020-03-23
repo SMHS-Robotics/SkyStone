@@ -6,11 +6,13 @@ apply plugin: 'com.android.library'
 android {
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 28
+        signingConfig signingConfigs.debug
+        multiDexEnabled = false
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
