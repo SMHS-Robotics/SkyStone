@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
-import org.firstinspires.ftc.teamcode.hardware.HardwareDummybot;
+
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot;
 
 @TeleOp(name = "CummyBoy", group = "Dummybot")
@@ -11,8 +11,6 @@ public class WannaSmashBro extends LinearOpMode
 {
     public static final double CLAW_SPEED = 0.05;
     HardwareSkybot robot = new HardwareSkybot();
-
-    public double upPosLeft, upPosRight;
 
     @Override
     public void runOpMode()
@@ -56,34 +54,18 @@ public class WannaSmashBro extends LinearOpMode
                 robot.rightDrive.setPower(rightB/2);
                 robot.rightDriveFront.setPower(rightF/2);
             }
-            /*if(gamepad1.dpad_left){
-                robot.leftDrive.setPower(1);
-                robot.rightDrive.setPower(-1);
-                robot.leftDriveFront.setPower(-1);
-                robot.rightDriveFront.setPower(1);
-            } else if(gamepad1.dpad_right){
-                robot.leftDrive.setPower(-1);
-                robot.rightDrive.setPower(1);
-                robot.leftDriveFront.setPower(1);
-                robot.rightDriveFront.setPower(-1);
-            } else {
-                robot.leftDrive.setPower(0);
-                robot.rightDrive.setPower(0);
-                robot.leftDriveFront.setPower(0);
-                robot.rightDriveFront.setPower(0);
-            }*/
 
             //opens
             if (gamepad2.right_bumper) {
                 //robot.rightClaw.setPosition(0.6);
                 robot.leftClaw.setPosition(0.4);
-                telemetry.addLine("it opened?");
+                telemetry.addLine("it opened!");
             }
             //closes
             else if (gamepad2.left_bumper) {
                 //robot.rightClaw.setPosition(0.2);
                 robot.leftClaw.setPosition(0.8);
-                telemetry.addLine("it closed?");
+                telemetry.addLine("it closed!");
             }
             else if (gamepad2.right_trigger > 0) {
                 //robot.rightClaw.setPosition(Range.clip(robot.rightClaw.getPosition()
@@ -109,23 +91,23 @@ public class WannaSmashBro extends LinearOpMode
             if(gamepad1.a){
                 robot.leftHook.setPosition(0);
                 robot.rightHook.setPosition(1);
-                telemetry.addLine("you call is very important to us.");
+                telemetry.addLine("your call is very important to us!");
             }else if(gamepad1.b){
                 robot.leftHook.setPosition(0.5);
                 robot.rightHook.setPosition(0.5);
-                telemetry.addLine("is this Patrick?");
+                telemetry.addLine("is this Patrick!");
             }
 
             if (gamepad1.right_bumper) {
                 robot.rightHook.setPosition(1);
                 robot.leftHook.setPosition(0);
-                telemetry.addLine("it opened?");
+                telemetry.addLine("it opened!");
             }
             //closes
             else if (gamepad1.left_bumper) {
                 robot.rightHook.setPosition(0.5);
                 robot.leftHook.setPosition(0.5);
-                telemetry.addLine("it closed?");
+                telemetry.addLine("it closed!");
             }
             else if (gamepad1.right_trigger > 0) {
                 robot.rightHook.setPosition(Range.clip(robot.rightHook.getPosition()

@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.utilities.PIDController
 import java.util.Locale
 import kotlin.math.*
 
-abstract class AutonomousOpKotlin : LinearOpMode() {
-    private val power = 0.3
+abstract class AutonomousOpMode : LinearOpMode() {
+    @JvmField var power: Double = 0.3
     private var rotation = 0.0
     private var globalAngle = 0.0
 
@@ -36,22 +36,22 @@ abstract class AutonomousOpKotlin : LinearOpMode() {
     private var pidRotate: PIDController? = null
     private var pidDrive: PIDController? = null
 
-    private var robot = HardwareSkybot()
+    @JvmField var robot: HardwareSkybot = HardwareSkybot()
 
     private var lastAngles = Orientation()
 
     override fun runOpMode() {
         robot.init(hardwareMap)
         pidRotate = PIDController(kpRotate, kiRotate, kdRotate)
-        pidDrive = PIDController(.05, 0.0, 0.0)
-        pidDrive?.setpoint = 0.0
-        pidDrive?.setOutputRange(0.0, power)
-        pidDrive?.setInputRange(-90.0, 90.0)
-        pidDrive?.enable()
+        pidDrive = PIDController(kpStraight, kiStraight, kdStraight)
+        pidDrive!!.setpoint = 0.0
+        pidDrive!!.setOutputRange(0.0, power)
+        pidDrive!!.setInputRange(-90.0, 90.0)
+        pidDrive!!.enable()
         resetAngle()
     }
 
-    private fun getAngle(): Double {
+    fun getAngle(): Double {
         val angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
         var deltaAngle = (angles.firstAngle - lastAngles.firstAngle).toDouble()
 
@@ -119,18 +119,18 @@ abstract class AutonomousOpKotlin : LinearOpMode() {
                 robot.rightDrive.power = rpower
                 robot.leftDriveFront.power = rpower
                 robot.rightDriveFront.power = -rpower
-            } while (opModeIsActive() && !pidRotate.onTarget())
+            } while (opModeIsActive() && !pidRotate!!.onTarget())
         } else {   // left turn.
             do {
                 rpower = pidRotate!!.performPID(getAngle()) // power will be + on left turn.
-                robot.leftDrive.power = -power
-                robot.rightDrive.power = power
-                robot.leftDriveFront.power = power
-                robot.rightDriveFront.power = -power
+                robot.leftDrive.power = -rpower
+                robot.rightDrive.power = rpower
+                robot.leftDriveFront.power = rpower
+                robot.rightDriveFront.power = -rpower
                 telemetry.addLine("Updating")
                 telemetry.addData("Degrees: ", degrees)
                 telemetry.update()
-            } while (opModeIsActive() && !pidRotate.onTarget())
+            } while (opModeIsActive() && !pidRotate!!.onTarget())
         }
 
         // turn the motors off.
