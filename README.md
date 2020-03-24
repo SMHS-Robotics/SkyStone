@@ -2,7 +2,10 @@
 
 This is a repository containing code for SMHS Robotics' 2019-2020 season.
 
-We are considering a number of updates for next season, including simplified API's, Kotlin migration, and more. Stay tuned!
+We are updating for next season, including simplified API's, Kotlin migration, and more. Stay tuned!
+
+Check out the [TeamCode README](https://github.com/SMHS-Robotics/SkyStone/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/readme.md) 
+to see how we organize our code!
 
 ## Tools We Use
 

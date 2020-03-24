@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.opmodes.autonomous
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.DcMotor
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkybot
-import org.firstinspires.ftc.teamcode.utilities.PIDController
+import org.firstinspires.ftc.teamcode.utilities.*
 import kotlin.math.*
 
 abstract class AutonomousOpMode : LinearOpMode() {
@@ -17,6 +18,7 @@ abstract class AutonomousOpMode : LinearOpMode() {
     private var rotation = 0.0
 
     private var correction = 0.0
+
     companion object {
         private const val maxErrorRotate = 90.0
 
@@ -35,7 +37,8 @@ abstract class AutonomousOpMode : LinearOpMode() {
     private var pidRotate: PIDController = PIDController(kpRotate, kiRotate, kdRotate)
     private var pidDrive: PIDController = PIDController(kpStraight, kiStraight, kdStraight)
 
-    @JvmField val robot: HardwareSkybot = HardwareSkybot()
+    @JvmField
+    val robot: HardwareSkybot = HardwareSkybot()
 
     override fun runOpMode() {
         robot.init(hardwareMap)
@@ -48,8 +51,8 @@ abstract class AutonomousOpMode : LinearOpMode() {
         robot.resetAngle()
     }
 
-    fun inchToCounts (inches: Double) : Double {
-        val revs = (inches*gearRatio)/(wheelDiameter*PI)
+    fun inchToCounts(inches: Double): Double {
+        val revs = (inches * gearRatio) / (wheelDiameter * PI)
         return revs * countsPerRev
     }
 
@@ -60,10 +63,7 @@ abstract class AutonomousOpMode : LinearOpMode() {
         val turnTolerance = 0.1
 
         robot.resetAngle()
-        robot.leftDrive!!.power = 0.0
-        robot.rightDrive!!.power = 0.0
-        robot.leftDriveFront!!.power = 0.0
-        robot.rightDriveFront!!.power = 0.0
+        robot.stopAllMotors()
 
         if (abs(degrees) > 359) degrees = 359.0.withSign(degrees).toInt().toDouble()
 
@@ -138,10 +138,7 @@ abstract class AutonomousOpMode : LinearOpMode() {
 
         val spower = if (counts > 0) power else -power
 
-        robot.leftDrive!!.power = spower
-        robot.rightDrive!!.power = spower
-        robot.leftDriveFront!!.power = spower
-        robot.rightDriveFront!!.power = spower
+        robot.runAllMotors(spower)
 
         while (abs(robot.leftDrive!!.currentPosition) < abs(counts) && opModeIsActive()) {
             correction = pidDrive.performPID(robot.angle)
@@ -151,12 +148,22 @@ abstract class AutonomousOpMode : LinearOpMode() {
             telemetry.update()
         }
 
-        robot.leftDrive!!.power = 0.0
-        robot.rightDrive!!.power = 0.0
-        robot.rightDriveFront!!.power = 0.0
-        robot.leftDriveFront!!.power = 0.0
-
+        robot.stopAllMotors()
 
         robot.leftDrive!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+    }
+
+    fun driveWithIntegration(inches: Double, power: Double) {
+        robot.stopAllMotors()
+        val integrator = NaiveAccelerationIntegrator()
+        integrator.initialize(robot.imu!!.parameters, null, null)
+        var curDistance = 0.0
+        robot.runAllMotors(power)
+        do {
+            sleep(20)
+            integrator.update(robot.acceleration)
+            curDistance = sqrt(integrator.position.toUnit(DistanceUnit.INCH).y.pow(2) + integrator.position.toUnit(DistanceUnit.INCH).x.pow(2))
+        } while (curDistance < inches)
+        robot.stopAllMotors()
     }
 }

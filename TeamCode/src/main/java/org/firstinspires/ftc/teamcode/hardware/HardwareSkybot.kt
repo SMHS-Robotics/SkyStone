@@ -59,15 +59,15 @@ class HardwareSkybot {
         hwMap = ahwMap
 
         // Define and Initialize Motors
-        leftDrive = hwMap!!.get(DcMotor::class.java, "left_drive")
-        rightDrive = hwMap!!.get(DcMotor::class.java, "right_drive")
-        leftDriveFront = hwMap!!.get(DcMotor::class.java, "left_drive_front")
-        rightDriveFront = hwMap!!.get(DcMotor::class.java, "right_drive_front")
+        leftDrive = hwMap?.get(DcMotor::class.java, "left_drive")
+        rightDrive = hwMap?.get(DcMotor::class.java, "right_drive")
+        leftDriveFront = hwMap?.get(DcMotor::class.java, "left_drive_front")
+        rightDriveFront = hwMap?.get(DcMotor::class.java, "right_drive_front")
 
-        leftDrive!!.direction = DcMotorSimple.Direction.REVERSE
-        rightDrive!!.direction = DcMotorSimple.Direction.FORWARD
-        leftDriveFront!!.direction = DcMotorSimple.Direction.FORWARD
-        rightDriveFront!!.direction = DcMotorSimple.Direction.REVERSE
+        leftDrive?.direction = DcMotorSimple.Direction.REVERSE
+        rightDrive?.direction = DcMotorSimple.Direction.FORWARD
+        leftDriveFront?.direction = DcMotorSimple.Direction.FORWARD
+        rightDriveFront?.direction = DcMotorSimple.Direction.REVERSE
 
         val parameters = BNO055IMU.Parameters()
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES
@@ -77,45 +77,44 @@ class HardwareSkybot {
         parameters.loggingTag = "IMU"
         parameters.accelerationIntegrationAlgorithm = JustLoggingAccelerationIntegrator()
 
-        imu = hwMap!!.get(BNO055IMU::class.java, "imu")
-        imu!!.initialize(parameters)
+        imu = hwMap?.get(BNO055IMU::class.java, "imu")
+        imu?.initialize(parameters)
 
         // Set all motors to zero power
-        leftDrive!!.power = 0.0
-        rightDrive!!.power = 0.0
-        leftDriveFront!!.power = 0.0
-        rightDriveFront!!.power = 0.0
+        leftDrive?.power = 0.0
+        rightDrive?.power = 0.0
+        leftDriveFront?.power = 0.0
+        rightDriveFront?.power = 0.0
 
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive!!.mode = DcMotor.RunMode.RUN_USING_ENCODER
-        rightDrive!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        leftDrive!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        rightDrive!!.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        leftDrive?.mode = DcMotor.RunMode.RUN_USING_ENCODER
+        rightDrive?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        leftDrive?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+        rightDrive?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
 
         //Tick Per Revolution: 1120
 
         //Robot
-        leftDrive!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        rightDrive!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        leftDriveFront!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-        rightDriveFront!!.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        leftDrive?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        rightDrive?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        leftDriveFront?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        rightDriveFront?.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
 
 
         // Define and initialize ALL installed servos.
-        leftClaw = hwMap!!.get(Servo::class.java, "left_claw")
-        rightHook = hwMap!!.get(Servo::class.java, "right_hook")
-        leftHook = hwMap!!.get(Servo::class.java, "left_hook")
-        leftClaw!!.position = 0.0
-        leftHook!!.position = 1.0
-        rightHook!!.position = 0.0
+        leftClaw = hwMap?.get(Servo::class.java, "left_claw")
+        rightHook = hwMap?.get(Servo::class.java, "right_hook")
+        leftHook = hwMap?.get(Servo::class.java, "left_hook")
+        leftClaw?.position = 0.0
+        leftHook?.position = 1.0
+        rightHook?.position = 0.0
 
         //Set Up Angle
         resetAngle()
     }
 
     fun resetAngle() {
-        lastAngles = imu!!
-                .getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+        lastAngles = imu!!.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
         globalAngle = 0.0
     }
 
@@ -130,6 +129,8 @@ class HardwareSkybot {
         rightDriveFront!!.power = power
         leftDriveFront!!.power = power
     }
+
+    fun stopAllMotors() = runAllMotors(0.0)
 
     fun runMotors (leftFront: Double, rightFront: Double, leftBack: Double, rightBack: Double) {
         leftDrive!!.power = leftBack
