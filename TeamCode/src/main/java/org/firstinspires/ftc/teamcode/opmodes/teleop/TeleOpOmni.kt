@@ -36,11 +36,13 @@ class TeleOpOmni : LinearOpMode() {
             }
 
             if (gamepad1.left_stick_button) {
+                //Faster: range of -0.7 to 0.7
                 robot.leftDrive!!.power = leftB
                 robot.leftDriveFront!!.power = leftF
                 robot.rightDrive!!.power = rightB
                 robot.rightDriveFront!!.power = rightF
             } else {
+                //Slower: range of -0.35 to 0.35
                 robot.leftDrive!!.power = leftB / 2
                 robot.leftDriveFront!!.power = leftF / 2
                 robot.rightDrive!!.power = rightB / 2
@@ -61,7 +63,7 @@ class TeleOpOmni : LinearOpMode() {
                 gamepad1.right_bumper -> {
                     robot.rightHook!!.position = 1.0
                     robot.leftHook!!.position = 0.0
-                    telemetry.addLine("it opened!");
+                    telemetry.addLine("it opened!")
                 }
                 gamepad1.left_bumper -> {
                     robot.rightHook!!.position = 0.5

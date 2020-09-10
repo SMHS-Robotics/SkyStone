@@ -57,9 +57,8 @@ abstract class AutonomousOpMode : LinearOpMode() {
     }
 
     fun rotate(deg: Double) {
-        var degrees = deg
-        var rpower = pidPower
-        degrees = -degrees
+        var degrees = -deg
+        var rpower: Double
         val turnTolerance = 0.1
 
         robot.resetAngle()
@@ -69,7 +68,7 @@ abstract class AutonomousOpMode : LinearOpMode() {
 
         pidRotate.reset()
         pidRotate.setpoint = degrees
-        pidRotate.setInputRange(0.0, degrees + 0.1)
+        pidRotate.setInputRange(0.0, degrees + turnTolerance.withSign(degrees))
         pidRotate.setOutputRange(0.0, targetSpeedMaxRotate / 4)
         pidRotate.setTolerance(turnTolerance)
         pidRotate.enable()
@@ -77,15 +76,6 @@ abstract class AutonomousOpMode : LinearOpMode() {
         telemetry.update()
 
         if (degrees < 0) {
-            while (opModeIsActive() && robot.angle == 0.0) {
-                robot.leftDrive!!.power = -rpower
-                robot.rightDrive!!.power = rpower
-                robot.leftDriveFront!!.power = rpower
-                robot.rightDriveFront!!.power = -rpower
-                telemetry.addLine("About to rotate right")
-                telemetry.update()
-                sleep(100)
-            }
             do {
                 telemetry.addLine("Rotating Right")
                 telemetry.update()
@@ -94,9 +84,13 @@ abstract class AutonomousOpMode : LinearOpMode() {
                 robot.rightDrive!!.power = rpower
                 robot.leftDriveFront!!.power = rpower
                 robot.rightDriveFront!!.power = -rpower
+                telemetry.addLine("Updating")
+                telemetry.addData("Degrees: ", degrees)
+                telemetry.update()
             } while (opModeIsActive() && !pidRotate.onTarget())
         } else {   // left turn.
             do {
+                telemetry.addLine("Rotating Left")
                 rpower = pidRotate.performPID(robot.angle) // power will be + on left turn.
                 robot.leftDrive!!.power = -rpower
                 robot.rightDrive!!.power = rpower
@@ -109,10 +103,7 @@ abstract class AutonomousOpMode : LinearOpMode() {
         }
 
         // turn the motors off.
-        robot.rightDrive!!.power = 0.0
-        robot.leftDrive!!.power = 0.0
-        robot.leftDriveFront!!.power = 0.0
-        robot.rightDriveFront!!.power = 0.0
+        robot.stopAllMotors()
 
         rotation = robot.angle
 
@@ -157,7 +148,7 @@ abstract class AutonomousOpMode : LinearOpMode() {
         robot.stopAllMotors()
         val integrator = NaiveAccelerationIntegrator()
         integrator.initialize(robot.imu!!.parameters, null, null)
-        var curDistance = 0.0
+        var curDistance: Double
         robot.runAllMotors(power)
         do {
             sleep(20)

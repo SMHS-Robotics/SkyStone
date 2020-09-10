@@ -26,11 +26,11 @@ class HardwareSkybot {
     var imu: BNO055IMU? = null
 
     /* local OpMode members. */
-    internal var hwMap: HardwareMap? = null
-    internal var lastAngles = Orientation()
+    private var hwMap: HardwareMap? = null
+    private var lastAngles = Orientation()
 
     //Parameters for REV Expansion Hub
-    internal var globalAngle = 0.0
+    private var globalAngle = 0.0
     internal val acceleration: Acceleration
         get() = imu!!.acceleration
     private val period = ElapsedTime()
