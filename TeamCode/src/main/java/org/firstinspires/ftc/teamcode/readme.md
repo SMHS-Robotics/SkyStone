@@ -13,3 +13,8 @@ a PIDController and Integrator, for PID and Integration respectively.
 
 This is a Kotlin-based project, but you can write in Java if that's more 
 comfortable for you.
+
+## Documentation
+
+You can view documentation here: https://smhs-robotics.github.io/SkyStone/
+To generate documentation, run `gradlew -b TeamCode/build.gradle dokkaHtml`
