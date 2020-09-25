@@ -34,6 +34,6 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-dokkaHtml {
+dokkaJekyll {
     outputDirectory = project.projectDir.parent + "/docs"
 }
