@@ -1,8 +1,0 @@
-$dokka.format:jekyll
-$dokka.linkExtension:md
-
-org.firstinspires.ftc.teamcode.hardware
-org.firstinspires.ftc.teamcode.opmodes.autonomous
-org.firstinspires.ftc.teamcode.opmodes.teleop
-org.firstinspires.ftc.teamcode.utilities
-
