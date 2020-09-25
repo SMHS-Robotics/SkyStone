@@ -123,15 +123,38 @@ class HardwareSkybot {
         val TAG = "PUSHBOT"
     }
 
+    /**
+     * Sets the power of all of the motors.
+     *
+     * @param power The power of the motor.
+     * @see runMotors
+     * @see stopAllMotors
+     * @since 1.0
+     */
     fun runAllMotors (power: Double) {
-        leftDrive!!.power = power
-        rightDrive!!.power = power
-        rightDriveFront!!.power = power
-        leftDriveFront!!.power = power
+        runMotors(power, power, power, power)
     }
 
+    /**
+     * Sets the power of all of the motors to 0.
+     *
+     * @see runMotors
+     * @see runAllMotors
+     * @since 1.0
+     */
     fun stopAllMotors() = runAllMotors(0.0)
 
+    /**
+     * Individually sets the speed for each of the 4 motors.
+     *
+     * @param leftFront The power of the front left motor
+     * @param rightFront The power of the front right motor
+     * @param leftBack The power of the back left motor
+     * @param rightBack The power of the back right motor
+     * @see runAllMotors
+     * @see stopAllMotors
+     * @since 1.0
+     */
     fun runMotors (leftFront: Double, rightFront: Double, leftBack: Double, rightBack: Double) {
         leftDrive!!.power = leftBack
         rightDrive!!.power = rightBack
